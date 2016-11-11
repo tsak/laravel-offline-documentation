@@ -1,0 +1,4 @@
+[submodule "src"]
+	path = src
+	url = git@github.com:laravel/docs.git
+	branch = 5.2
