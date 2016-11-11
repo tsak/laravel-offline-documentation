@@ -59,6 +59,13 @@ for file in *.md ; do
     --include-after-body="../$AFTER_TEMPLATE" --include-in-header="../$HEADER_TEMPLATE" \
     --output="$outfile" "$file"
 
+    # Fix documentation links
+    if [[ $OSTYPE == darwin* ]]
+    then
+      sed -Ei '' 's@/docs/%7B%7Bversion%7D%7D/([a-z\-]+)@\1.html@g' $outfile
+    else
+      sed -ri 's@/docs/%7B%7Bversion%7D%7D/([a-z\-]+)@\1.html@g' $outfile
+    fi
   fi
 
 done
