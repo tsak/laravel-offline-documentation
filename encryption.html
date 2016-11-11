@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>Encryption – </title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <link rel="stylesheet" href="github-pandoc.css">
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  <script src="../../laravel-docs/site.js"></script>
+</head>
+<body>
+<aside><h1>Laravel 5.3 offline docs</h1><ul id="navigation">
+<li><a href="application-testing.html">Application Testing</a>
+<li><a href="artisan.html">Console Commands</a>
+<li><a href="authentication.html">Authentication</a>
+<li><a href="authorization.html">Authorization</a>
+<li><a href="billing.html">Laravel Cashier</a>
+<li><a href="blade.html">Blade Templates</a>
+<li><a href="broadcasting.html">Event Broadcasting</a>
+<li><a href="cache.html">Cache</a>
+<li><a href="collections.html">Collections</a>
+<li><a href="configuration.html">Configuration</a>
+<li><a href="container.html">Service Container</a>
+<li><a href="contracts.html">Contracts</a>
+<li><a href="contributing.html">Contribution Guidelines</a>
+<li><a href="contributions.html">Contribution Guide</a>
+<li><a href="controllers.html">Controllers</a>
+<li><a href="csrf.html">CSRF Protection</a>
+<li><a href="database-testing.html">Database Testing</a>
+<li><a href="database.html">Database: Getting Started</a>
+<li><a href="documentation.html">Prologue</a>
+<li><a href="elixir.html">Compiling Assets (Laravel Elixir)</a>
+<li><a href="eloquent-collections.html">Eloquent: Collections</a>
+<li><a href="eloquent-mutators.html">Eloquent: Mutators</a>
+<li><a href="eloquent-relationships.html">Eloquent: Relationships</a>
+<li><a href="eloquent-serialization.html">Eloquent: Serialization</a>
+<li><a href="eloquent.html">Eloquent: Getting Started</a>
+<li><a href="encryption.html">Encryption</a>
+<li><a href="envoy.html">Envoy Task Runner</a>
+<li><a href="errors.html">Errors & Logging</a>
+<li><a href="events.html">Events
+</a>
+<li><a href="facades.html">Facades</a>
+<li><a href="filesystem.html">Filesystem / Cloud Storage</a>
+<li><a href="frontend.html">JavaScript & CSS</a>
+<li><a href="hashing.html">Hashing</a>
+<li><a href="helpers.html">Helper Functions</a>
+<li><a href="homestead.html">Laravel Homestead</a>
+<li><a href="installation.html">Installation</a>
+<li><a href="lifecycle.html">Request Lifecycle</a>
+<li><a href="localization.html">Localization</a>
+<li><a href="mail.html">Mail
+</a>
+<li><a href="middleware.html">Middleware</a>
+<li><a href="migrations.html">Database: Migrations</a>
+<li><a href="mocking.html">Mocking</a>
+<li><a href="notifications.html">Notifications</a>
+<li><a href="packages.html">Package Development</a>
+<li><a href="pagination.html">Pagination</a>
+<li><a href="passport.html">API Authentication (Passport)</a>
+<li><a href="passwords.html">Resetting Passwords</a>
+<li><a href="providers.html">Service Providers</a>
+<li><a href="queries.html">Database: Query Builder</a>
+<li><a href="queues.html">Queues</a>
+<li><a href="readme.html">Laravel Documentation</a>
+<li><a href="redirects.html">HTTP Redirects</a>
+<li><a href="redis.html">Redis</a>
+<li><a href="releases.html">Release Notes</a>
+<li><a href="requests.html">HTTP Requests</a>
+<li><a href="responses.html">HTTP Responses</a>
+<li><a href="routing.html">Routing</a>
+<li><a href="scheduling.html">Task Scheduling</a>
+<li><a href="scout.html">Laravel Scout</a>
+<li><a href="seeding.html">Database: Seeding</a>
+<li><a href="session.html">HTTP Session</a>
+<li><a href="structure.html">Directory Structure</a>
+<li><a href="testing.html">Testing</a>
+<li><a href="upgrade.html">Upgrade Guide</a>
+<li><a href="valet.html">Laravel Valet</a>
+<li><a href="validation.html">Validation
+</a>
+<li><a href="views.html">Views</a>
+</ul></aside><article>
+<h1 id="encryption">Encryption</h1>
+<ul>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#configuration">Configuration</a></li>
+<li><a href="#using-the-encrypter">Using The Encrypter</a></li>
+</ul>
+<p><a name="introduction"></a></p>
+<h2 id="introduction">Introduction</h2>
+<p>Laravel's encrypter uses OpenSSL to provide AES-256 and AES-128 encryption. You are strongly encouraged to use Laravel's built-in encryption facilities and not attempt to roll your own &quot;home grown&quot; encryption algorithms. All of Laravel's encrypted values are signed using a message authentication code (MAC) so that their underlying value can not be modified once encrypted.</p>
+<p><a name="configuration"></a></p>
+<h2 id="configuration">Configuration</h2>
+<p>Before using Laravel's encrypter, you must set a <code>key</code> option in your <code>config/app.php</code> configuration file. You should use the <code>php artisan key:generate</code> command to generate this key since this Artisan command will use PHP's secure random bytes generator to build your key. If this value is not properly set, all values encrypted by Laravel will be insecure.</p>
+<p><a name="using-the-encrypter"></a></p>
+<h2 id="using-the-encrypter">Using The Encrypter</h2>
+<h4 id="encrypting-a-value">Encrypting A Value</h4>
+<p>You may encrypt a value using the <code>encrypt</code> helper. All encrypted values are encrypted using OpenSSL and the <code>AES-256-CBC</code> cipher. Furthermore, all encrypted values are signed with a message authentication code (MAC) to detect any modifications to the encrypted string:</p>
+<pre><code>&lt;?php
+
+namespace App\Http\Controllers;
+
+use App\User;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+
+class UserController extends Controller
+{
+    /**
+     * Store a secret message for the user.
+     *
+     * @param  Request  $request
+     * @param  int  $id
+     * @return Response
+     */
+    public function storeSecret(Request $request, $id)
+    {
+        $user = User::findOrFail($id);
+
+        $user-&gt;fill([
+            &#39;secret&#39; =&gt; encrypt($request-&gt;secret)
+        ])-&gt;save();
+    }
+}</code></pre>
+<blockquote>
+<p>{note} Encrypted values are passed through <code>serialize</code> during encryption, which allows for encryption of objects and arrays. Thus, non-PHP clients receiving encrypted values will need to <code>unserialize</code> the data.</p>
+</blockquote>
+<h4 id="decrypting-a-value">Decrypting A Value</h4>
+<p>You may decrypt values using the <code>decrypt</code> helper. If the value can not be properly decrypted, such as when the MAC is invalid, an <code>Illuminate\Contracts\Encryption\DecryptException</code> will be thrown:</p>
+<pre><code>use Illuminate\Contracts\Encryption\DecryptException;
+
+try {
+    $decrypted = decrypt($encryptedValue);
+} catch (DecryptException $e) {
+    //
+}</code></pre>
+</article>
+</body>
+</html>

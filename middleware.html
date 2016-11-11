@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>Middleware – </title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <link rel="stylesheet" href="github-pandoc.css">
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  <script src="../../laravel-docs/site.js"></script>
+</head>
+<body>
+<aside><h1>Laravel 5.3 offline docs</h1><ul id="navigation">
+<li><a href="application-testing.html">Application Testing</a>
+<li><a href="artisan.html">Console Commands</a>
+<li><a href="authentication.html">Authentication</a>
+<li><a href="authorization.html">Authorization</a>
+<li><a href="billing.html">Laravel Cashier</a>
+<li><a href="blade.html">Blade Templates</a>
+<li><a href="broadcasting.html">Event Broadcasting</a>
+<li><a href="cache.html">Cache</a>
+<li><a href="collections.html">Collections</a>
+<li><a href="configuration.html">Configuration</a>
+<li><a href="container.html">Service Container</a>
+<li><a href="contracts.html">Contracts</a>
+<li><a href="contributing.html">Contribution Guidelines</a>
+<li><a href="contributions.html">Contribution Guide</a>
+<li><a href="controllers.html">Controllers</a>
+<li><a href="csrf.html">CSRF Protection</a>
+<li><a href="database-testing.html">Database Testing</a>
+<li><a href="database.html">Database: Getting Started</a>
+<li><a href="documentation.html">Prologue</a>
+<li><a href="elixir.html">Compiling Assets (Laravel Elixir)</a>
+<li><a href="eloquent-collections.html">Eloquent: Collections</a>
+<li><a href="eloquent-mutators.html">Eloquent: Mutators</a>
+<li><a href="eloquent-relationships.html">Eloquent: Relationships</a>
+<li><a href="eloquent-serialization.html">Eloquent: Serialization</a>
+<li><a href="eloquent.html">Eloquent: Getting Started</a>
+<li><a href="encryption.html">Encryption</a>
+<li><a href="envoy.html">Envoy Task Runner</a>
+<li><a href="errors.html">Errors & Logging</a>
+<li><a href="events.html">Events
+</a>
+<li><a href="facades.html">Facades</a>
+<li><a href="filesystem.html">Filesystem / Cloud Storage</a>
+<li><a href="frontend.html">JavaScript & CSS</a>
+<li><a href="hashing.html">Hashing</a>
+<li><a href="helpers.html">Helper Functions</a>
+<li><a href="homestead.html">Laravel Homestead</a>
+<li><a href="installation.html">Installation</a>
+<li><a href="lifecycle.html">Request Lifecycle</a>
+<li><a href="localization.html">Localization</a>
+<li><a href="mail.html">Mail
+</a>
+<li><a href="middleware.html">Middleware</a>
+<li><a href="migrations.html">Database: Migrations</a>
+<li><a href="mocking.html">Mocking</a>
+<li><a href="notifications.html">Notifications</a>
+<li><a href="packages.html">Package Development</a>
+<li><a href="pagination.html">Pagination</a>
+<li><a href="passport.html">API Authentication (Passport)</a>
+<li><a href="passwords.html">Resetting Passwords</a>
+<li><a href="providers.html">Service Providers</a>
+<li><a href="queries.html">Database: Query Builder</a>
+<li><a href="queues.html">Queues</a>
+<li><a href="readme.html">Laravel Documentation</a>
+<li><a href="redirects.html">HTTP Redirects</a>
+<li><a href="redis.html">Redis</a>
+<li><a href="releases.html">Release Notes</a>
+<li><a href="requests.html">HTTP Requests</a>
+<li><a href="responses.html">HTTP Responses</a>
+<li><a href="routing.html">Routing</a>
+<li><a href="scheduling.html">Task Scheduling</a>
+<li><a href="scout.html">Laravel Scout</a>
+<li><a href="seeding.html">Database: Seeding</a>
+<li><a href="session.html">HTTP Session</a>
+<li><a href="structure.html">Directory Structure</a>
+<li><a href="testing.html">Testing</a>
+<li><a href="upgrade.html">Upgrade Guide</a>
+<li><a href="valet.html">Laravel Valet</a>
+<li><a href="validation.html">Validation
+</a>
+<li><a href="views.html">Views</a>
+</ul></aside><article>
+<h1 id="middleware">Middleware</h1>
+<ul>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#defining-middleware">Defining Middleware</a></li>
+<li><a href="#registering-middleware">Registering Middleware</a>
+<ul>
+<li><a href="#global-middleware">Global Middleware</a></li>
+<li><a href="#assigning-middleware-to-routes">Assigning Middleware To Routes</a></li>
+<li><a href="#middleware-groups">Middleware Groups</a></li>
+</ul></li>
+<li><a href="#middleware-parameters">Middleware Parameters</a></li>
+<li><a href="#terminable-middleware">Terminable Middleware</a></li>
+</ul>
+<p><a name="introduction"></a></p>
+<h2 id="introduction">Introduction</h2>
+<p>Middleware provide a convenient mechanism for filtering HTTP requests entering your application. For example, Laravel includes a middleware that verifies the user of your application is authenticated. If the user is not authenticated, the middleware will redirect the user to the login screen. However, if the user is authenticated, the middleware will allow the request to proceed further into the application.</p>
+<p>Of course, additional middleware can be written to perform a variety of tasks besides authentication. A CORS middleware might be responsible for adding the proper headers to all responses leaving your application. A logging middleware might log all incoming requests to your application.</p>
+<p>There are several middleware included in the Laravel framework, including middleware for authentication and CSRF protection. All of these middleware are located in the <code>app/Http/Middleware</code> directory.</p>
+<p><a name="defining-middleware"></a></p>
+<h2 id="defining-middleware">Defining Middleware</h2>
+<p>To create a new middleware, use the <code>make:middleware</code> Artisan command:</p>
+<pre><code>php artisan make:middleware CheckAge</code></pre>
+<p>This command will place a new <code>CheckAge</code> class within your <code>app/Http/Middleware</code> directory. In this middleware, we will only allow access to the route if the supplied <code>age</code> is greater than 200. Otherwise, we will redirect the users back to the <code>home</code> URI.</p>
+<pre><code>&lt;?php
+
+namespace App\Http\Middleware;
+
+use Closure;
+
+class CheckAge
+{
+    /**
+     * Run the request filter.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Closure  $next
+     * @return mixed
+     */
+    public function handle($request, Closure $next)
+    {
+        if ($request-&gt;age &lt;= 200) {
+            return redirect(&#39;home&#39;);
+        }
+
+        return $next($request);
+    }
+
+}</code></pre>
+<p>As you can see, if the given <code>age</code> is less than or equal to <code>200</code>, the middleware will return an HTTP redirect to the client; otherwise, the request will be passed further into the application. To pass the request deeper into the application (allowing the middleware to &quot;pass&quot;), simply call the <code>$next</code> callback with the <code>$request</code>.</p>
+<p>It's best to envision middleware as a series of &quot;layers&quot; HTTP requests must pass through before they hit your application. Each layer can examine the request and even reject it entirely.</p>
+<h3 id="before-after-middleware">Before &amp; After Middleware</h3>
+<p>Whether a middleware runs before or after a request depends on the middleware itself. For example, the following middleware would perform some task <strong>before</strong> the request is handled by the application:</p>
+<pre><code>&lt;?php
+
+namespace App\Http\Middleware;
+
+use Closure;
+
+class BeforeMiddleware
+{
+    public function handle($request, Closure $next)
+    {
+        // Perform action
+
+        return $next($request);
+    }
+}</code></pre>
+<p>However, this middleware would perform its task <strong>after</strong> the request is handled by the application:</p>
+<pre><code>&lt;?php
+
+namespace App\Http\Middleware;
+
+use Closure;
+
+class AfterMiddleware
+{
+    public function handle($request, Closure $next)
+    {
+        $response = $next($request);
+
+        // Perform action
+
+        return $response;
+    }
+}</code></pre>
+<p><a name="registering-middleware"></a></p>
+<h2 id="registering-middleware">Registering Middleware</h2>
+<p><a name="global-middleware"></a></p>
+<h3 id="global-middleware">Global Middleware</h3>
+<p>If you want a middleware to run during every HTTP request to your application, simply list the middleware class in the <code>$middleware</code> property of your <code>app/Http/Kernel.php</code> class.</p>
+<p><a name="assigning-middleware-to-routes"></a></p>
+<h3 id="assigning-middleware-to-routes">Assigning Middleware To Routes</h3>
+<p>If you would like to assign middleware to specific routes, you should first assign the middleware a key in your <code>app/Http/Kernel.php</code> file. By default, the <code>$routeMiddleware</code> property of this class contains entries for the middleware included with Laravel. To add your own, simply append it to this list and assign it a key of your choosing. For example:</p>
+<pre><code>// Within App\Http\Kernel Class...
+
+protected $routeMiddleware = [
+    &#39;auth&#39; =&gt; \Illuminate\Auth\Middleware\Authenticate::class,
+    &#39;auth.basic&#39; =&gt; \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
+    &#39;bindings&#39; =&gt; \Illuminate\Routing\Middleware\SubstituteBindings::class,
+    &#39;can&#39; =&gt; \Illuminate\Auth\Middleware\Authorize::class,
+    &#39;guest&#39; =&gt; \App\Http\Middleware\RedirectIfAuthenticated::class,
+    &#39;throttle&#39; =&gt; \Illuminate\Routing\Middleware\ThrottleRequests::class,
+];</code></pre>
+<p>Once the middleware has been defined in the HTTP kernel, you may use the <code>middleware</code> method to assign middleware to a route:</p>
+<pre><code>Route::get(&#39;admin/profile&#39;, function () {
+    //
+})-&gt;middleware(&#39;auth&#39;);</code></pre>
+<p>You may also assign multiple middleware to the route:</p>
+<pre><code>Route::get(&#39;/&#39;, function () {
+    //
+})-&gt;middleware(&#39;first&#39;, &#39;second&#39;);</code></pre>
+<p>When assigning middleware, you may also pass the fully qualified class name:</p>
+<pre><code>use App\Http\Middleware\CheckAge;
+
+Route::get(&#39;admin/profile&#39;, function () {
+    //
+})-&gt;middleware(CheckAge::class);</code></pre>
+<p><a name="middleware-groups"></a></p>
+<h3 id="middleware-groups">Middleware Groups</h3>
+<p>Sometimes you may want to group several middleware under a single key to make them easier to assign to routes. You may do this using the <code>$middlewareGroups</code> property of your HTTP kernel.</p>
+<p>Out of the box, Laravel comes with <code>web</code> and <code>api</code> middleware groups that contains common middleware you may want to apply to your web UI and API routes:</p>
+<pre><code>/**
+ * The application&#39;s route middleware groups.
+ *
+ * @var array
+ */
+protected $middlewareGroups = [
+    &#39;web&#39; =&gt; [
+        \App\Http\Middleware\EncryptCookies::class,
+        \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
+        \Illuminate\Session\Middleware\StartSession::class,
+        \Illuminate\View\Middleware\ShareErrorsFromSession::class,
+        \App\Http\Middleware\VerifyCsrfToken::class,
+        \Illuminate\Routing\Middleware\SubstituteBindings::class,
+    ],
+
+    &#39;api&#39; =&gt; [
+        &#39;throttle:60,1&#39;,
+        &#39;auth:api&#39;,
+    ],
+];</code></pre>
+<p>Middleware groups may be assigned to routes and controller actions using the same syntax as individual middleware. Again, middleware groups simply make it more convenient to assign many middleware to a route at once:</p>
+<pre><code>Route::get(&#39;/&#39;, function () {
+    //
+})-&gt;middleware(&#39;web&#39;);
+
+Route::group([&#39;middleware&#39; =&gt; [&#39;web&#39;]], function () {
+    //
+});</code></pre>
+<blockquote>
+<p>{tip} Out of the box, the <code>web</code> middleware group is automatically applied to your <code>routes/web.php</code> file by the <code>RouteServiceProvider</code>.</p>
+</blockquote>
+<p><a name="middleware-parameters"></a></p>
+<h2 id="middleware-parameters">Middleware Parameters</h2>
+<p>Middleware can also receive additional parameters. For example, if your application needs to verify that the authenticated user has a given &quot;role&quot; before performing a given action, you could create a <code>CheckRole</code> middleware that receives a role name as an additional argument.</p>
+<p>Additional middleware parameters will be passed to the middleware after the <code>$next</code> argument:</p>
+<pre><code>&lt;?php
+
+namespace App\Http\Middleware;
+
+use Closure;
+
+class CheckRole
+{
+    /**
+     * Handle the incoming request.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Closure  $next
+     * @param  string  $role
+     * @return mixed
+     */
+    public function handle($request, Closure $next, $role)
+    {
+        if (! $request-&gt;user()-&gt;hasRole($role)) {
+            // Redirect...
+        }
+
+        return $next($request);
+    }
+
+}</code></pre>
+<p>Middleware parameters may be specified when defining the route by separating the middleware name and parameters with a <code>:</code>. Multiple parameters should be delimited by commas:</p>
+<pre><code>Route::put(&#39;post/{id}&#39;, function ($id) {
+    //
+})-&gt;middleware(&#39;role:editor&#39;);</code></pre>
+<p><a name="terminable-middleware"></a></p>
+<h2 id="terminable-middleware">Terminable Middleware</h2>
+<p>Sometimes a middleware may need to do some work after the HTTP response has been sent to the browser. For example, the &quot;session&quot; middleware included with Laravel writes the session data to storage after the response has been sent to the browser. If you define a <code>terminate</code> method on your middleware, it will automatically be called after the response is sent to the browser.</p>
+<pre><code>&lt;?php
+
+namespace Illuminate\Session\Middleware;
+
+use Closure;
+
+class StartSession
+{
+    public function handle($request, Closure $next)
+    {
+        return $next($request);
+    }
+
+    public function terminate($request, $response)
+    {
+        // Store the session data...
+    }
+}</code></pre>
+<p>The <code>terminate</code> method should receive both the request and the response. Once you have defined a terminable middleware, you should add it to the list of global middleware in your HTTP kernel.</p>
+<p>When calling the <code>terminate</code> method on your middleware, Laravel will resolve a fresh instance of the middleware from the <a href="/docs/%7B%7Bversion%7D%7D/container">service container</a>. If you would like to use the same middleware instance when the <code>handle</code> and <code>terminate</code> methods are called, register the middleware with the container using the container's <code>singleton</code> method.</p>
+</article>
+</body>
+</html>

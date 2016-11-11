@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>Eloquent: Serialization – </title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <link rel="stylesheet" href="github-pandoc.css">
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  <script src="../../laravel-docs/site.js"></script>
+</head>
+<body>
+<aside><h1>Laravel 5.3 offline docs</h1><ul id="navigation">
+<li><a href="application-testing.html">Application Testing</a>
+<li><a href="artisan.html">Console Commands</a>
+<li><a href="authentication.html">Authentication</a>
+<li><a href="authorization.html">Authorization</a>
+<li><a href="billing.html">Laravel Cashier</a>
+<li><a href="blade.html">Blade Templates</a>
+<li><a href="broadcasting.html">Event Broadcasting</a>
+<li><a href="cache.html">Cache</a>
+<li><a href="collections.html">Collections</a>
+<li><a href="configuration.html">Configuration</a>
+<li><a href="container.html">Service Container</a>
+<li><a href="contracts.html">Contracts</a>
+<li><a href="contributing.html">Contribution Guidelines</a>
+<li><a href="contributions.html">Contribution Guide</a>
+<li><a href="controllers.html">Controllers</a>
+<li><a href="csrf.html">CSRF Protection</a>
+<li><a href="database-testing.html">Database Testing</a>
+<li><a href="database.html">Database: Getting Started</a>
+<li><a href="documentation.html">Prologue</a>
+<li><a href="elixir.html">Compiling Assets (Laravel Elixir)</a>
+<li><a href="eloquent-collections.html">Eloquent: Collections</a>
+<li><a href="eloquent-mutators.html">Eloquent: Mutators</a>
+<li><a href="eloquent-relationships.html">Eloquent: Relationships</a>
+<li><a href="eloquent-serialization.html">Eloquent: Serialization</a>
+<li><a href="eloquent.html">Eloquent: Getting Started</a>
+<li><a href="encryption.html">Encryption</a>
+<li><a href="envoy.html">Envoy Task Runner</a>
+<li><a href="errors.html">Errors & Logging</a>
+<li><a href="events.html">Events
+</a>
+<li><a href="facades.html">Facades</a>
+<li><a href="filesystem.html">Filesystem / Cloud Storage</a>
+<li><a href="frontend.html">JavaScript & CSS</a>
+<li><a href="hashing.html">Hashing</a>
+<li><a href="helpers.html">Helper Functions</a>
+<li><a href="homestead.html">Laravel Homestead</a>
+<li><a href="installation.html">Installation</a>
+<li><a href="lifecycle.html">Request Lifecycle</a>
+<li><a href="localization.html">Localization</a>
+<li><a href="mail.html">Mail
+</a>
+<li><a href="middleware.html">Middleware</a>
+<li><a href="migrations.html">Database: Migrations</a>
+<li><a href="mocking.html">Mocking</a>
+<li><a href="notifications.html">Notifications</a>
+<li><a href="packages.html">Package Development</a>
+<li><a href="pagination.html">Pagination</a>
+<li><a href="passport.html">API Authentication (Passport)</a>
+<li><a href="passwords.html">Resetting Passwords</a>
+<li><a href="providers.html">Service Providers</a>
+<li><a href="queries.html">Database: Query Builder</a>
+<li><a href="queues.html">Queues</a>
+<li><a href="readme.html">Laravel Documentation</a>
+<li><a href="redirects.html">HTTP Redirects</a>
+<li><a href="redis.html">Redis</a>
+<li><a href="releases.html">Release Notes</a>
+<li><a href="requests.html">HTTP Requests</a>
+<li><a href="responses.html">HTTP Responses</a>
+<li><a href="routing.html">Routing</a>
+<li><a href="scheduling.html">Task Scheduling</a>
+<li><a href="scout.html">Laravel Scout</a>
+<li><a href="seeding.html">Database: Seeding</a>
+<li><a href="session.html">HTTP Session</a>
+<li><a href="structure.html">Directory Structure</a>
+<li><a href="testing.html">Testing</a>
+<li><a href="upgrade.html">Upgrade Guide</a>
+<li><a href="valet.html">Laravel Valet</a>
+<li><a href="validation.html">Validation
+</a>
+<li><a href="views.html">Views</a>
+</ul></aside><article>
+<h1 id="eloquent-serialization">Eloquent: Serialization</h1>
+<ul>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#serializing-models-and-collections">Serializing Models &amp; Collections</a>
+<ul>
+<li><a href="#serializing-to-arrays">Serializing To Arrays</a></li>
+<li><a href="#serializing-to-json">Serializing To JSON</a></li>
+</ul></li>
+<li><a href="#hiding-attributes-from-json">Hiding Attributes From JSON</a></li>
+<li><a href="#appending-values-to-json">Appending Values To JSON</a></li>
+</ul>
+<p><a name="introduction"></a></p>
+<h2 id="introduction">Introduction</h2>
+<p>When building JSON APIs, you will often need to convert your models and relationships to arrays or JSON. Eloquent includes convenient methods for making these conversions, as well as controlling which attributes are included in your serializations.</p>
+<p><a name="serializing-models-and-collections"></a></p>
+<h2 id="serializing-models-collections">Serializing Models &amp; Collections</h2>
+<p><a name="serializing-to-arrays"></a></p>
+<h3 id="serializing-to-arrays">Serializing To Arrays</h3>
+<p>To convert a model and its loaded <a href="/docs/%7B%7Bversion%7D%7D/eloquent-relationships">relationships</a> to an array, you should use the <code>toArray</code> method. This method is recursive, so all attributes and all relations (including the relations of relations) will be converted to arrays:</p>
+<pre><code>$user = App\User::with(&#39;roles&#39;)-&gt;first();
+
+return $user-&gt;toArray();</code></pre>
+<p>You may also convert entire <a href="/docs/%7B%7Bversion%7D%7D/eloquent-collections">collections</a> of models to arrays:</p>
+<pre><code>$users = App\User::all();
+
+return $users-&gt;toArray();</code></pre>
+<p><a name="serializing-to-json"></a></p>
+<h3 id="serializing-to-json">Serializing To JSON</h3>
+<p>To convert a model to JSON, you should use the <code>toJson</code> method. Like <code>toArray</code>, the <code>toJson</code> method is recursive, so all attributes and relations will be converted to JSON:</p>
+<pre><code>$user = App\User::find(1);
+
+return $user-&gt;toJson();</code></pre>
+<p>Alternatively, you may cast a model or collection to a string, which will automatically call the <code>toJson</code> method on the model or collection:</p>
+<pre><code>$user = App\User::find(1);
+
+return (string) $user;</code></pre>
+<p>Since models and collections are converted to JSON when cast to a string, you can return Eloquent objects directly from your application's routes or controllers:</p>
+<pre><code>Route::get(&#39;users&#39;, function () {
+    return App\User::all();
+});</code></pre>
+<p><a name="hiding-attributes-from-json"></a></p>
+<h2 id="hiding-attributes-from-json">Hiding Attributes From JSON</h2>
+<p>Sometimes you may wish to limit the attributes, such as passwords, that are included in your model's array or JSON representation. To do so, add a <code>$hidden</code> property to your model:</p>
+<pre><code>&lt;?php
+
+namespace App;
+
+use Illuminate\Database\Eloquent\Model;
+
+class User extends Model
+{
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = [&#39;password&#39;];
+}</code></pre>
+<blockquote>
+<p>{note} When hiding relationships, use the relationship's method name, not its dynamic property name.</p>
+</blockquote>
+<p>Alternatively, you may use the <code>visible</code> property to define a white-list of attributes that should be included in your model's array and JSON representation. All other attributes will be hidden when the model is converted to an array or JSON:</p>
+<pre><code>&lt;?php
+
+namespace App;
+
+use Illuminate\Database\Eloquent\Model;
+
+class User extends Model
+{
+    /**
+     * The attributes that should be visible in arrays.
+     *
+     * @var array
+     */
+    protected $visible = [&#39;first_name&#39;, &#39;last_name&#39;];
+}</code></pre>
+<h4 id="temporarily-modifying-attribute-visibility">Temporarily Modifying Attribute Visibility</h4>
+<p>If you would like to make some typically hidden attributes visible on a given model instance, you may use the <code>makeVisible</code> method. The <code>makeVisible</code> method returns the model instance for convenient method chaining:</p>
+<pre><code>return $user-&gt;makeVisible(&#39;attribute&#39;)-&gt;toArray();</code></pre>
+<p>Likewise, if you would like to make some typically visible attributes hidden on a given model instance, you may use the <code>makeHidden</code> method.</p>
+<pre><code>return $user-&gt;makeHidden(&#39;attribute&#39;)-&gt;toArray();</code></pre>
+<p><a name="appending-values-to-json"></a></p>
+<h2 id="appending-values-to-json">Appending Values To JSON</h2>
+<p>Occasionally, when casting models to an array or JSON, you may wish to add attributes that do not have a corresponding column in your database. To do so, first define an <a href="/docs/%7B%7Bversion%7D%7D/eloquent-mutators">accessor</a> for the value:</p>
+<pre><code>&lt;?php
+
+namespace App;
+
+use Illuminate\Database\Eloquent\Model;
+
+class User extends Model
+{
+    /**
+     * Get the administrator flag for the user.
+     *
+     * @return bool
+     */
+    public function getIsAdminAttribute()
+    {
+        return $this-&gt;attributes[&#39;admin&#39;] == &#39;yes&#39;;
+    }
+}</code></pre>
+<p>After creating the accessor, add the attribute name to the <code>appends</code> property on the model. Note that attribute names are typically referenced in &quot;snake case&quot;, even though the accessor is defined using &quot;camel case&quot;:</p>
+<pre><code>&lt;?php
+
+namespace App;
+
+use Illuminate\Database\Eloquent\Model;
+
+class User extends Model
+{
+    /**
+     * The accessors to append to the model&#39;s array form.
+     *
+     * @var array
+     */
+    protected $appends = [&#39;is_admin&#39;];
+}</code></pre>
+<p>Once the attribute has been added to the <code>appends</code> list, it will be included in both the model's array and JSON representations. Attributes in the <code>appends</code> array will also respect the <code>visible</code> and <code>hidden</code> settings configured on the model.</p>
+</article>
+</body>
+</html>

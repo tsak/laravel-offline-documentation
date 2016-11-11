@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>Contracts – </title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <link rel="stylesheet" href="github-pandoc.css">
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  <script src="../../laravel-docs/site.js"></script>
+</head>
+<body>
+<aside><h1>Laravel 5.3 offline docs</h1><ul id="navigation">
+<li><a href="application-testing.html">Application Testing</a>
+<li><a href="artisan.html">Console Commands</a>
+<li><a href="authentication.html">Authentication</a>
+<li><a href="authorization.html">Authorization</a>
+<li><a href="billing.html">Laravel Cashier</a>
+<li><a href="blade.html">Blade Templates</a>
+<li><a href="broadcasting.html">Event Broadcasting</a>
+<li><a href="cache.html">Cache</a>
+<li><a href="collections.html">Collections</a>
+<li><a href="configuration.html">Configuration</a>
+<li><a href="container.html">Service Container</a>
+<li><a href="contracts.html">Contracts</a>
+<li><a href="contributing.html">Contribution Guidelines</a>
+<li><a href="contributions.html">Contribution Guide</a>
+<li><a href="controllers.html">Controllers</a>
+<li><a href="csrf.html">CSRF Protection</a>
+<li><a href="database-testing.html">Database Testing</a>
+<li><a href="database.html">Database: Getting Started</a>
+<li><a href="documentation.html">Prologue</a>
+<li><a href="elixir.html">Compiling Assets (Laravel Elixir)</a>
+<li><a href="eloquent-collections.html">Eloquent: Collections</a>
+<li><a href="eloquent-mutators.html">Eloquent: Mutators</a>
+<li><a href="eloquent-relationships.html">Eloquent: Relationships</a>
+<li><a href="eloquent-serialization.html">Eloquent: Serialization</a>
+<li><a href="eloquent.html">Eloquent: Getting Started</a>
+<li><a href="encryption.html">Encryption</a>
+<li><a href="envoy.html">Envoy Task Runner</a>
+<li><a href="errors.html">Errors & Logging</a>
+<li><a href="events.html">Events
+</a>
+<li><a href="facades.html">Facades</a>
+<li><a href="filesystem.html">Filesystem / Cloud Storage</a>
+<li><a href="frontend.html">JavaScript & CSS</a>
+<li><a href="hashing.html">Hashing</a>
+<li><a href="helpers.html">Helper Functions</a>
+<li><a href="homestead.html">Laravel Homestead</a>
+<li><a href="installation.html">Installation</a>
+<li><a href="lifecycle.html">Request Lifecycle</a>
+<li><a href="localization.html">Localization</a>
+<li><a href="mail.html">Mail
+</a>
+<li><a href="middleware.html">Middleware</a>
+<li><a href="migrations.html">Database: Migrations</a>
+<li><a href="mocking.html">Mocking</a>
+<li><a href="notifications.html">Notifications</a>
+<li><a href="packages.html">Package Development</a>
+<li><a href="pagination.html">Pagination</a>
+<li><a href="passport.html">API Authentication (Passport)</a>
+<li><a href="passwords.html">Resetting Passwords</a>
+<li><a href="providers.html">Service Providers</a>
+<li><a href="queries.html">Database: Query Builder</a>
+<li><a href="queues.html">Queues</a>
+<li><a href="readme.html">Laravel Documentation</a>
+<li><a href="redirects.html">HTTP Redirects</a>
+<li><a href="redis.html">Redis</a>
+<li><a href="releases.html">Release Notes</a>
+<li><a href="requests.html">HTTP Requests</a>
+<li><a href="responses.html">HTTP Responses</a>
+<li><a href="routing.html">Routing</a>
+<li><a href="scheduling.html">Task Scheduling</a>
+<li><a href="scout.html">Laravel Scout</a>
+<li><a href="seeding.html">Database: Seeding</a>
+<li><a href="session.html">HTTP Session</a>
+<li><a href="structure.html">Directory Structure</a>
+<li><a href="testing.html">Testing</a>
+<li><a href="upgrade.html">Upgrade Guide</a>
+<li><a href="valet.html">Laravel Valet</a>
+<li><a href="validation.html">Validation
+</a>
+<li><a href="views.html">Views</a>
+</ul></aside><article>
+<h1 id="contracts">Contracts</h1>
+<ul>
+<li><a href="#introduction">Introduction</a>
+<ul>
+<li><a href="#contracts-vs-facades">Contracts Vs. Facades</a></li>
+</ul></li>
+<li><a href="#when-to-use-contracts">When To Use Contracts</a>
+<ul>
+<li><a href="#loose-coupling">Loose Coupling</a></li>
+<li><a href="#simplicity">Simplicity</a></li>
+</ul></li>
+<li><a href="#how-to-use-contracts">How To Use Contracts</a></li>
+<li><a href="#contract-reference">Contract Reference</a></li>
+</ul>
+<p><a name="introduction"></a></p>
+<h2 id="introduction">Introduction</h2>
+<p>Laravel's Contracts are a set of interfaces that define the core services provided by the framework. For example, a <code>Illuminate\Contracts\Queue\Queue</code> contract defines the methods needed for queueing jobs, while the <code>Illuminate\Contracts\Mail\Mailer</code> contract defines the methods needed for sending e-mail.</p>
+<p>Each contract has a corresponding implementation provided by the framework. For example, Laravel provides a queue implementation with a variety of drivers, and a mailer implementation that is powered by <a href="http://swiftmailer.org/">SwiftMailer</a>.</p>
+<p>All of the Laravel contracts live in <a href="https://github.com/illuminate/contracts">their own GitHub repository</a>. This provides a quick reference point for all available contracts, as well as a single, decoupled package that may be utilized by package developers.</p>
+<p><a name="contracts-vs-facades"></a></p>
+<h3 id="contracts-vs.-facades">Contracts Vs. Facades</h3>
+<p>Laravel's <a href="/docs/%7B%7Bversion%7D%7D/facades">facades</a> and helper functions provide a simple way of utilizing Laravel's services without needing to type-hint and resolve contracts out of the service container. In most cases, each facade has an equivalent contract.</p>
+<p>Unlike facades, which do not require you to require them in your class' constructor, contracts allow you to define explicit dependencies for your classes. Some developers prefer to explicitly define their dependencies in this way and therefore prefer to use contracts, while other developers enjoy the convenience of facades.</p>
+<blockquote>
+<p>{tip} Most applications will be fine regardless of whether you prefer facades or contracts. However, if you are building a package, you should strongly consider using contracts since they will be easier to test in a package context.</p>
+</blockquote>
+<p><a name="when-to-use-contracts"></a></p>
+<h2 id="when-to-use-contracts">When To Use Contracts</h2>
+<p>As discussed elsewhere, much of the decision to use contracts or facades will come down to personal taste and the tastes of your development team. Both contracts and facades can be used to create robust, well-tested Laravel applications. As long as you are keeping your class' responsibilities focused, you will notice very few practical differences between using contracts and facades.</p>
+<p>However, you may still have several questions regarding contracts. For example, why use interfaces at all? Isn't using interfaces more complicated? Let's distill the reasons for using interfaces to the following headings: loose coupling and simplicity.</p>
+<p><a name="loose-coupling"></a></p>
+<h3 id="loose-coupling">Loose Coupling</h3>
+<p>First, let's review some code that is tightly coupled to a cache implementation. Consider the following:</p>
+<pre><code>&lt;?php
+
+namespace App\Orders;
+
+class Repository
+{
+    /**
+     * The cache instance.
+     */
+    protected $cache;
+
+    /**
+     * Create a new repository instance.
+     *
+     * @param  \SomePackage\Cache\Memcached  $cache
+     * @return void
+     */
+    public function __construct(\SomePackage\Cache\Memcached $cache)
+    {
+        $this-&gt;cache = $cache;
+    }
+
+    /**
+     * Retrieve an Order by ID.
+     *
+     * @param  int  $id
+     * @return Order
+     */
+    public function find($id)
+    {
+        if ($this-&gt;cache-&gt;has($id))    {
+            //
+        }
+    }
+}</code></pre>
+<p>In this class, the code is tightly coupled to a given cache implementation. It is tightly coupled because we are depending on a concrete Cache class from a package vendor. If the API of that package changes our code must change as well.</p>
+<p>Likewise, if we want to replace our underlying cache technology (Memcached) with another technology (Redis), we again will have to modify our repository. Our repository should not have so much knowledge regarding who is providing them data or how they are providing it.</p>
+<p><strong>Instead of this approach, we can improve our code by depending on a simple, vendor agnostic interface:</strong></p>
+<pre><code>&lt;?php
+
+namespace App\Orders;
+
+use Illuminate\Contracts\Cache\Repository as Cache;
+
+class Repository
+{
+    /**
+     * The cache instance.
+     */
+    protected $cache;
+
+    /**
+     * Create a new repository instance.
+     *
+     * @param  Cache  $cache
+     * @return void
+     */
+    public function __construct(Cache $cache)
+    {
+        $this-&gt;cache = $cache;
+    }
+}</code></pre>
+<p>Now the code is not coupled to any specific vendor, or even Laravel. Since the contracts package contains no implementation and no dependencies, you may easily write an alternative implementation of any given contract, allowing you to replace your cache implementation without modifying any of your cache consuming code.</p>
+<p><a name="simplicity"></a></p>
+<h3 id="simplicity">Simplicity</h3>
+<p>When all of Laravel's services are neatly defined within simple interfaces, it is very easy to determine the functionality offered by a given service. <strong>The contracts serve as succinct documentation to the framework's features.</strong></p>
+<p>In addition, when you depend on simple interfaces, your code is easier to understand and maintain. Rather than tracking down which methods are available to you within a large, complicated class, you can refer to a simple, clean interface.</p>
+<p><a name="how-to-use-contracts"></a></p>
+<h2 id="how-to-use-contracts">How To Use Contracts</h2>
+<p>So, how do you get an implementation of a contract? It's actually quite simple.</p>
+<p>Many types of classes in Laravel are resolved through the <a href="/docs/%7B%7Bversion%7D%7D/container">service container</a>, including controllers, event listeners, middleware, queued jobs, and even route Closures. So, to get an implementation of a contract, you can just &quot;type-hint&quot; the interface in the constructor of the class being resolved.</p>
+<p>For example, take a look at this event listener:</p>
+<pre><code>&lt;?php
+
+namespace App\Listeners;
+
+use App\User;
+use App\Events\OrderWasPlaced;
+use Illuminate\Contracts\Redis\Database;
+
+class CacheOrderInformation
+{
+    /**
+     * The Redis database implementation.
+     */
+    protected $redis;
+
+    /**
+     * Create a new event handler instance.
+     *
+     * @param  Database  $redis
+     * @return void
+     */
+    public function __construct(Database $redis)
+    {
+        $this-&gt;redis = $redis;
+    }
+
+    /**
+     * Handle the event.
+     *
+     * @param  OrderWasPlaced  $event
+     * @return void
+     */
+    public function handle(OrderWasPlaced $event)
+    {
+        //
+    }
+}</code></pre>
+<p>When the event listener is resolved, the service container will read the type-hints on the constructor of the class, and inject the appropriate value. To learn more about registering things in the service container, check out <a href="/docs/%7B%7Bversion%7D%7D/container">its documentation</a>.</p>
+<p><a name="contract-reference"></a></p>
+<h2 id="contract-reference">Contract Reference</h2>
+<p>This table provides a quick reference to all of the Laravel contracts and their equivalent facades:</p>
+<table>
+<thead>
+<tr class="header">
+<th>Contract</th>
+<th>References Facade</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><a href="https://github.com/illuminate/contracts/blob/%7B%7Bversion%7D%7D/Auth/Factory.php">Illuminate\Contracts\Auth\Factory</a></td>
+<td>Auth</td>
+</tr>
+<tr class="even">
+<td><a href="https://github.com/illuminate/contracts/blob/%7B%7Bversion%7D%7D/Auth/PasswordBroker.php">Illuminate\Contracts\Auth\PasswordBroker</a></td>
+<td>Password</td>
+</tr>
+<tr class="odd">
+<td><a href="https://github.com/illuminate/contracts/blob/%7B%7Bversion%7D%7D/Bus/Dispatcher.php">Illuminate\Contracts\Bus\Dispatcher</a></td>
+<td>Bus</td>
+</tr>
+<tr class="even">
+<td><a href="https://github.com/illuminate/contracts/blob/%7B%7Bversion%7D%7D/Broadcasting/Broadcaster.php">Illuminate\Contracts\Broadcasting\Broadcaster</a></td>
+<td> </td>
+</tr>
+<tr class="odd">
+<td><a href="https://github.com/illuminate/contracts/blob/%7B%7Bversion%7D%7D/Cache/Repository.php">Illuminate\Contracts\Cache\Repository</a></td>
+<td>Cache</td>
+</tr>
+<tr class="even">
+<td><a href="https://github.com/illuminate/contracts/blob/%7B%7Bversion%7D%7D/Cache/Factory.php">Illuminate\Contracts\Cache\Factory</a></td>
+<td>Cache::driver()</td>
+</tr>
+<tr class="odd">
+<td><a href="https://github.com/illuminate/contracts/blob/%7B%7Bversion%7D%7D/Config/Repository.php">Illuminate\Contracts\Config\Repository</a></td>
+<td>Config</td>
+</tr>
+<tr class="even">
+<td><a href="https://github.com/illuminate/contracts/blob/%7B%7Bversion%7D%7D/Container/Container.php">Illuminate\Contracts\Container\Container</a></td>
+<td>App</td>
+</tr>
+<tr class="odd">
+<td><a href="https://github.com/illuminate/contracts/blob/%7B%7Bversion%7D%7D/Cookie/Factory.php">Illuminate\Contracts\Cookie\Factory</a></td>
+<td>Cookie</td>
+</tr>
+<tr class="even">
+<td><a href="https://github.com/illuminate/contracts/blob/%7B%7Bversion%7D%7D/Cookie/QueueingFactory.php">Illuminate\Contracts\Cookie\QueueingFactory</a></td>
+<td>Cookie::queue()</td>
+</tr>
+<tr class="odd">
+<td><a href="https://github.com/illuminate/contracts/blob/%7B%7Bversion%7D%7D/Encryption/Encrypter.php">Illuminate\Contracts\Encryption\Encrypter</a></td>
+<td>Crypt</td>
+</tr>
+<tr class="even">
+<td><a href="https://github.com/illuminate/contracts/blob/%7B%7Bversion%7D%7D/Events/Dispatcher.php">Illuminate\Contracts\Events\Dispatcher</a></td>
+<td>Event</td>
+</tr>
+<tr class="odd">
+<td><a href="https://github.com/illuminate/contracts/blob/%7B%7Bversion%7D%7D/Filesystem/Cloud.php">Illuminate\Contracts\Filesystem\Cloud</a></td>
+<td> </td>
+</tr>
+<tr class="even">
+<td><a href="https://github.com/illuminate/contracts/blob/%7B%7Bversion%7D%7D/Filesystem/Factory.php">Illuminate\Contracts\Filesystem\Factory</a></td>
+<td>File</td>
+</tr>
+<tr class="odd">
+<td><a href="https://github.com/illuminate/contracts/blob/%7B%7Bversion%7D%7D/Filesystem/Filesystem.php">Illuminate\Contracts\Filesystem\Filesystem</a></td>
+<td>File</td>
+</tr>
+<tr class="even">
+<td><a href="https://github.com/illuminate/contracts/blob/%7B%7Bversion%7D%7D/Foundation/Application.php">Illuminate\Contracts\Foundation\Application</a></td>
+<td>App</td>
+</tr>
+<tr class="odd">
+<td><a href="https://github.com/illuminate/contracts/blob/%7B%7Bversion%7D%7D/Hashing/Hasher.php">Illuminate\Contracts\Hashing\Hasher</a></td>
+<td>Hash</td>
+</tr>
+<tr class="even">
+<td><a href="https://github.com/illuminate/contracts/blob/%7B%7Bversion%7D%7D/Logging/Log.php">Illuminate\Contracts\Logging\Log</a></td>
+<td>Log</td>
+</tr>
+<tr class="odd">
+<td><a href="https://github.com/illuminate/contracts/blob/%7B%7Bversion%7D%7D/Mail/MailQueue.php">Illuminate\Contracts\Mail\MailQueue</a></td>
+<td>Mail::queue()</td>
+</tr>
+<tr class="even">
+<td><a href="https://github.com/illuminate/contracts/blob/%7B%7Bversion%7D%7D/Mail/Mailer.php">Illuminate\Contracts\Mail\Mailer</a></td>
+<td>Mail</td>
+</tr>
+<tr class="odd">
+<td><a href="https://github.com/illuminate/contracts/blob/%7B%7Bversion%7D%7D/Queue/Factory.php">Illuminate\Contracts\Queue\Factory</a></td>
+<td>Queue::driver()</td>
+</tr>
+<tr class="even">
+<td><a href="https://github.com/illuminate/contracts/blob/%7B%7Bversion%7D%7D/Queue/Queue.php">Illuminate\Contracts\Queue\Queue</a></td>
+<td>Queue</td>
+</tr>
+<tr class="odd">
+<td><a href="https://github.com/illuminate/contracts/blob/%7B%7Bversion%7D%7D/Redis/Database.php">Illuminate\Contracts\Redis\Database</a></td>
+<td>Redis</td>
+</tr>
+<tr class="even">
+<td><a href="https://github.com/illuminate/contracts/blob/%7B%7Bversion%7D%7D/Routing/Registrar.php">Illuminate\Contracts\Routing\Registrar</a></td>
+<td>Route</td>
+</tr>
+<tr class="odd">
+<td><a href="https://github.com/illuminate/contracts/blob/%7B%7Bversion%7D%7D/Routing/ResponseFactory.php">Illuminate\Contracts\Routing\ResponseFactory</a></td>
+<td>Response</td>
+</tr>
+<tr class="even">
+<td><a href="https://github.com/illuminate/contracts/blob/%7B%7Bversion%7D%7D/Routing/UrlGenerator.php">Illuminate\Contracts\Routing\UrlGenerator</a></td>
+<td>URL</td>
+</tr>
+<tr class="odd">
+<td><a href="https://github.com/illuminate/contracts/blob/%7B%7Bversion%7D%7D/Support/Arrayable.php">Illuminate\Contracts\Support\Arrayable</a></td>
+<td> </td>
+</tr>
+<tr class="even">
+<td><a href="https://github.com/illuminate/contracts/blob/%7B%7Bversion%7D%7D/Support/Jsonable.php">Illuminate\Contracts\Support\Jsonable</a></td>
+<td> </td>
+</tr>
+<tr class="odd">
+<td><a href="https://github.com/illuminate/contracts/blob/%7B%7Bversion%7D%7D/Support/Renderable.php">Illuminate\Contracts\Support\Renderable</a></td>
+<td> </td>
+</tr>
+<tr class="even">
+<td><a href="https://github.com/illuminate/contracts/blob/%7B%7Bversion%7D%7D/Validation/Factory.php">Illuminate\Contracts\Validation\Factory</a></td>
+<td>Validator::make()</td>
+</tr>
+<tr class="odd">
+<td><a href="https://github.com/illuminate/contracts/blob/%7B%7Bversion%7D%7D/Validation/Validator.php">Illuminate\Contracts\Validation\Validator</a></td>
+<td> </td>
+</tr>
+<tr class="even">
+<td><a href="https://github.com/illuminate/contracts/blob/%7B%7Bversion%7D%7D/View/Factory.php">Illuminate\Contracts\View\Factory</a></td>
+<td>View::make()</td>
+</tr>
+<tr class="odd">
+<td><a href="https://github.com/illuminate/contracts/blob/%7B%7Bversion%7D%7D/View/View.php">Illuminate\Contracts\View\View</a></td>
+<td> </td>
+</tr>
+</tbody>
+</table>
+</article>
+</body>
+</html>

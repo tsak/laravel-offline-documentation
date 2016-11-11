@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>Database Testing – </title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <link rel="stylesheet" href="github-pandoc.css">
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  <script src="../../laravel-docs/site.js"></script>
+</head>
+<body>
+<aside><h1>Laravel 5.3 offline docs</h1><ul id="navigation">
+<li><a href="application-testing.html">Application Testing</a>
+<li><a href="artisan.html">Console Commands</a>
+<li><a href="authentication.html">Authentication</a>
+<li><a href="authorization.html">Authorization</a>
+<li><a href="billing.html">Laravel Cashier</a>
+<li><a href="blade.html">Blade Templates</a>
+<li><a href="broadcasting.html">Event Broadcasting</a>
+<li><a href="cache.html">Cache</a>
+<li><a href="collections.html">Collections</a>
+<li><a href="configuration.html">Configuration</a>
+<li><a href="container.html">Service Container</a>
+<li><a href="contracts.html">Contracts</a>
+<li><a href="contributing.html">Contribution Guidelines</a>
+<li><a href="contributions.html">Contribution Guide</a>
+<li><a href="controllers.html">Controllers</a>
+<li><a href="csrf.html">CSRF Protection</a>
+<li><a href="database-testing.html">Database Testing</a>
+<li><a href="database.html">Database: Getting Started</a>
+<li><a href="documentation.html">Prologue</a>
+<li><a href="elixir.html">Compiling Assets (Laravel Elixir)</a>
+<li><a href="eloquent-collections.html">Eloquent: Collections</a>
+<li><a href="eloquent-mutators.html">Eloquent: Mutators</a>
+<li><a href="eloquent-relationships.html">Eloquent: Relationships</a>
+<li><a href="eloquent-serialization.html">Eloquent: Serialization</a>
+<li><a href="eloquent.html">Eloquent: Getting Started</a>
+<li><a href="encryption.html">Encryption</a>
+<li><a href="envoy.html">Envoy Task Runner</a>
+<li><a href="errors.html">Errors & Logging</a>
+<li><a href="events.html">Events
+</a>
+<li><a href="facades.html">Facades</a>
+<li><a href="filesystem.html">Filesystem / Cloud Storage</a>
+<li><a href="frontend.html">JavaScript & CSS</a>
+<li><a href="hashing.html">Hashing</a>
+<li><a href="helpers.html">Helper Functions</a>
+<li><a href="homestead.html">Laravel Homestead</a>
+<li><a href="installation.html">Installation</a>
+<li><a href="lifecycle.html">Request Lifecycle</a>
+<li><a href="localization.html">Localization</a>
+<li><a href="mail.html">Mail
+</a>
+<li><a href="middleware.html">Middleware</a>
+<li><a href="migrations.html">Database: Migrations</a>
+<li><a href="mocking.html">Mocking</a>
+<li><a href="notifications.html">Notifications</a>
+<li><a href="packages.html">Package Development</a>
+<li><a href="pagination.html">Pagination</a>
+<li><a href="passport.html">API Authentication (Passport)</a>
+<li><a href="passwords.html">Resetting Passwords</a>
+<li><a href="providers.html">Service Providers</a>
+<li><a href="queries.html">Database: Query Builder</a>
+<li><a href="queues.html">Queues</a>
+<li><a href="readme.html">Laravel Documentation</a>
+<li><a href="redirects.html">HTTP Redirects</a>
+<li><a href="redis.html">Redis</a>
+<li><a href="releases.html">Release Notes</a>
+<li><a href="requests.html">HTTP Requests</a>
+<li><a href="responses.html">HTTP Responses</a>
+<li><a href="routing.html">Routing</a>
+<li><a href="scheduling.html">Task Scheduling</a>
+<li><a href="scout.html">Laravel Scout</a>
+<li><a href="seeding.html">Database: Seeding</a>
+<li><a href="session.html">HTTP Session</a>
+<li><a href="structure.html">Directory Structure</a>
+<li><a href="testing.html">Testing</a>
+<li><a href="upgrade.html">Upgrade Guide</a>
+<li><a href="valet.html">Laravel Valet</a>
+<li><a href="validation.html">Validation
+</a>
+<li><a href="views.html">Views</a>
+</ul></aside><article>
+<h1 id="database-testing">Database Testing</h1>
+<ul>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#resetting-the-database-after-each-test">Resetting The Database After Each Test</a>
+<ul>
+<li><a href="#using-migrations">Using Migrations</a></li>
+<li><a href="#using-transactions">Using Transactions</a></li>
+</ul></li>
+<li><a href="#writing-factories">Writing Factories</a>
+<ul>
+<li><a href="#factory-states">Factory States</a></li>
+</ul></li>
+<li><a href="#using-factories">Using Factories</a>
+<ul>
+<li><a href="#creating-models">Creating Models</a></li>
+<li><a href="#persisting-models">Persisting Models</a></li>
+<li><a href="#relationships">Relationships</a></li>
+</ul></li>
+</ul>
+<p><a name="introduction"></a></p>
+<h2 id="introduction">Introduction</h2>
+<p>Laravel provides a variety of helpful tools to make it easier to test your database driven applications. First, you may use the <code>seeInDatabase</code> helper to assert that data exists in the database matching a given set of criteria. For example, if you would like to verify that there is a record in the <code>users</code> table with the <code>email</code> value of <code>sally@example.com</code>, you can do the following:</p>
+<pre><code>public function testDatabase()
+{
+    // Make call to application...
+
+    $this-&gt;seeInDatabase(&#39;users&#39;, [
+        &#39;email&#39; =&gt; &#39;sally@example.com&#39;
+    ]);
+}</code></pre>
+<p>Of course, the <code>seeInDatabase</code> method and other helpers like it are for convenience. You are free to use any of PHPUnit's built-in assertion methods to supplement your tests.</p>
+<p><a name="resetting-the-database-after-each-test"></a></p>
+<h2 id="resetting-the-database-after-each-test">Resetting The Database After Each Test</h2>
+<p>It is often useful to reset your database after each test so that data from a previous test does not interfere with subsequent tests.</p>
+<p><a name="using-migrations"></a></p>
+<h3 id="using-migrations">Using Migrations</h3>
+<p>One approach to resetting the database state is to rollback the database after each test and migrate it before the next test. Laravel provides a simple <code>DatabaseMigrations</code> trait that will automatically handle this for you. Simply use the trait on your test class and everything will be handled for you:</p>
+<pre><code>&lt;?php
+
+use Illuminate\Foundation\Testing\WithoutMiddleware;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
+
+class ExampleTest extends TestCase
+{
+    use DatabaseMigrations;
+
+    /**
+     * A basic functional test example.
+     *
+     * @return void
+     */
+    public function testBasicExample()
+    {
+        $this-&gt;visit(&#39;/&#39;)
+             -&gt;see(&#39;Laravel 5&#39;);
+    }
+}</code></pre>
+<p><a name="using-transactions"></a></p>
+<h3 id="using-transactions">Using Transactions</h3>
+<p>Another approach to resetting the database state is to wrap each test case in a database transaction. Again, Laravel provides a convenient <code>DatabaseTransactions</code> trait that will automatically handle this for you:</p>
+<pre><code>&lt;?php
+
+use Illuminate\Foundation\Testing\WithoutMiddleware;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
+
+class ExampleTest extends TestCase
+{
+    use DatabaseTransactions;
+
+    /**
+     * A basic functional test example.
+     *
+     * @return void
+     */
+    public function testBasicExample()
+    {
+        $this-&gt;visit(&#39;/&#39;)
+             -&gt;see(&#39;Laravel 5&#39;);
+    }
+}</code></pre>
+<blockquote>
+<p>{note} By default, this trait will only wrap the default database connection in a transaction. If your application is using multiple database connections, you should define a <code>$connectionsToTransact</code> property on your test class. This property should be an array of connection names to execute the transactions on.</p>
+</blockquote>
+<p><a name="writing-factories"></a></p>
+<h2 id="writing-factories">Writing Factories</h2>
+<p>When testing, it is common to need to insert a few records into your database before executing your test. Instead of manually specifying the value of each column when you create this test data, Laravel allows you to define a default set of attributes for each of your <a href="/docs/%7B%7Bversion%7D%7D/eloquent">Eloquent models</a> using model factories. To get started, take a look at the <code>database/factories/ModelFactory.php</code> file in your application. Out of the box, this file contains one factory definition:</p>
+<pre><code>$factory-&gt;define(App\User::class, function (Faker\Generator $faker) {
+    static $password;
+
+    return [
+        &#39;name&#39; =&gt; $faker-&gt;name,
+        &#39;email&#39; =&gt; $faker-&gt;unique()-&gt;safeEmail,
+        &#39;password&#39; =&gt; $password ?: $password = bcrypt(&#39;secret&#39;),
+        &#39;remember_token&#39; =&gt; str_random(10),
+    ];
+});</code></pre>
+<p>Within the Closure, which serves as the factory definition, you may return the default test values of all attributes on the model. The Closure will receive an instance of the <a href="https://github.com/fzaninotto/Faker">Faker</a> PHP library, which allows you to conveniently generate various kinds of random data for testing.</p>
+<p>Of course, you are free to add your own additional factories to the <code>ModelFactory.php</code> file. You may also create additional factory files for each model for better organization. For example, you could create <code>UserFactory.php</code> and <code>CommentFactory.php</code> files within your <code>database/factories</code> directory. All of the files within the <code>factories</code> directory will automatically be loaded by Laravel.</p>
+<p><a name="factory-states"></a></p>
+<h3 id="factory-states">Factory States</h3>
+<p>States allow you to define discrete modifications that can be applied to your model factories in any combination. For example, your <code>User</code> model might have a <code>delinquent</code> state that modifies one of its default attribute values. You may define your state transformations using the <code>state</code> method:</p>
+<pre><code>$factory-&gt;state(App\User::class, &#39;delinquent&#39;, function ($faker) {
+    return [
+        &#39;account_status&#39; =&gt; &#39;delinquent&#39;,
+    ];
+});</code></pre>
+<p><a name="using-factories"></a></p>
+<h2 id="using-factories">Using Factories</h2>
+<p><a name="creating-models"></a></p>
+<h3 id="creating-models">Creating Models</h3>
+<p>Once you have defined your factories, you may use the global <code>factory</code> function in your tests or seed files to generate model instances. So, let's take a look at a few examples of creating models. First, we'll use the <code>make</code> method to create models but not save them to the database:</p>
+<pre><code>public function testDatabase()
+{
+    $user = factory(App\User::class)-&gt;make();
+
+    // Use model in tests...
+}</code></pre>
+<p>You may also create a Collection of many models or create models of a given type:</p>
+<pre><code>// Create three App\User instances...
+$users = factory(App\User::class, 3)-&gt;make();
+
+// Create an &quot;admin&quot; App\User instance...
+$user = factory(App\User::class, &#39;admin&#39;)-&gt;make();
+
+// Create three &quot;admin&quot; App\User instances...
+$users = factory(App\User::class, &#39;admin&#39;, 3)-&gt;make();</code></pre>
+<h4 id="applying-states">Applying States</h4>
+<p>You may also apply any of your <a href="#factory-states">states</a> to the models. If you would like to apply multiple state transformations to the models, you should specify the name of each state you would like to apply:</p>
+<pre><code>$users = factory(App\User::class, 5)-&gt;states(&#39;deliquent&#39;)-&gt;make();
+
+$users = factory(App\User::class, 5)-&gt;states(&#39;premium&#39;, &#39;deliquent&#39;)-&gt;make();</code></pre>
+<h4 id="overriding-attributes">Overriding Attributes</h4>
+<p>If you would like to override some of the default values of your models, you may pass an array of values to the <code>make</code> method. Only the specified values will be replaced while the rest of the values remain set to their default values as specified by the factory:</p>
+<pre><code>$user = factory(App\User::class)-&gt;make([
+    &#39;name&#39; =&gt; &#39;Abigail&#39;,
+]);</code></pre>
+<p><a name="persisting-models"></a></p>
+<h3 id="persisting-models">Persisting Models</h3>
+<p>The <code>create</code> method not only creates the model instances but also saves them to the database using Eloquent's <code>save</code> method:</p>
+<pre><code>public function testDatabase()
+{
+    // Create a single App\User instance...
+    $user = factory(App\User::class)-&gt;create();
+
+    // Create three App\User instances...
+    $users = factory(App\User::class, 3)-&gt;create();
+
+    // Use model in tests...
+}</code></pre>
+<p>You may override attributes on the model by passing an array to the <code>create</code> method:</p>
+<pre><code>$user = factory(App\User::class)-&gt;create([
+    &#39;name&#39; =&gt; &#39;Abigail&#39;,
+]);</code></pre>
+<p><a name="relationships"></a></p>
+<h3 id="relationships">Relationships</h3>
+<p>In this example, we'll attach a relation to some created models. When using the <code>create</code> method to create multiple models, an Eloquent <a href="/docs/%7B%7Bversion%7D%7D/eloquent-collections">collection instance</a> is returned, allowing you to use any of the convenient functions provided by the collection, such as <code>each</code>:</p>
+<pre><code>$users = factory(App\User::class, 3)
+           -&gt;create()
+           -&gt;each(function ($u) {
+                $u-&gt;posts()-&gt;save(factory(App\Post::class)-&gt;make());
+            });</code></pre>
+<h4 id="relations-attribute-closures">Relations &amp; Attribute Closures</h4>
+<p>You may also attach relationships to models using Closure attributes in your factory definitions. For example, if you would like to create a new <code>User</code> instance when creating a <code>Post</code>, you may do the following:</p>
+<pre><code>$factory-&gt;define(App\Post::class, function ($faker) {
+    return [
+        &#39;title&#39; =&gt; $faker-&gt;title,
+        &#39;content&#39; =&gt; $faker-&gt;paragraph,
+        &#39;user_id&#39; =&gt; function () {
+            return factory(App\User::class)-&gt;create()-&gt;id;
+        }
+    ];
+});</code></pre>
+<p>These Closures also receive the evaluated attribute array of the factory that contains them:</p>
+<pre><code>$factory-&gt;define(App\Post::class, function ($faker) {
+    return [
+        &#39;title&#39; =&gt; $faker-&gt;title,
+        &#39;content&#39; =&gt; $faker-&gt;paragraph,
+        &#39;user_id&#39; =&gt; function () {
+            return factory(App\User::class)-&gt;create()-&gt;id;
+        },
+        &#39;user_type&#39; =&gt; function (array $post) {
+            return App\User::find($post[&#39;user_id&#39;])-&gt;type;
+        }
+    ];
+});</code></pre>
+</article>
+</body>
+</html>

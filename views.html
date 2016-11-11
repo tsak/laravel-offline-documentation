@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>Views – </title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <link rel="stylesheet" href="github-pandoc.css">
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  <script src="../../laravel-docs/site.js"></script>
+</head>
+<body>
+<aside><h1>Laravel 5.3 offline docs</h1><ul id="navigation">
+<li><a href="application-testing.html">Application Testing</a>
+<li><a href="artisan.html">Console Commands</a>
+<li><a href="authentication.html">Authentication</a>
+<li><a href="authorization.html">Authorization</a>
+<li><a href="billing.html">Laravel Cashier</a>
+<li><a href="blade.html">Blade Templates</a>
+<li><a href="broadcasting.html">Event Broadcasting</a>
+<li><a href="cache.html">Cache</a>
+<li><a href="collections.html">Collections</a>
+<li><a href="configuration.html">Configuration</a>
+<li><a href="container.html">Service Container</a>
+<li><a href="contracts.html">Contracts</a>
+<li><a href="contributing.html">Contribution Guidelines</a>
+<li><a href="contributions.html">Contribution Guide</a>
+<li><a href="controllers.html">Controllers</a>
+<li><a href="csrf.html">CSRF Protection</a>
+<li><a href="database-testing.html">Database Testing</a>
+<li><a href="database.html">Database: Getting Started</a>
+<li><a href="documentation.html">Prologue</a>
+<li><a href="elixir.html">Compiling Assets (Laravel Elixir)</a>
+<li><a href="eloquent-collections.html">Eloquent: Collections</a>
+<li><a href="eloquent-mutators.html">Eloquent: Mutators</a>
+<li><a href="eloquent-relationships.html">Eloquent: Relationships</a>
+<li><a href="eloquent-serialization.html">Eloquent: Serialization</a>
+<li><a href="eloquent.html">Eloquent: Getting Started</a>
+<li><a href="encryption.html">Encryption</a>
+<li><a href="envoy.html">Envoy Task Runner</a>
+<li><a href="errors.html">Errors & Logging</a>
+<li><a href="events.html">Events
+</a>
+<li><a href="facades.html">Facades</a>
+<li><a href="filesystem.html">Filesystem / Cloud Storage</a>
+<li><a href="frontend.html">JavaScript & CSS</a>
+<li><a href="hashing.html">Hashing</a>
+<li><a href="helpers.html">Helper Functions</a>
+<li><a href="homestead.html">Laravel Homestead</a>
+<li><a href="installation.html">Installation</a>
+<li><a href="lifecycle.html">Request Lifecycle</a>
+<li><a href="localization.html">Localization</a>
+<li><a href="mail.html">Mail
+</a>
+<li><a href="middleware.html">Middleware</a>
+<li><a href="migrations.html">Database: Migrations</a>
+<li><a href="mocking.html">Mocking</a>
+<li><a href="notifications.html">Notifications</a>
+<li><a href="packages.html">Package Development</a>
+<li><a href="pagination.html">Pagination</a>
+<li><a href="passport.html">API Authentication (Passport)</a>
+<li><a href="passwords.html">Resetting Passwords</a>
+<li><a href="providers.html">Service Providers</a>
+<li><a href="queries.html">Database: Query Builder</a>
+<li><a href="queues.html">Queues</a>
+<li><a href="readme.html">Laravel Documentation</a>
+<li><a href="redirects.html">HTTP Redirects</a>
+<li><a href="redis.html">Redis</a>
+<li><a href="releases.html">Release Notes</a>
+<li><a href="requests.html">HTTP Requests</a>
+<li><a href="responses.html">HTTP Responses</a>
+<li><a href="routing.html">Routing</a>
+<li><a href="scheduling.html">Task Scheduling</a>
+<li><a href="scout.html">Laravel Scout</a>
+<li><a href="seeding.html">Database: Seeding</a>
+<li><a href="session.html">HTTP Session</a>
+<li><a href="structure.html">Directory Structure</a>
+<li><a href="testing.html">Testing</a>
+<li><a href="upgrade.html">Upgrade Guide</a>
+<li><a href="valet.html">Laravel Valet</a>
+<li><a href="validation.html">Validation
+</a>
+<li><a href="views.html">Views</a>
+</ul></aside><article>
+<h1 id="views">Views</h1>
+<ul>
+<li><a href="#creating-views">Creating Views</a></li>
+<li><a href="#passing-data-to-views">Passing Data To Views</a>
+<ul>
+<li><a href="#sharing-data-with-all-views">Sharing Data With All Views</a></li>
+</ul></li>
+<li><a href="#view-composers">View Composers</a></li>
+</ul>
+<p><a name="creating-views"></a></p>
+<h2 id="creating-views">Creating Views</h2>
+<p>Views contain the HTML served by your application and separate your controller / application logic from your presentation logic. Views are stored in the <code>resources/views</code> directory. A simple view might look something like this:</p>
+<pre><code>&lt;!-- View stored in resources/views/greeting.blade.php --&gt;
+
+&lt;html&gt;
+    &lt;body&gt;
+        &lt;h1&gt;Hello, {{ $name }}&lt;/h1&gt;
+    &lt;/body&gt;
+&lt;/html&gt;</code></pre>
+<p>Since this view is stored at <code>resources/views/greeting.blade.php</code>, we may return it using the global <code>view</code> helper like so:</p>
+<pre><code>Route::get(&#39;/&#39;, function () {
+    return view(&#39;greeting&#39;, [&#39;name&#39; =&gt; &#39;James&#39;]);
+});</code></pre>
+<p>As you can see, the first argument passed to the <code>view</code> helper corresponds to the name of the view file in the <code>resources/views</code> directory. The second argument is an array of data that should be made available to the view. In this case, we are passing the <code>name</code> variable, which is displayed in the view using <a href="/docs/%7B%7Bversion%7D%7D/blade">Blade syntax</a>.</p>
+<p>Of course, views may also be nested within sub-directories of the <code>resources/views</code> directory. &quot;Dot&quot; notation may be used to reference nested views. For example, if your view is stored at <code>resources/views/admin/profile.blade.php</code>, you may reference it like so:</p>
+<pre><code>return view(&#39;admin.profile&#39;, $data);</code></pre>
+<h4 id="determining-if-a-view-exists">Determining If A View Exists</h4>
+<p>If you need to determine if a view exists, you may use the <code>View</code> facade. The <code>exists</code> method will return <code>true</code> if the view exists:</p>
+<pre><code>use Illuminate\Support\Facades\View;
+
+if (View::exists(&#39;emails.customer&#39;)) {
+    //
+}</code></pre>
+<p><a name="passing-data-to-views"></a></p>
+<h2 id="passing-data-to-views">Passing Data To Views</h2>
+<p>As you saw in the previous examples, you may pass an array of data to views:</p>
+<pre><code>return view(&#39;greetings&#39;, [&#39;name&#39; =&gt; &#39;Victoria&#39;]);</code></pre>
+<p>When passing information in this manner, <code>$data</code> should be an array with key/value pairs. Inside your view, you can then access each value using its corresponding key, such as <code>&lt;?php echo $key; ?&gt;</code>. As an alternative to passing a complete array of data to the <code>view</code> helper function, you may use the <code>with</code> method to add individual pieces of data to the view:</p>
+<pre><code>return view(&#39;greeting&#39;)-&gt;with(&#39;name&#39;, &#39;Victoria&#39;);</code></pre>
+<p><a name="sharing-data-with-all-views"></a></p>
+<h4 id="sharing-data-with-all-views">Sharing Data With All Views</h4>
+<p>Occasionally, you may need to share a piece of data with all views that are rendered by your application. You may do so using the view facade's <code>share</code> method. Typically, you should place calls to <code>share</code> within a service provider's <code>boot</code> method. You are free to add them to the <code>AppServiceProvider</code> or generate a separate service provider to house them:</p>
+<pre><code>&lt;?php
+
+namespace App\Providers;
+
+use Illuminate\Support\Facades\View;
+
+class AppServiceProvider extends ServiceProvider
+{
+    /**
+     * Bootstrap any application services.
+     *
+     * @return void
+     */
+    public function boot()
+    {
+        View::share(&#39;key&#39;, &#39;value&#39;);
+    }
+
+    /**
+     * Register the service provider.
+     *
+     * @return void
+     */
+    public function register()
+    {
+        //
+    }
+}</code></pre>
+<p><a name="view-composers"></a></p>
+<h2 id="view-composers">View Composers</h2>
+<p>View composers are callbacks or class methods that are called when a view is rendered. If you have data that you want to be bound to a view each time that view is rendered, a view composer can help you organize that logic into a single location.</p>
+<p>For this example, let's register the view composers within a <a href="/docs/%7B%7Bversion%7D%7D/providers">service provider</a>. We'll use the <code>View</code> facade to access the underlying <code>Illuminate\Contracts\View\Factory</code> contract implementation. Remember, Laravel does not include a default directory for view composers. You are free to organize them however you wish. For example, you could create an <code>App\Http\ViewComposers</code> directory:</p>
+<pre><code>&lt;?php
+
+namespace App\Providers;
+
+use Illuminate\Support\Facades\View;
+use Illuminate\Support\ServiceProvider;
+
+class ComposerServiceProvider extends ServiceProvider
+{
+    /**
+     * Register bindings in the container.
+     *
+     * @return void
+     */
+    public function boot()
+    {
+        // Using class based composers...
+        View::composer(
+            &#39;profile&#39;, &#39;App\Http\ViewComposers\ProfileComposer&#39;
+        );
+
+        // Using Closure based composers...
+        View::composer(&#39;dashboard&#39;, function ($view) {
+            //
+        });
+    }
+
+    /**
+     * Register the service provider.
+     *
+     * @return void
+     */
+    public function register()
+    {
+        //
+    }
+}</code></pre>
+<blockquote>
+<p>{note} Remember, if you create a new service provider to contain your view composer registrations, you will need to add the service provider to the <code>providers</code> array in the <code>config/app.php</code> configuration file.</p>
+</blockquote>
+<p>Now that we have registered the composer, the <code>ProfileComposer@compose</code> method will be executed each time the <code>profile</code> view is being rendered. So, let's define the composer class:</p>
+<pre><code>&lt;?php
+
+namespace App\Http\ViewComposers;
+
+use Illuminate\View\View;
+use App\Repositories\UserRepository;
+
+class ProfileComposer
+{
+    /**
+     * The user repository implementation.
+     *
+     * @var UserRepository
+     */
+    protected $users;
+
+    /**
+     * Create a new profile composer.
+     *
+     * @param  UserRepository  $users
+     * @return void
+     */
+    public function __construct(UserRepository $users)
+    {
+        // Dependencies automatically resolved by service container...
+        $this-&gt;users = $users;
+    }
+
+    /**
+     * Bind data to the view.
+     *
+     * @param  View  $view
+     * @return void
+     */
+    public function compose(View $view)
+    {
+        $view-&gt;with(&#39;count&#39;, $this-&gt;users-&gt;count());
+    }
+}</code></pre>
+<p>Just before the view is rendered, the composer's <code>compose</code> method is called with the <code>Illuminate\View\View</code> instance. You may use the <code>with</code> method to bind data to the view.</p>
+<blockquote>
+<p>{tip} All view composers are resolved via the <a href="/docs/%7B%7Bversion%7D%7D/container">service container</a>, so you may type-hint any dependencies you need within a composer's constructor.</p>
+</blockquote>
+<h4 id="attaching-a-composer-to-multiple-views">Attaching A Composer To Multiple Views</h4>
+<p>You may attach a view composer to multiple views at once by passing an array of views as the first argument to the <code>composer</code> method:</p>
+<pre><code>View::composer(
+    [&#39;profile&#39;, &#39;dashboard&#39;],
+    &#39;App\Http\ViewComposers\MyViewComposer&#39;
+);</code></pre>
+<p>The <code>composer</code> method also accepts the <code>*</code> character as a wildcard, allowing you to attach a composer to all views:</p>
+<pre><code>View::composer(&#39;*&#39;, function ($view) {
+    //
+});</code></pre>
+<h4 id="view-creators">View Creators</h4>
+<p>View <strong>creators</strong> are very similar to view composers; however, they are executed immediately after the view is instantiated instead of waiting until the view is about to render. To register a view creator, use the <code>creator</code> method:</p>
+<pre><code>View::creator(&#39;profile&#39;, &#39;App\Http\ViewCreators\ProfileCreator&#39;);</code></pre>
+</article>
+</body>
+</html>

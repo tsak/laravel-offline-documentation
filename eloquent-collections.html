@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>Eloquent: Collections – </title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <link rel="stylesheet" href="github-pandoc.css">
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  <script src="../../laravel-docs/site.js"></script>
+</head>
+<body>
+<aside><h1>Laravel 5.3 offline docs</h1><ul id="navigation">
+<li><a href="application-testing.html">Application Testing</a>
+<li><a href="artisan.html">Console Commands</a>
+<li><a href="authentication.html">Authentication</a>
+<li><a href="authorization.html">Authorization</a>
+<li><a href="billing.html">Laravel Cashier</a>
+<li><a href="blade.html">Blade Templates</a>
+<li><a href="broadcasting.html">Event Broadcasting</a>
+<li><a href="cache.html">Cache</a>
+<li><a href="collections.html">Collections</a>
+<li><a href="configuration.html">Configuration</a>
+<li><a href="container.html">Service Container</a>
+<li><a href="contracts.html">Contracts</a>
+<li><a href="contributing.html">Contribution Guidelines</a>
+<li><a href="contributions.html">Contribution Guide</a>
+<li><a href="controllers.html">Controllers</a>
+<li><a href="csrf.html">CSRF Protection</a>
+<li><a href="database-testing.html">Database Testing</a>
+<li><a href="database.html">Database: Getting Started</a>
+<li><a href="documentation.html">Prologue</a>
+<li><a href="elixir.html">Compiling Assets (Laravel Elixir)</a>
+<li><a href="eloquent-collections.html">Eloquent: Collections</a>
+<li><a href="eloquent-mutators.html">Eloquent: Mutators</a>
+<li><a href="eloquent-relationships.html">Eloquent: Relationships</a>
+<li><a href="eloquent-serialization.html">Eloquent: Serialization</a>
+<li><a href="eloquent.html">Eloquent: Getting Started</a>
+<li><a href="encryption.html">Encryption</a>
+<li><a href="envoy.html">Envoy Task Runner</a>
+<li><a href="errors.html">Errors & Logging</a>
+<li><a href="events.html">Events
+</a>
+<li><a href="facades.html">Facades</a>
+<li><a href="filesystem.html">Filesystem / Cloud Storage</a>
+<li><a href="frontend.html">JavaScript & CSS</a>
+<li><a href="hashing.html">Hashing</a>
+<li><a href="helpers.html">Helper Functions</a>
+<li><a href="homestead.html">Laravel Homestead</a>
+<li><a href="installation.html">Installation</a>
+<li><a href="lifecycle.html">Request Lifecycle</a>
+<li><a href="localization.html">Localization</a>
+<li><a href="mail.html">Mail
+</a>
+<li><a href="middleware.html">Middleware</a>
+<li><a href="migrations.html">Database: Migrations</a>
+<li><a href="mocking.html">Mocking</a>
+<li><a href="notifications.html">Notifications</a>
+<li><a href="packages.html">Package Development</a>
+<li><a href="pagination.html">Pagination</a>
+<li><a href="passport.html">API Authentication (Passport)</a>
+<li><a href="passwords.html">Resetting Passwords</a>
+<li><a href="providers.html">Service Providers</a>
+<li><a href="queries.html">Database: Query Builder</a>
+<li><a href="queues.html">Queues</a>
+<li><a href="readme.html">Laravel Documentation</a>
+<li><a href="redirects.html">HTTP Redirects</a>
+<li><a href="redis.html">Redis</a>
+<li><a href="releases.html">Release Notes</a>
+<li><a href="requests.html">HTTP Requests</a>
+<li><a href="responses.html">HTTP Responses</a>
+<li><a href="routing.html">Routing</a>
+<li><a href="scheduling.html">Task Scheduling</a>
+<li><a href="scout.html">Laravel Scout</a>
+<li><a href="seeding.html">Database: Seeding</a>
+<li><a href="session.html">HTTP Session</a>
+<li><a href="structure.html">Directory Structure</a>
+<li><a href="testing.html">Testing</a>
+<li><a href="upgrade.html">Upgrade Guide</a>
+<li><a href="valet.html">Laravel Valet</a>
+<li><a href="validation.html">Validation
+</a>
+<li><a href="views.html">Views</a>
+</ul></aside><article>
+<h1 id="eloquent-collections">Eloquent: Collections</h1>
+<ul>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#available-methods">Available Methods</a></li>
+<li><a href="#custom-collections">Custom Collections</a></li>
+</ul>
+<p><a name="introduction"></a></p>
+<h2 id="introduction">Introduction</h2>
+<p>All multi-result sets returned by Eloquent are instances of the <code>Illuminate\Database\Eloquent\Collection</code> object, including results retrieved via the <code>get</code> method or accessed via a relationship. The Eloquent collection object extends the Laravel <a href="/docs/%7B%7Bversion%7D%7D/collections">base collection</a>, so it naturally inherits dozens of methods used to fluently work with the underlying array of Eloquent models.</p>
+<p>Of course, all collections also serve as iterators, allowing you to loop over them as if they were simple PHP arrays:</p>
+<pre><code>$users = App\User::where(&#39;active&#39;, 1)-&gt;get();
+
+foreach ($users as $user) {
+    echo $user-&gt;name;
+}</code></pre>
+<p>However, collections are much more powerful than arrays and expose a variety of map / reduce operations that may be chained using an intuitive interface. For example, let's remove all inactive models and gather the first name for each remaining user:</p>
+<pre><code>$users = App\User::where(&#39;active&#39;, 1)-&gt;get();
+
+$names = $users-&gt;reject(function ($user) {
+    return $user-&gt;active === false;
+})
+-&gt;map(function ($user) {
+    return $user-&gt;name;
+});</code></pre>
+<blockquote>
+<p>{note} While most Eloquent collection methods return a new instance of an Eloquent collection, the <code>pluck</code>, <code>keys</code>, <code>zip</code>, <code>collapse</code>, <code>flatten</code> and <code>flip</code> methods return a <a href="/docs/%7B%7Bversion%7D%7D/collections">base collection</a> instance. Likewise, if a <code>map</code> operation returns a collection that does not contain any Eloquent models, it will be automatically cast to a base collection.</p>
+</blockquote>
+<p><a name="available-methods"></a></p>
+<h2 id="available-methods">Available Methods</h2>
+<h3 id="the-base-collection">The Base Collection</h3>
+<p>All Eloquent collections extend the base <a href="/docs/%7B%7Bversion%7D%7D/collections">Laravel collection</a> object; therefore, they inherit all of the powerful methods provided by the base collection class:</p>
+<style>
+    #collection-method-list > p {
+        column-count: 3; -moz-column-count: 3; -webkit-column-count: 3;
+        column-gap: 2em; -moz-column-gap: 2em; -webkit-column-gap: 2em;
+    }
+
+    #collection-method-list a {
+        display: block;
+    }
+</style>
+<div id="collection-method-list" markdown="1">
+
+[all](/docs/{{version}}/collections#method-all)
+[avg](/docs/{{version}}/collections#method-avg)
+[chunk](/docs/{{version}}/collections#method-chunk)
+[collapse](/docs/{{version}}/collections#method-collapse)
+[combine](/docs/{{version}}/collections#method-combine)
+[contains](/docs/{{version}}/collections#method-contains)
+[count](/docs/{{version}}/collections#method-count)
+[diff](/docs/{{version}}/collections#method-diff)
+[diffKeys](/docs/{{version}}/collections#method-diffkeys)
+[each](/docs/{{version}}/collections#method-each)
+[every](/docs/{{version}}/collections#method-every)
+[except](/docs/{{version}}/collections#method-except)
+[filter](/docs/{{version}}/collections#method-filter)
+[first](/docs/{{version}}/collections#method-first)
+[flatMap](/docs/{{version}}/collections#method-flatmap)
+[flatten](/docs/{{version}}/collections#method-flatten)
+[flip](/docs/{{version}}/collections#method-flip)
+[forget](/docs/{{version}}/collections#method-forget)
+[forPage](/docs/{{version}}/collections#method-forpage)
+[get](/docs/{{version}}/collections#method-get)
+[groupBy](/docs/{{version}}/collections#method-groupby)
+[has](/docs/{{version}}/collections#method-has)
+[implode](/docs/{{version}}/collections#method-implode)
+[intersect](/docs/{{version}}/collections#method-intersect)
+[isEmpty](/docs/{{version}}/collections#method-isempty)
+[keyBy](/docs/{{version}}/collections#method-keyby)
+[keys](/docs/{{version}}/collections#method-keys)
+[last](/docs/{{version}}/collections#method-last)
+[map](/docs/{{version}}/collections#method-map)
+[max](/docs/{{version}}/collections#method-max)
+[merge](/docs/{{version}}/collections#method-merge)
+[min](/docs/{{version}}/collections#method-min)
+[only](/docs/{{version}}/collections#method-only)
+[pluck](/docs/{{version}}/collections#method-pluck)
+[pop](/docs/{{version}}/collections#method-pop)
+[prepend](/docs/{{version}}/collections#method-prepend)
+[pull](/docs/{{version}}/collections#method-pull)
+[push](/docs/{{version}}/collections#method-push)
+[put](/docs/{{version}}/collections#method-put)
+[random](/docs/{{version}}/collections#method-random)
+[reduce](/docs/{{version}}/collections#method-reduce)
+[reject](/docs/{{version}}/collections#method-reject)
+[reverse](/docs/{{version}}/collections#method-reverse)
+[search](/docs/{{version}}/collections#method-search)
+[shift](/docs/{{version}}/collections#method-shift)
+[shuffle](/docs/{{version}}/collections#method-shuffle)
+[slice](/docs/{{version}}/collections#method-slice)
+[sort](/docs/{{version}}/collections#method-sort)
+[sortBy](/docs/{{version}}/collections#method-sortby)
+[sortByDesc](/docs/{{version}}/collections#method-sortbydesc)
+[splice](/docs/{{version}}/collections#method-splice)
+[sum](/docs/{{version}}/collections#method-sum)
+[take](/docs/{{version}}/collections#method-take)
+[toArray](/docs/{{version}}/collections#method-toarray)
+[toJson](/docs/{{version}}/collections#method-tojson)
+[transform](/docs/{{version}}/collections#method-transform)
+[union](/docs/{{version}}/collections#method-union)
+[unique](/docs/{{version}}/collections#method-unique)
+[values](/docs/{{version}}/collections#method-values)
+[where](/docs/{{version}}/collections#method-where)
+[whereStrict](/docs/{{version}}/collections#method-wherestrict)
+[whereIn](/docs/{{version}}/collections#method-wherein)
+[whereInLoose](/docs/{{version}}/collections#method-whereinloose)
+[zip](/docs/{{version}}/collections#method-zip)
+
+</div>
+<p><a name="custom-collections"></a></p>
+<h2 id="custom-collections">Custom Collections</h2>
+<p>If you need to use a custom <code>Collection</code> object with your own extension methods, you may override the <code>newCollection</code> method on your model:</p>
+<pre><code>&lt;?php
+
+namespace App;
+
+use App\CustomCollection;
+use Illuminate\Database\Eloquent\Model;
+
+class User extends Model
+{
+    /**
+     * Create a new Eloquent Collection instance.
+     *
+     * @param  array  $models
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function newCollection(array $models = [])
+    {
+        return new CustomCollection($models);
+    }
+}</code></pre>
+<p>Once you have defined a <code>newCollection</code> method, you will receive an instance of your custom collection anytime Eloquent returns a <code>Collection</code> instance of that model. If you would like to use a custom collection for every model in your application, you should override the <code>newCollection</code> method on a base model class that is extended by all of your models.</p>
+</article>
+</body>
+</html>

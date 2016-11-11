@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>Application Testing – </title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <link rel="stylesheet" href="github-pandoc.css">
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  <script src="../../laravel-docs/site.js"></script>
+</head>
+<body>
+<aside><h1>Laravel 5.3 offline docs</h1><ul id="navigation">
+<li><a href="application-testing.html">Application Testing</a>
+<li><a href="artisan.html">Console Commands</a>
+<li><a href="authentication.html">Authentication</a>
+<li><a href="authorization.html">Authorization</a>
+<li><a href="billing.html">Laravel Cashier</a>
+<li><a href="blade.html">Blade Templates</a>
+<li><a href="broadcasting.html">Event Broadcasting</a>
+<li><a href="cache.html">Cache</a>
+<li><a href="collections.html">Collections</a>
+<li><a href="configuration.html">Configuration</a>
+<li><a href="container.html">Service Container</a>
+<li><a href="contracts.html">Contracts</a>
+<li><a href="contributing.html">Contribution Guidelines</a>
+<li><a href="contributions.html">Contribution Guide</a>
+<li><a href="controllers.html">Controllers</a>
+<li><a href="csrf.html">CSRF Protection</a>
+<li><a href="database-testing.html">Database Testing</a>
+<li><a href="database.html">Database: Getting Started</a>
+<li><a href="documentation.html">Prologue</a>
+<li><a href="elixir.html">Compiling Assets (Laravel Elixir)</a>
+<li><a href="eloquent-collections.html">Eloquent: Collections</a>
+<li><a href="eloquent-mutators.html">Eloquent: Mutators</a>
+<li><a href="eloquent-relationships.html">Eloquent: Relationships</a>
+<li><a href="eloquent-serialization.html">Eloquent: Serialization</a>
+<li><a href="eloquent.html">Eloquent: Getting Started</a>
+<li><a href="encryption.html">Encryption</a>
+<li><a href="envoy.html">Envoy Task Runner</a>
+<li><a href="errors.html">Errors & Logging</a>
+<li><a href="events.html">Events
+</a>
+<li><a href="facades.html">Facades</a>
+<li><a href="filesystem.html">Filesystem / Cloud Storage</a>
+<li><a href="frontend.html">JavaScript & CSS</a>
+<li><a href="hashing.html">Hashing</a>
+<li><a href="helpers.html">Helper Functions</a>
+<li><a href="homestead.html">Laravel Homestead</a>
+<li><a href="installation.html">Installation</a>
+<li><a href="lifecycle.html">Request Lifecycle</a>
+<li><a href="localization.html">Localization</a>
+<li><a href="mail.html">Mail
+</a>
+<li><a href="middleware.html">Middleware</a>
+<li><a href="migrations.html">Database: Migrations</a>
+<li><a href="mocking.html">Mocking</a>
+<li><a href="notifications.html">Notifications</a>
+<li><a href="packages.html">Package Development</a>
+<li><a href="pagination.html">Pagination</a>
+<li><a href="passport.html">API Authentication (Passport)</a>
+<li><a href="passwords.html">Resetting Passwords</a>
+<li><a href="providers.html">Service Providers</a>
+<li><a href="queries.html">Database: Query Builder</a>
+<li><a href="queues.html">Queues</a>
+<li><a href="readme.html">Laravel Documentation</a>
+<li><a href="redirects.html">HTTP Redirects</a>
+<li><a href="redis.html">Redis</a>
+<li><a href="releases.html">Release Notes</a>
+<li><a href="requests.html">HTTP Requests</a>
+<li><a href="responses.html">HTTP Responses</a>
+<li><a href="routing.html">Routing</a>
+<li><a href="scheduling.html">Task Scheduling</a>
+<li><a href="scout.html">Laravel Scout</a>
+<li><a href="seeding.html">Database: Seeding</a>
+<li><a href="session.html">HTTP Session</a>
+<li><a href="structure.html">Directory Structure</a>
+<li><a href="testing.html">Testing</a>
+<li><a href="upgrade.html">Upgrade Guide</a>
+<li><a href="valet.html">Laravel Valet</a>
+<li><a href="validation.html">Validation
+</a>
+<li><a href="views.html">Views</a>
+</ul></aside><article>
+<h1 id="application-testing">Application Testing</h1>
+<ul>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#interacting-with-your-application">Interacting With Your Application</a>
+<ul>
+<li><a href="#interacting-with-links">Interacting With Links</a></li>
+<li><a href="#interacting-with-forms">Interacting With Forms</a></li>
+</ul></li>
+<li><a href="#testing-json-apis">Testing JSON APIs</a>
+<ul>
+<li><a href="#verifying-exact-match">Verifying Exact Match</a></li>
+<li><a href="#verifying-structural-match">Verifying Structural Match</a></li>
+</ul></li>
+<li><a href="#sessions-and-authentication">Sessions / Authentication</a></li>
+<li><a href="#disabling-middleware">Disabling Middleware</a></li>
+<li><a href="#custom-http-requests">Custom HTTP Requests</a></li>
+<li><a href="#phpunit-assertions">PHPUnit Assertions</a></li>
+</ul>
+<p><a name="introduction"></a></p>
+<h2 id="introduction">Introduction</h2>
+<p>Laravel provides a very fluent API for making HTTP requests to your application, examining the output, and even filling out forms. For example, take a look at the test defined below:</p>
+<pre><code>&lt;?php
+
+use Illuminate\Foundation\Testing\WithoutMiddleware;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
+
+class ExampleTest extends TestCase
+{
+    /**
+     * A basic functional test example.
+     *
+     * @return void
+     */
+    public function testBasicExample()
+    {
+        $this-&gt;visit(&#39;/&#39;)
+             -&gt;see(&#39;Laravel 5&#39;)
+             -&gt;dontSee(&#39;Rails&#39;);
+    }
+}</code></pre>
+<p>The <code>visit</code> method makes a <code>GET</code> request into the application. The <code>see</code> method asserts that we should see the given text in the response returned by the application. The <code>dontSee</code> method asserts that the given text is not returned in the application response. This is the most basic application test available in Laravel.</p>
+<p>You may also use the 'visitRoute' method to make a 'GET' request via a named route:</p>
+<pre><code>$this-&gt;visitRoute(&#39;profile&#39;);
+
+$this-&gt;visitRoute(&#39;profile&#39;, [&#39;user&#39; =&gt; 1]);</code></pre>
+<p><a name="interacting-with-your-application"></a></p>
+<h2 id="interacting-with-your-application">Interacting With Your Application</h2>
+<p>Of course, you can do much more than simply assert that text appears in a given response. Let's take a look at some examples of clicking links and filling out forms:</p>
+<p><a name="interacting-with-links"></a></p>
+<h3 id="interacting-with-links">Interacting With Links</h3>
+<p>In this test, we will make a request to the application, &quot;click&quot; a link in the returned response, and then assert that we landed on a given URI. For example, let's assume there is a link in our response that has a text value of &quot;About Us&quot;:</p>
+<pre><code>&lt;a href=&quot;/about-us&quot;&gt;About Us&lt;/a&gt;</code></pre>
+<p>Now, let's write a test that clicks the link and asserts the user lands on the correct page:</p>
+<pre><code>public function testBasicExample()
+{
+    $this-&gt;visit(&#39;/&#39;)
+         -&gt;click(&#39;About Us&#39;)
+         -&gt;seePageIs(&#39;/about-us&#39;);
+}</code></pre>
+<p>You may also check that the user has arrived at the correct named route using the <code>seeRouteIs</code> method:</p>
+<pre><code>-&gt;seeRouteIs(&#39;profile&#39;, [&#39;user&#39; =&gt; 1]);</code></pre>
+<p><a name="interacting-with-forms"></a></p>
+<h3 id="interacting-with-forms">Interacting With Forms</h3>
+<p>Laravel also provides several methods for testing forms. The <code>type</code>, <code>select</code>, <code>check</code>, <code>attach</code>, and <code>press</code> methods allow you to interact with all of your form's inputs. For example, let's imagine this form exists on the application's registration page:</p>
+<pre><code>&lt;form action=&quot;/register&quot; method=&quot;POST&quot;&gt;
+    {{ csrf_field() }}
+
+    &lt;div&gt;
+        Name: &lt;input type=&quot;text&quot; name=&quot;name&quot;&gt;
+    &lt;/div&gt;
+
+    &lt;div&gt;
+        &lt;input type=&quot;checkbox&quot; value=&quot;yes&quot; name=&quot;terms&quot;&gt; Accept Terms
+    &lt;/div&gt;
+
+    &lt;div&gt;
+        &lt;input type=&quot;submit&quot; value=&quot;Register&quot;&gt;
+    &lt;/div&gt;
+&lt;/form&gt;</code></pre>
+<p>We can write a test to complete this form and inspect the result:</p>
+<pre><code>public function testNewUserRegistration()
+{
+    $this-&gt;visit(&#39;/register&#39;)
+         -&gt;type(&#39;Taylor&#39;, &#39;name&#39;)
+         -&gt;check(&#39;terms&#39;)
+         -&gt;press(&#39;Register&#39;)
+         -&gt;seePageIs(&#39;/dashboard&#39;);
+}</code></pre>
+<p>Of course, if your form contains other inputs such as radio buttons or drop-down boxes, you may easily fill out those types of fields as well. Here is a list of each form manipulation method:</p>
+<table style="width:39%;">
+<colgroup>
+<col style="width: 19%" />
+<col style="width: 19%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Method</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>$this-&gt;type($text, $elementName)</code></td>
+<td>&quot;Type&quot; text into a given field.</td>
+</tr>
+<tr class="even">
+<td><code>$this-&gt;select($value, $elementName)</code></td>
+<td>&quot;Select&quot; a radio button or drop-down field.</td>
+</tr>
+<tr class="odd">
+<td><code>$this-&gt;check($elementName)</code></td>
+<td>&quot;Check&quot; a checkbox field.</td>
+</tr>
+<tr class="even">
+<td><code>$this-&gt;uncheck($elementName)</code></td>
+<td>&quot;Uncheck&quot; a checkbox field.</td>
+</tr>
+<tr class="odd">
+<td><code>$this-&gt;attach($pathToFile, $elementName)</code></td>
+<td>&quot;Attach&quot; a file to the form.</td>
+</tr>
+<tr class="even">
+<td><code>$this-&gt;press($buttonTextOrElementName)</code></td>
+<td>&quot;Press&quot; a button with the given text or name.</td>
+</tr>
+</tbody>
+</table>
+<p><a name="file-inputs"></a></p>
+<h4 id="file-inputs">File Inputs</h4>
+<p>If your form contains <code>file</code> inputs, you may attach files to the form using the <code>attach</code> method:</p>
+<pre><code>public function testPhotoCanBeUploaded()
+{
+    $this-&gt;visit(&#39;/upload&#39;)
+         -&gt;attach($pathToFile, &#39;photo&#39;)
+         -&gt;press(&#39;Upload&#39;)
+         -&gt;see(&#39;Upload Successful!&#39;);
+}</code></pre>
+<p><a name="testing-json-apis"></a></p>
+<h3 id="testing-json-apis">Testing JSON APIs</h3>
+<p>Laravel also provides several helpers for testing JSON APIs and their responses. For example, the <code>json</code>, <code>get</code>, <code>post</code>, <code>put</code>, <code>patch</code>, and <code>delete</code> methods may be used to issue requests with various HTTP verbs. You may also easily pass data and headers to these methods. To get started, let's write a test to make a <code>POST</code> request to <code>/user</code> and assert that the expected data was returned:</p>
+<pre><code>&lt;?php
+
+class ExampleTest extends TestCase
+{
+    /**
+     * A basic functional test example.
+     *
+     * @return void
+     */
+    public function testBasicExample()
+    {
+        $this-&gt;json(&#39;POST&#39;, &#39;/user&#39;, [&#39;name&#39; =&gt; &#39;Sally&#39;])
+             -&gt;seeJson([
+                 &#39;created&#39; =&gt; true,
+             ]);
+    }
+}</code></pre>
+<blockquote>
+<p>{tip} The <code>seeJson</code> method converts the given array into JSON, and then verifies that the JSON fragment occurs <strong>anywhere</strong> within the entire JSON response returned by the application. So, if there are other properties in the JSON response, this test will still pass as long as the given fragment is present.</p>
+</blockquote>
+<p><a name="verifying-exact-match"></a></p>
+<h3 id="verifying-exact-match">Verifying Exact Match</h3>
+<p>If you would like to verify that the given array is an <strong>exact</strong> match for the JSON returned by the application, you should use the <code>seeJsonEquals</code> method:</p>
+<pre><code>&lt;?php
+
+class ExampleTest extends TestCase
+{
+    /**
+     * A basic functional test example.
+     *
+     * @return void
+     */
+    public function testBasicExample()
+    {
+        $this-&gt;json(&#39;POST&#39;, &#39;/user&#39;, [&#39;name&#39; =&gt; &#39;Sally&#39;])
+             -&gt;seeJsonEquals([
+                 &#39;created&#39; =&gt; true,
+             ]);
+    }
+}</code></pre>
+<p><a name="verifying-structural-match"></a></p>
+<h3 id="verifying-structural-match">Verifying Structural Match</h3>
+<p>It is also possible to verify that a JSON response adheres to a specific structure. In this scenario, you should use the <code>seeJsonStructure</code> method and pass it your expected JSON structure:</p>
+<pre><code>&lt;?php
+
+class ExampleTest extends TestCase
+{
+    /**
+     * A basic functional test example.
+     *
+     * @return void
+     */
+    public function testBasicExample()
+    {
+        $this-&gt;get(&#39;/user/1&#39;)
+             -&gt;seeJsonStructure([
+                 &#39;name&#39;,
+                 &#39;pet&#39; =&gt; [
+                     &#39;name&#39;, &#39;age&#39;
+                 ]
+             ]);
+    }
+}</code></pre>
+<p>The above example illustrates an expectation of receiving a <code>name</code> attribute and a nested <code>pet</code> object with its own <code>name</code> and <code>age</code> attributes. <code>seeJsonStructure</code> will not fail if additional keys are present in the response. For example, the test would still pass if the <code>pet</code> had a <code>weight</code> attribute.</p>
+<p>You may use the <code>*</code> to assert that the returned JSON structure has a list where each list item contains at least the attributes found in the set of values:</p>
+<pre><code>&lt;?php
+
+class ExampleTest extends TestCase
+{
+    /**
+     * A basic functional test example.
+     *
+     * @return void
+     */
+    public function testBasicExample()
+    {
+        // Assert that each user in the list has at least an id, name and email attribute.
+        $this-&gt;get(&#39;/users&#39;)
+             -&gt;seeJsonStructure([
+                 &#39;*&#39; =&gt; [
+                     &#39;id&#39;, &#39;name&#39;, &#39;email&#39;
+                 ]
+             ]);
+    }
+}</code></pre>
+<p>You may also nest the <code>*</code> notation. In this case, we will assert that each user in the JSON response contains a given set of attributes and that each pet on each user also contains a given set of attributes:</p>
+<pre><code>$this-&gt;get(&#39;/users&#39;)
+     -&gt;seeJsonStructure([
+         &#39;*&#39; =&gt; [
+             &#39;id&#39;, &#39;name&#39;, &#39;email&#39;, &#39;pets&#39; =&gt; [
+                 &#39;*&#39; =&gt; [
+                     &#39;name&#39;, &#39;age&#39;
+                 ]
+             ]
+         ]
+     ]);</code></pre>
+<p><a name="sessions-and-authentication"></a></p>
+<h3 id="sessions-authentication">Sessions / Authentication</h3>
+<p>Laravel provides several helpers for working with the session during testing. First, you may set the session data to a given array using the <code>withSession</code> method. This is useful for loading the session with data before issuing a request to your application:</p>
+<pre><code>&lt;?php
+
+class ExampleTest extends TestCase
+{
+    public function testApplication()
+    {
+        $this-&gt;withSession([&#39;foo&#39; =&gt; &#39;bar&#39;])
+             -&gt;visit(&#39;/&#39;);
+    }
+}</code></pre>
+<p>Of course, one common use of the session is for maintaining state for the authenticated user. The <code>actingAs</code> helper method provides a simple way to authenticate a given user as the current user. For example, we may use a <a href="/docs/%7B%7Bversion%7D%7D/database-testing#writing-factories">model factory</a> to generate and authenticate a user:</p>
+<pre><code>&lt;?php
+
+class ExampleTest extends TestCase
+{
+    public function testApplication()
+    {
+        $user = factory(App\User::class)-&gt;create();
+
+        $this-&gt;actingAs($user)
+             -&gt;withSession([&#39;foo&#39; =&gt; &#39;bar&#39;])
+             -&gt;visit(&#39;/&#39;)
+             -&gt;see(&#39;Hello, &#39;.$user-&gt;name);
+    }
+}</code></pre>
+<p>You may also specify which guard should be used to authenticate the given user by passing the guard name as the second argument to the <code>actingAs</code> method:</p>
+<pre><code>$this-&gt;actingAs($user, &#39;api&#39;)</code></pre>
+<p><a name="disabling-middleware"></a></p>
+<h3 id="disabling-middleware">Disabling Middleware</h3>
+<p>When testing your application, you may find it convenient to disable <a href="/docs/%7B%7Bversion%7D%7D/middleware">middleware</a> for some of your tests. This will allow you to test your routes and controller in isolation from any middleware concerns. Laravel includes a simple <code>WithoutMiddleware</code> trait that you can use to automatically disable all middleware for the test class:</p>
+<pre><code>&lt;?php
+
+use Illuminate\Foundation\Testing\WithoutMiddleware;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
+
+class ExampleTest extends TestCase
+{
+    use WithoutMiddleware;
+
+    //
+}</code></pre>
+<p>If you would like to only disable middleware for a few test methods, you may call the <code>withoutMiddleware</code> method from within the test methods:</p>
+<pre><code>&lt;?php
+
+class ExampleTest extends TestCase
+{
+    /**
+     * A basic functional test example.
+     *
+     * @return void
+     */
+    public function testBasicExample()
+    {
+        $this-&gt;withoutMiddleware();
+
+        $this-&gt;visit(&#39;/&#39;)
+             -&gt;see(&#39;Laravel 5&#39;);
+    }
+}</code></pre>
+<p><a name="custom-http-requests"></a></p>
+<h3 id="custom-http-requests">Custom HTTP Requests</h3>
+<p>If you would like to make a custom HTTP request into your application and get the full <code>Illuminate\Http\Response</code> object, you may use the <code>call</code> method:</p>
+<pre><code>public function testApplication()
+{
+    $response = $this-&gt;call(&#39;GET&#39;, &#39;/&#39;);
+
+    $this-&gt;assertEquals(200, $response-&gt;status());
+}</code></pre>
+<p>If you are making <code>POST</code>, <code>PUT</code>, or <code>PATCH</code> requests you may pass an array of input data with the request. Of course, this data will be available in your routes and controller via the <a href="/docs/%7B%7Bversion%7D%7D/requests">Request instance</a>:</p>
+<pre><code>   $response = $this-&gt;call(&#39;POST&#39;, &#39;/user&#39;, [&#39;name&#39; =&gt; &#39;Taylor&#39;]);</code></pre>
+<p><a name="phpunit-assertions"></a></p>
+<h3 id="phpunit-assertions">PHPUnit Assertions</h3>
+<p>Laravel provides a variety of custom assertion methods for <a href="https://phpunit.de/">PHPUnit</a> tests:</p>
+<table style="width:39%;">
+<colgroup>
+<col style="width: 19%" />
+<col style="width: 19%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Method</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>-&gt;assertResponseOk();</code></td>
+<td>Assert that the client response has an OK status code.</td>
+</tr>
+<tr class="even">
+<td><code>-&gt;assertResponseStatus($code);</code></td>
+<td>Assert that the client response has a given code.</td>
+</tr>
+<tr class="odd">
+<td><code>-&gt;assertViewHas($key, $value = null);</code></td>
+<td>Assert that the response view has a given piece of bound data.</td>
+</tr>
+<tr class="even">
+<td><code>-&gt;assertViewHasAll(array $bindings);</code></td>
+<td>Assert that the view has a given list of bound data.</td>
+</tr>
+<tr class="odd">
+<td><code>-&gt;assertViewMissing($key);</code></td>
+<td>Assert that the response view is missing a piece of bound data.</td>
+</tr>
+<tr class="even">
+<td><code>-&gt;assertRedirectedTo($uri, $with = []);</code></td>
+<td>Assert whether the client was redirected to a given URI.</td>
+</tr>
+<tr class="odd">
+<td><code>-&gt;assertRedirectedToRoute($name, $parameters = [], $with = []);</code></td>
+<td>Assert whether the client was redirected to a given route.</td>
+</tr>
+<tr class="even">
+<td><code>-&gt;assertRedirectedToAction($name, $parameters = [], $with = []);</code></td>
+<td>Assert whether the client was redirected to a given action.</td>
+</tr>
+<tr class="odd">
+<td><code>-&gt;assertSessionHas($key, $value = null);</code></td>
+<td>Assert that the session has a given value.</td>
+</tr>
+<tr class="even">
+<td><code>-&gt;assertSessionHasAll(array $bindings);</code></td>
+<td>Assert that the session has a given list of values.</td>
+</tr>
+<tr class="odd">
+<td><code>-&gt;assertSessionHasErrors($bindings = [], $format = null);</code></td>
+<td>Assert that the session has errors bound.</td>
+</tr>
+<tr class="even">
+<td><code>-&gt;assertHasOldInput();</code></td>
+<td>Assert that the session has old input.</td>
+</tr>
+<tr class="odd">
+<td><code>-&gt;assertSessionMissing($key);</code></td>
+<td>Assert that the session is missing a given key.</td>
+</tr>
+</tbody>
+</table>
+</article>
+</body>
+</html>

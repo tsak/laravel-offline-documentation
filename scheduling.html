@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>Task Scheduling – </title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <link rel="stylesheet" href="github-pandoc.css">
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  <script src="../../laravel-docs/site.js"></script>
+</head>
+<body>
+<aside><h1>Laravel 5.3 offline docs</h1><ul id="navigation">
+<li><a href="application-testing.html">Application Testing</a>
+<li><a href="artisan.html">Console Commands</a>
+<li><a href="authentication.html">Authentication</a>
+<li><a href="authorization.html">Authorization</a>
+<li><a href="billing.html">Laravel Cashier</a>
+<li><a href="blade.html">Blade Templates</a>
+<li><a href="broadcasting.html">Event Broadcasting</a>
+<li><a href="cache.html">Cache</a>
+<li><a href="collections.html">Collections</a>
+<li><a href="configuration.html">Configuration</a>
+<li><a href="container.html">Service Container</a>
+<li><a href="contracts.html">Contracts</a>
+<li><a href="contributing.html">Contribution Guidelines</a>
+<li><a href="contributions.html">Contribution Guide</a>
+<li><a href="controllers.html">Controllers</a>
+<li><a href="csrf.html">CSRF Protection</a>
+<li><a href="database-testing.html">Database Testing</a>
+<li><a href="database.html">Database: Getting Started</a>
+<li><a href="documentation.html">Prologue</a>
+<li><a href="elixir.html">Compiling Assets (Laravel Elixir)</a>
+<li><a href="eloquent-collections.html">Eloquent: Collections</a>
+<li><a href="eloquent-mutators.html">Eloquent: Mutators</a>
+<li><a href="eloquent-relationships.html">Eloquent: Relationships</a>
+<li><a href="eloquent-serialization.html">Eloquent: Serialization</a>
+<li><a href="eloquent.html">Eloquent: Getting Started</a>
+<li><a href="encryption.html">Encryption</a>
+<li><a href="envoy.html">Envoy Task Runner</a>
+<li><a href="errors.html">Errors & Logging</a>
+<li><a href="events.html">Events
+</a>
+<li><a href="facades.html">Facades</a>
+<li><a href="filesystem.html">Filesystem / Cloud Storage</a>
+<li><a href="frontend.html">JavaScript & CSS</a>
+<li><a href="hashing.html">Hashing</a>
+<li><a href="helpers.html">Helper Functions</a>
+<li><a href="homestead.html">Laravel Homestead</a>
+<li><a href="installation.html">Installation</a>
+<li><a href="lifecycle.html">Request Lifecycle</a>
+<li><a href="localization.html">Localization</a>
+<li><a href="mail.html">Mail
+</a>
+<li><a href="middleware.html">Middleware</a>
+<li><a href="migrations.html">Database: Migrations</a>
+<li><a href="mocking.html">Mocking</a>
+<li><a href="notifications.html">Notifications</a>
+<li><a href="packages.html">Package Development</a>
+<li><a href="pagination.html">Pagination</a>
+<li><a href="passport.html">API Authentication (Passport)</a>
+<li><a href="passwords.html">Resetting Passwords</a>
+<li><a href="providers.html">Service Providers</a>
+<li><a href="queries.html">Database: Query Builder</a>
+<li><a href="queues.html">Queues</a>
+<li><a href="readme.html">Laravel Documentation</a>
+<li><a href="redirects.html">HTTP Redirects</a>
+<li><a href="redis.html">Redis</a>
+<li><a href="releases.html">Release Notes</a>
+<li><a href="requests.html">HTTP Requests</a>
+<li><a href="responses.html">HTTP Responses</a>
+<li><a href="routing.html">Routing</a>
+<li><a href="scheduling.html">Task Scheduling</a>
+<li><a href="scout.html">Laravel Scout</a>
+<li><a href="seeding.html">Database: Seeding</a>
+<li><a href="session.html">HTTP Session</a>
+<li><a href="structure.html">Directory Structure</a>
+<li><a href="testing.html">Testing</a>
+<li><a href="upgrade.html">Upgrade Guide</a>
+<li><a href="valet.html">Laravel Valet</a>
+<li><a href="validation.html">Validation
+</a>
+<li><a href="views.html">Views</a>
+</ul></aside><article>
+<h1 id="task-scheduling">Task Scheduling</h1>
+<ul>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#defining-schedules">Defining Schedules</a>
+<ul>
+<li><a href="#schedule-frequency-options">Schedule Frequency Options</a></li>
+<li><a href="#preventing-task-overlaps">Preventing Task Overlaps</a></li>
+<li><a href="#maintenance-mode">Maintenance Mode</a></li>
+</ul></li>
+<li><a href="#task-output">Task Output</a></li>
+<li><a href="#task-hooks">Task Hooks</a></li>
+</ul>
+<p><a name="introduction"></a></p>
+<h2 id="introduction">Introduction</h2>
+<p>In the past, you may have generated a Cron entry for each task you needed to schedule on your server. However, this can quickly become a pain, because your task schedule is no longer in source control and you must SSH into your server to add additional Cron entries.</p>
+<p>Laravel's command scheduler allows you to fluently and expressively define your command schedule within Laravel itself. When using the scheduler, only a single Cron entry is needed on your server. Your task schedule is defined in the <code>app/Console/Kernel.php</code> file's <code>schedule</code> method. To help you get started, a simple example is defined within the method.</p>
+<h3 id="starting-the-scheduler">Starting The Scheduler</h3>
+<p>When using the scheduler, you only need to add the following Cron entry to your server. If you do not know how to add Cron entries to your server, consider using a service such as <a href="https://forge.laravel.com">Laravel Forge</a> which can manage the Cron entries for you:</p>
+<pre><code>* * * * * php /path/to/artisan schedule:run &gt;&gt; /dev/null 2&gt;&amp;1</code></pre>
+<p>This Cron will call the Laravel command scheduler every minute. When the <code>schedule:run</code> command is executed, Laravel will evaluate your scheduled tasks and runs the tasks that are due.</p>
+<p><a name="defining-schedules"></a></p>
+<h2 id="defining-schedules">Defining Schedules</h2>
+<p>You may define all of your scheduled tasks in the <code>schedule</code> method of the <code>App\Console\Kernel</code> class. To get started, let's look at an example of scheduling a task. In this example, we will schedule a <code>Closure</code> to be called every day at midnight. Within the <code>Closure</code> we will execute a database query to clear a table:</p>
+<pre><code>&lt;?php
+
+namespace App\Console;
+
+use DB;
+use Illuminate\Console\Scheduling\Schedule;
+use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+
+class Kernel extends ConsoleKernel
+{
+    /**
+     * The Artisan commands provided by your application.
+     *
+     * @var array
+     */
+    protected $commands = [
+        \App\Console\Commands\Inspire::class,
+    ];
+
+    /**
+     * Define the application&#39;s command schedule.
+     *
+     * @param  \Illuminate\Console\Scheduling\Schedule  $schedule
+     * @return void
+     */
+    protected function schedule(Schedule $schedule)
+    {
+        $schedule-&gt;call(function () {
+            DB::table(&#39;recent_users&#39;)-&gt;delete();
+        })-&gt;daily();
+    }
+}</code></pre>
+<p>In addition to scheduling <code>Closure</code> calls, you may also schedule <a href="/docs/%7B%7Bversion%7D%7D/artisan">Artisan commands</a> and operating system commands. For example, you may use the <code>command</code> method to schedule an Artisan command using either the command's name or class:</p>
+<pre><code>$schedule-&gt;command(&#39;emails:send --force&#39;)-&gt;daily();
+
+$schedule-&gt;command(EmailsCommand::class, [&#39;--force&#39;])-&gt;daily();</code></pre>
+<p>The <code>exec</code> command may be used to issue a command to the operating system:</p>
+<pre><code>$schedule-&gt;exec(&#39;node /home/forge/script.js&#39;)-&gt;daily();</code></pre>
+<p><a name="schedule-frequency-options"></a></p>
+<h3 id="schedule-frequency-options">Schedule Frequency Options</h3>
+<p>Of course, there are a variety of schedules you may assign to your task:</p>
+<table>
+<thead>
+<tr class="header">
+<th>Method</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>-&gt;cron('* * * * * *');</code></td>
+<td>Run the task on a custom Cron schedule</td>
+</tr>
+<tr class="even">
+<td><code>-&gt;everyMinute();</code></td>
+<td>Run the task every minute</td>
+</tr>
+<tr class="odd">
+<td><code>-&gt;everyFiveMinutes();</code></td>
+<td>Run the task every five minutes</td>
+</tr>
+<tr class="even">
+<td><code>-&gt;everyTenMinutes();</code></td>
+<td>Run the task every ten minutes</td>
+</tr>
+<tr class="odd">
+<td><code>-&gt;everyThirtyMinutes();</code></td>
+<td>Run the task every thirty minutes</td>
+</tr>
+<tr class="even">
+<td><code>-&gt;hourly();</code></td>
+<td>Run the task every hour</td>
+</tr>
+<tr class="odd">
+<td><code>-&gt;daily();</code></td>
+<td>Run the task every day at midnight</td>
+</tr>
+<tr class="even">
+<td><code>-&gt;dailyAt('13:00');</code></td>
+<td>Run the task every day at 13:00</td>
+</tr>
+<tr class="odd">
+<td><code>-&gt;twiceDaily(1, 13);</code></td>
+<td>Run the task daily at 1:00 &amp; 13:00</td>
+</tr>
+<tr class="even">
+<td><code>-&gt;weekly();</code></td>
+<td>Run the task every week</td>
+</tr>
+<tr class="odd">
+<td><code>-&gt;monthly();</code></td>
+<td>Run the task every month</td>
+</tr>
+<tr class="even">
+<td><code>-&gt;monthlyOn(4, '15:00');</code></td>
+<td>Run the task every month on the 4th at 15:00</td>
+</tr>
+<tr class="odd">
+<td><code>-&gt;quarterly();</code></td>
+<td>Run the task every quarter</td>
+</tr>
+<tr class="even">
+<td><code>-&gt;yearly();</code></td>
+<td>Run the task every year</td>
+</tr>
+<tr class="odd">
+<td><code>-&gt;timezone('America/New_York');</code></td>
+<td>Set the timezone</td>
+</tr>
+</tbody>
+</table>
+<p>These methods may be combined with additional constraints to create even more finely tuned schedules that only run on certain days of the week. For example, to schedule a command to run weekly on Monday:</p>
+<pre><code>// Run once per week on Monday at 1 PM...
+$schedule-&gt;call(function () {
+    //
+})-&gt;weekly()-&gt;mondays()-&gt;at(&#39;13:00&#39;);
+
+// Run hourly from 8 AM to 5 PM on weekdays...
+$schedule-&gt;command(&#39;foo&#39;)
+          -&gt;weekdays()
+          -&gt;hourly()
+          -&gt;timezone(&#39;America/Chicago&#39;)
+          -&gt;between(&#39;8:00&#39;, &#39;17:00&#39;);</code></pre>
+<p>Below is a list of the additional schedule constraints:</p>
+<table style="width:39%;">
+<colgroup>
+<col style="width: 19%" />
+<col style="width: 19%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Method</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>-&gt;weekdays();</code></td>
+<td>Limit the task to weekdays</td>
+</tr>
+<tr class="even">
+<td><code>-&gt;sundays();</code></td>
+<td>Limit the task to Sunday</td>
+</tr>
+<tr class="odd">
+<td><code>-&gt;mondays();</code></td>
+<td>Limit the task to Monday</td>
+</tr>
+<tr class="even">
+<td><code>-&gt;tuesdays();</code></td>
+<td>Limit the task to Tuesday</td>
+</tr>
+<tr class="odd">
+<td><code>-&gt;wednesdays();</code></td>
+<td>Limit the task to Wednesday</td>
+</tr>
+<tr class="even">
+<td><code>-&gt;thursdays();</code></td>
+<td>Limit the task to Thursday</td>
+</tr>
+<tr class="odd">
+<td><code>-&gt;fridays();</code></td>
+<td>Limit the task to Friday</td>
+</tr>
+<tr class="even">
+<td><code>-&gt;saturdays();</code></td>
+<td>Limit the task to Saturday</td>
+</tr>
+<tr class="odd">
+<td><code>-&gt;between($start, $end);</code></td>
+<td>Limit the task to run between start and end times</td>
+</tr>
+<tr class="even">
+<td><code>-&gt;when(Closure);</code></td>
+<td>Limit the task based on a truth test</td>
+</tr>
+</tbody>
+</table>
+<h4 id="between-time-constraints">Between Time Constraints</h4>
+<p>The <code>between</code> method may be used to limit the execution of a task based on the time of day:</p>
+<pre><code>$schedule-&gt;command(&#39;reminders:send&#39;)
+                    -&gt;hourly()
+                    -&gt;between(&#39;7:00&#39;, &#39;22:00&#39;);</code></pre>
+<p>Similarly, the <code>unlessBetween</code> method can be used to exclude the execution of a task for a period of time:</p>
+<pre><code>$schedule-&gt;command(&#39;reminders:send&#39;)
+                    -&gt;hourly()
+                    -&gt;unlessBetween(&#39;23:00&#39;, &#39;4:00&#39;);</code></pre>
+<h4 id="truth-test-constraints">Truth Test Constraints</h4>
+<p>The <code>when</code> method may be used to limit the execution of a task based on the result of a given truth test. In other words, if the given <code>Closure</code> returns <code>true</code>, the task will execute as long as no other constraining conditions prevent the task from running:</p>
+<pre><code>$schedule-&gt;command(&#39;emails:send&#39;)-&gt;daily()-&gt;when(function () {
+    return true;
+});</code></pre>
+<p>The <code>skip</code> method may be seen as the inverse of <code>when</code>. If the <code>skip</code> method returns <code>true</code>, the scheduled task will not be executed:</p>
+<pre><code>$schedule-&gt;command(&#39;emails:send&#39;)-&gt;daily()-&gt;skip(function () {
+    return true;
+});</code></pre>
+<p>When using chained <code>when</code> methods, the scheduled command will only execute if all <code>when</code> conditions return <code>true</code>.</p>
+<p><a name="preventing-task-overlaps"></a></p>
+<h3 id="preventing-task-overlaps">Preventing Task Overlaps</h3>
+<p>By default, scheduled tasks will be run even if the previous instance of the task is still running. To prevent this, you may use the <code>withoutOverlapping</code> method:</p>
+<pre><code>$schedule-&gt;command(&#39;emails:send&#39;)-&gt;withoutOverlapping();</code></pre>
+<p>In this example, the <code>emails:send</code> <a href="/docs/%7B%7Bversion%7D%7D/artisan">Artisan command</a> will be run every minute if it is not already running. The <code>withoutOverlapping</code> method is especially useful if you have tasks that vary drastically in their execution time, preventing you from predicting exactly how long a given task will take.</p>
+<p><a name="maintenance-mode"></a></p>
+<h3 id="maintenance-mode">Maintenance Mode</h3>
+<p>Laravel's scheduled tasks will not run when Laravel is in <a href="/docs/%7B%7Bversion%7D%7D/configuration#maintenance-mode">maintenance mode</a>, since we don't want your tasks to interfere with any unfinished maintenance you may be performing on your server. However, if you would like to force a task to run even in maintenance mode, you may use the <code>evenInMaintenanceMode</code> method:</p>
+<pre><code>$schedule-&gt;command(&#39;emails:send&#39;)-&gt;evenInMaintenanceMode();</code></pre>
+<p><a name="task-output"></a></p>
+<h2 id="task-output">Task Output</h2>
+<p>The Laravel scheduler provides several convenient methods for working with the output generated by scheduled tasks. First, using the <code>sendOutputTo</code> method, you may send the output to a file for later inspection:</p>
+<pre><code>$schedule-&gt;command(&#39;emails:send&#39;)
+         -&gt;daily()
+         -&gt;sendOutputTo($filePath);</code></pre>
+<p>If you would like to append the output to a given file, you may use the <code>appendOutputTo</code> method:</p>
+<pre><code>$schedule-&gt;command(&#39;emails:send&#39;)
+         -&gt;daily()
+         -&gt;appendOutputTo($filePath);</code></pre>
+<p>Using the <code>emailOutputTo</code> method, you may e-mail the output to an e-mail address of your choice. Note that the output must first be sent to a file using the <code>sendOutputTo</code> method. Before e-mailing the output of a task, you should configure Laravel's <a href="/docs/%7B%7Bversion%7D%7D/mail">e-mail services</a>:</p>
+<pre><code>$schedule-&gt;command(&#39;foo&#39;)
+         -&gt;daily()
+         -&gt;sendOutputTo($filePath)
+         -&gt;emailOutputTo(&#39;foo@example.com&#39;);</code></pre>
+<blockquote>
+<p>{note} The <code>emailOutputTo</code>, <code>sendOutputTo</code> and <code>appendOutputTo</code> methods are exclusive to the <code>command</code> method and are not supported for <code>call</code>.</p>
+</blockquote>
+<p><a name="task-hooks"></a></p>
+<h2 id="task-hooks">Task Hooks</h2>
+<p>Using the <code>before</code> and <code>after</code> methods, you may specify code to be executed before and after the scheduled task is complete:</p>
+<pre><code>$schedule-&gt;command(&#39;emails:send&#39;)
+         -&gt;daily()
+         -&gt;before(function () {
+             // Task is about to start...
+         })
+         -&gt;after(function () {
+             // Task is complete...
+         });</code></pre>
+<h4 id="pinging-urls">Pinging URLs</h4>
+<p>Using the <code>pingBefore</code> and <code>thenPing</code> methods, the scheduler can automatically ping a given URL before or after a task is complete. This method is useful for notifying an external service, such as <a href="https://envoyer.io">Laravel Envoyer</a>, that your scheduled task is commencing or has finished execution:</p>
+<pre><code>$schedule-&gt;command(&#39;emails:send&#39;)
+         -&gt;daily()
+         -&gt;pingBefore($url)
+         -&gt;thenPing($url);</code></pre>
+<p>Using either the <code>pingBefore($url)</code> or <code>thenPing($url)</code> feature requires the Guzzle HTTP library. You can add Guzzle to your project using the Composer package manager:</p>
+<pre><code>composer require guzzlehttp/guzzle</code></pre>
+</article>
+</body>
+</html>

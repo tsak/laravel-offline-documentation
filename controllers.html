@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>Controllers – </title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <link rel="stylesheet" href="github-pandoc.css">
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  <script src="../../laravel-docs/site.js"></script>
+</head>
+<body>
+<aside><h1>Laravel 5.3 offline docs</h1><ul id="navigation">
+<li><a href="application-testing.html">Application Testing</a>
+<li><a href="artisan.html">Console Commands</a>
+<li><a href="authentication.html">Authentication</a>
+<li><a href="authorization.html">Authorization</a>
+<li><a href="billing.html">Laravel Cashier</a>
+<li><a href="blade.html">Blade Templates</a>
+<li><a href="broadcasting.html">Event Broadcasting</a>
+<li><a href="cache.html">Cache</a>
+<li><a href="collections.html">Collections</a>
+<li><a href="configuration.html">Configuration</a>
+<li><a href="container.html">Service Container</a>
+<li><a href="contracts.html">Contracts</a>
+<li><a href="contributing.html">Contribution Guidelines</a>
+<li><a href="contributions.html">Contribution Guide</a>
+<li><a href="controllers.html">Controllers</a>
+<li><a href="csrf.html">CSRF Protection</a>
+<li><a href="database-testing.html">Database Testing</a>
+<li><a href="database.html">Database: Getting Started</a>
+<li><a href="documentation.html">Prologue</a>
+<li><a href="elixir.html">Compiling Assets (Laravel Elixir)</a>
+<li><a href="eloquent-collections.html">Eloquent: Collections</a>
+<li><a href="eloquent-mutators.html">Eloquent: Mutators</a>
+<li><a href="eloquent-relationships.html">Eloquent: Relationships</a>
+<li><a href="eloquent-serialization.html">Eloquent: Serialization</a>
+<li><a href="eloquent.html">Eloquent: Getting Started</a>
+<li><a href="encryption.html">Encryption</a>
+<li><a href="envoy.html">Envoy Task Runner</a>
+<li><a href="errors.html">Errors & Logging</a>
+<li><a href="events.html">Events
+</a>
+<li><a href="facades.html">Facades</a>
+<li><a href="filesystem.html">Filesystem / Cloud Storage</a>
+<li><a href="frontend.html">JavaScript & CSS</a>
+<li><a href="hashing.html">Hashing</a>
+<li><a href="helpers.html">Helper Functions</a>
+<li><a href="homestead.html">Laravel Homestead</a>
+<li><a href="installation.html">Installation</a>
+<li><a href="lifecycle.html">Request Lifecycle</a>
+<li><a href="localization.html">Localization</a>
+<li><a href="mail.html">Mail
+</a>
+<li><a href="middleware.html">Middleware</a>
+<li><a href="migrations.html">Database: Migrations</a>
+<li><a href="mocking.html">Mocking</a>
+<li><a href="notifications.html">Notifications</a>
+<li><a href="packages.html">Package Development</a>
+<li><a href="pagination.html">Pagination</a>
+<li><a href="passport.html">API Authentication (Passport)</a>
+<li><a href="passwords.html">Resetting Passwords</a>
+<li><a href="providers.html">Service Providers</a>
+<li><a href="queries.html">Database: Query Builder</a>
+<li><a href="queues.html">Queues</a>
+<li><a href="readme.html">Laravel Documentation</a>
+<li><a href="redirects.html">HTTP Redirects</a>
+<li><a href="redis.html">Redis</a>
+<li><a href="releases.html">Release Notes</a>
+<li><a href="requests.html">HTTP Requests</a>
+<li><a href="responses.html">HTTP Responses</a>
+<li><a href="routing.html">Routing</a>
+<li><a href="scheduling.html">Task Scheduling</a>
+<li><a href="scout.html">Laravel Scout</a>
+<li><a href="seeding.html">Database: Seeding</a>
+<li><a href="session.html">HTTP Session</a>
+<li><a href="structure.html">Directory Structure</a>
+<li><a href="testing.html">Testing</a>
+<li><a href="upgrade.html">Upgrade Guide</a>
+<li><a href="valet.html">Laravel Valet</a>
+<li><a href="validation.html">Validation
+</a>
+<li><a href="views.html">Views</a>
+</ul></aside><article>
+<h1 id="controllers">Controllers</h1>
+<ul>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#basic-controllers">Basic Controllers</a>
+<ul>
+<li><a href="#defining-controllers">Defining Controllers</a></li>
+<li><a href="#controllers-and-namespaces">Controllers &amp; Namespaces</a></li>
+<li><a href="#single-action-controllers">Single Action Controllers</a></li>
+</ul></li>
+<li><a href="#controller-middleware">Controller Middleware</a></li>
+<li><a href="#resource-controllers">Resource Controllers</a>
+<ul>
+<li><a href="#restful-partial-resource-routes">Partial Resource Routes</a></li>
+<li><a href="#restful-naming-resource-routes">Naming Resource Routes</a></li>
+<li><a href="#restful-naming-resource-route-parameters">Naming Resource Route Parameters</a></li>
+<li><a href="#restful-supplementing-resource-controllers">Supplementing Resource Controllers</a></li>
+</ul></li>
+<li><a href="#dependency-injection-and-controllers">Dependency Injection &amp; Controllers</a></li>
+<li><a href="#route-caching">Route Caching</a></li>
+</ul>
+<p><a name="introduction"></a></p>
+<h2 id="introduction">Introduction</h2>
+<p>Instead of defining all of your request handling logic as Closures in route files, you may wish to organize this behavior using Controller classes. Controllers can group related request handling logic into a single class. Controllers are stored in the <code>app/Http/Controllers</code> directory.</p>
+<p><a name="basic-controllers"></a></p>
+<h2 id="basic-controllers">Basic Controllers</h2>
+<p><a name="defining-controllers"></a></p>
+<h3 id="defining-controllers">Defining Controllers</h3>
+<p>Below is an example of a basic controller class. Note that the controller extends the base controller class included with Laravel. The base class provides a few convenience methods such as the <code>middleware</code> method, which may be used to attach middleware to controller actions:</p>
+<pre><code>&lt;?php
+
+namespace App\Http\Controllers;
+
+use App\User;
+use App\Http\Controllers\Controller;
+
+class UserController extends Controller
+{
+    /**
+     * Show the profile for the given user.
+     *
+     * @param  int  $id
+     * @return Response
+     */
+    public function show($id)
+    {
+        return view(&#39;user.profile&#39;, [&#39;user&#39; =&gt; User::findOrFail($id)]);
+    }
+}</code></pre>
+<p>You can define a route to this controller action like so:</p>
+<pre><code>Route::get(&#39;user/{id}&#39;, &#39;UserController@show&#39;);</code></pre>
+<p>Now, when a request matches the specified route URI, the <code>show</code> method on the <code>UserController</code> class will be executed. Of course, the route parameters will also be passed to the method.</p>
+<blockquote>
+<p>{tip} Controllers are not <strong>required</strong> to extend a base class. However, you will not have access to convenience features such as the <code>middleware</code>, <code>validate</code>, and <code>dispatch</code> methods.</p>
+</blockquote>
+<p><a name="controllers-and-namespaces"></a></p>
+<h3 id="controllers-namespaces">Controllers &amp; Namespaces</h3>
+<p>It is very important to note that we did not need to specify the full controller namespace when defining the controller route. Since the <code>RouteServiceProvider</code> loads your route files within a route group that contains the namespace, we only specified the portion of the class name that comes after the <code>App\Http\Controllers</code> portion of the namespace.</p>
+<p>If you choose to nest your controllers deeper into the <code>App\Http\Controllers</code> directory, simply use the specific class name relative to the <code>App\Http\Controllers</code> root namespace. So, if your full controller class is <code>App\Http\Controllers\Photos\AdminController</code>, you should register routes to the controller like so:</p>
+<pre><code>Route::get(&#39;foo&#39;, &#39;Photos\AdminController@method&#39;);</code></pre>
+<p><a name="single-action-controllers"></a></p>
+<h3 id="single-action-controllers">Single Action Controllers</h3>
+<p>If you would like to define a controller that only handles a single action, you may place a single <code>__invoke</code> method on the controller:</p>
+<pre><code>&lt;?php
+
+namespace App\Http\Controllers;
+
+use App\User;
+use App\Http\Controllers\Controller;
+
+class ShowProfile extends Controller
+{
+    /**
+     * Show the profile for the given user.
+     *
+     * @param  int  $id
+     * @return Response
+     */
+    public function __invoke($id)
+    {
+        return view(&#39;user.profile&#39;, [&#39;user&#39; =&gt; User::findOrFail($id)]);
+    }
+}</code></pre>
+<p>When registering routes for single action controllers, you do not need to specify a method:</p>
+<pre><code>Route::get(&#39;user/{id}&#39;, &#39;ShowProfile&#39;);</code></pre>
+<p><a name="controller-middleware"></a></p>
+<h2 id="controller-middleware">Controller Middleware</h2>
+<p><a href="/docs/%7B%7Bversion%7D%7D/middleware">Middleware</a> may be assigned to the controller's routes in your route files:</p>
+<pre><code>Route::get(&#39;profile&#39;, &#39;UserController@show&#39;)-&gt;middleware(&#39;auth&#39;);</code></pre>
+<p>However, it is more convenient to specify middleware within your controller's constructor. Using the <code>middleware</code> method from your controller's constructor, you may easily assign middleware to the controller's action. You may even restrict the middleware to only certain methods on the controller class:</p>
+<pre><code>class UserController extends Controller
+{
+    /**
+     * Instantiate a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this-&gt;middleware(&#39;auth&#39;);
+
+        $this-&gt;middleware(&#39;log&#39;)-&gt;only(&#39;index&#39;);
+
+        $this-&gt;middleware(&#39;subscribed&#39;)-&gt;except(&#39;store&#39;);
+    }
+}</code></pre>
+<p>Controller's also allow you to register middleware using a Closure. This provides a convenient way to define a middleware for a single controller without defining an entire middleware class:</p>
+<pre><code>$this-&gt;middleware(function ($request, $next) {
+    // ...
+
+    return $next($request);
+});</code></pre>
+<blockquote>
+<p>{tip} You may assign middleware to a subset of controller actions; however, it may indicate your controller is growing too large. Instead, consider breaking your controller into multiple, smaller controllers.</p>
+</blockquote>
+<p><a name="resource-controllers"></a></p>
+<h2 id="resource-controllers">Resource Controllers</h2>
+<p>Laravel resource routing assigns the typical &quot;CRUD&quot; routes to a controller with a single line of code. For example, you may wish to create a controller that handles all HTTP requests for &quot;photos&quot; stored by your application. Using the <code>make:controller</code> Artisan command, we can quickly create such a controller:</p>
+<pre><code>php artisan make:controller PhotoController --resource</code></pre>
+<p>This command will generate a controller at <code>app/Http/Controllers/PhotoController.php</code>. The controller will contain a method for each of the available resource operations.</p>
+<p>Next, you may register a resourceful route to the controller:</p>
+<pre><code>Route::resource(&#39;photos&#39;, &#39;PhotoController&#39;);</code></pre>
+<p>This single route declaration creates multiple routes to handle a variety of actions on the resource. The generated controller will already have methods stubbed for each of these actions, including notes informing you of the HTTP verbs and URIs they handle.</p>
+<h4 id="actions-handled-by-resource-controller">Actions Handled By Resource Controller</h4>
+<table>
+<thead>
+<tr class="header">
+<th>Verb</th>
+<th>URI</th>
+<th>Action</th>
+<th>Route Name</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>GET</td>
+<td><code>/photos</code></td>
+<td>index</td>
+<td>photos.index</td>
+</tr>
+<tr class="even">
+<td>GET</td>
+<td><code>/photos/create</code></td>
+<td>create</td>
+<td>photos.create</td>
+</tr>
+<tr class="odd">
+<td>POST</td>
+<td><code>/photos</code></td>
+<td>store</td>
+<td>photos.store</td>
+</tr>
+<tr class="even">
+<td>GET</td>
+<td><code>/photos/{photo}</code></td>
+<td>show</td>
+<td>photos.show</td>
+</tr>
+<tr class="odd">
+<td>GET</td>
+<td><code>/photos/{photo}/edit</code></td>
+<td>edit</td>
+<td>photos.edit</td>
+</tr>
+<tr class="even">
+<td>PUT/PATCH</td>
+<td><code>/photos/{photo}</code></td>
+<td>update</td>
+<td>photos.update</td>
+</tr>
+<tr class="odd">
+<td>DELETE</td>
+<td><code>/photos/{photo}</code></td>
+<td>destroy</td>
+<td>photos.destroy</td>
+</tr>
+</tbody>
+</table>
+<h4 id="spoofing-form-methods">Spoofing Form Methods</h4>
+<p>Since HTML forms can't make <code>PUT</code>, <code>PATCH</code>, or <code>DELETE</code> requests, you will need to add a hidden <code>_method</code> field to spoof these HTTP verbs. The <code>method_field</code> helper can create this field for you:</p>
+<pre><code>{{ method_field(&#39;PUT&#39;) }}</code></pre>
+<p><a name="restful-partial-resource-routes"></a></p>
+<h3 id="partial-resource-routes">Partial Resource Routes</h3>
+<p>When declaring a resource route, you may specify a subset of actions the controller should handle instead of the full set of default actions:</p>
+<pre><code>Route::resource(&#39;photo&#39;, &#39;PhotoController&#39;, [&#39;only&#39; =&gt; [
+    &#39;index&#39;, &#39;show&#39;
+]]);
+
+Route::resource(&#39;photo&#39;, &#39;PhotoController&#39;, [&#39;except&#39; =&gt; [
+    &#39;create&#39;, &#39;store&#39;, &#39;update&#39;, &#39;destroy&#39;
+]]);</code></pre>
+<p><a name="restful-naming-resource-routes"></a></p>
+<h3 id="naming-resource-routes">Naming Resource Routes</h3>
+<p>By default, all resource controller actions have a route name; however, you can override these names by passing a <code>names</code> array with your options:</p>
+<pre><code>Route::resource(&#39;photo&#39;, &#39;PhotoController&#39;, [&#39;names&#39; =&gt; [
+    &#39;create&#39; =&gt; &#39;photo.build&#39;
+]]);</code></pre>
+<p><a name="restful-naming-resource-route-parameters"></a></p>
+<h3 id="naming-resource-route-parameters">Naming Resource Route Parameters</h3>
+<p>By default, <code>Route::resource</code> will create the route parameters for your resource routes based on the &quot;singularized&quot; version of the resource name. You can easily override this on a per resource basis by passing <code>parameters</code> in the options array. The <code>parameters</code> array should be an associative array of resource names and parameter names:</p>
+<pre><code>Route::resource(&#39;user&#39;, &#39;AdminUserController&#39;, [&#39;parameters&#39; =&gt; [
+    &#39;user&#39; =&gt; &#39;admin_user&#39;
+]]);</code></pre>
+<p>The example above generates the following URIs for the resource's <code>show</code> route:</p>
+<pre><code>/user/{admin_user}</code></pre>
+<p><a name="restful-supplementing-resource-controllers"></a></p>
+<h3 id="supplementing-resource-controllers">Supplementing Resource Controllers</h3>
+<p>If you need to add additional routes to a resource controller beyond the default set of resource routes, you should define those routes before your call to <code>Route::resource</code>; otherwise, the routes defined by the <code>resource</code> method may unintentionally take precedence over your supplemental routes:</p>
+<pre><code>Route::get(&#39;photos/popular&#39;, &#39;PhotoController@method&#39;);
+
+Route::resource(&#39;photos&#39;, &#39;PhotoController&#39;);</code></pre>
+<blockquote>
+<p>{tip} Remember to keep your controllers focused. If you find yourself routinely needing methods outside of the typical set of resource actions, consider splitting your controller into two, smaller controllers.</p>
+</blockquote>
+<p><a name="dependency-injection-and-controllers"></a></p>
+<h2 id="dependency-injection-controllers">Dependency Injection &amp; Controllers</h2>
+<h4 id="constructor-injection">Constructor Injection</h4>
+<p>The Laravel <a href="/docs/%7B%7Bversion%7D%7D/container">service container</a> is used to resolve all Laravel controllers. As a result, you are able to type-hint any dependencies your controller may need in its constructor. The declared dependencies will automatically be resolved and injected into the controller instance:</p>
+<pre><code>&lt;?php
+
+namespace App\Http\Controllers;
+
+use App\Repositories\UserRepository;
+
+class UserController extends Controller
+{
+    /**
+     * The user repository instance.
+     */
+    protected $users;
+
+    /**
+     * Create a new controller instance.
+     *
+     * @param  UserRepository  $users
+     * @return void
+     */
+    public function __construct(UserRepository $users)
+    {
+        $this-&gt;users = $users;
+    }
+}</code></pre>
+<p>Of course, you may also type-hint any <a href="/docs/%7B%7Bversion%7D%7D/contracts">Laravel contract</a>. If the container can resolve it, you can type-hint it. Depending on your application, injecting your dependencies into your controller may provide better testability.</p>
+<h4 id="method-injection">Method Injection</h4>
+<p>In addition to constructor injection, you may also type-hint dependencies on your controller's methods. A common use-case for method injection is injecting the <code>Illuminate\Http\Request</code> instance into your controller methods:</p>
+<pre><code>&lt;?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+
+class UserController extends Controller
+{
+    /**
+     * Store a new user.
+     *
+     * @param  Request  $request
+     * @return Response
+     */
+    public function store(Request $request)
+    {
+        $name = $request-&gt;name;
+
+        //
+    }
+}</code></pre>
+<p>If your controller method is also expecting input from a route parameter, simply list your route arguments after your other dependencies. For example, if your route is defined like so:</p>
+<pre><code>Route::put(&#39;user/{id}&#39;, &#39;UserController@update&#39;);</code></pre>
+<p>You may still type-hint the <code>Illuminate\Http\Request</code> and access your <code>id</code> parameter by defining your controller method as follows:</p>
+<pre><code>&lt;?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+
+class UserController extends Controller
+{
+    /**
+     * Update the given user.
+     *
+     * @param  Request  $request
+     * @param  string  $id
+     * @return Response
+     */
+    public function update(Request $request, $id)
+    {
+        //
+    }
+}</code></pre>
+<p><a name="route-caching"></a></p>
+<h2 id="route-caching">Route Caching</h2>
+<blockquote>
+<p>{note} Closure based routes cannot be cached. To use route caching, you must convert any Closure routes to controller classes.</p>
+</blockquote>
+<p>If your application is exclusively using controller based routes, you should take advantage of Laravel's route cache. Using the route cache will drastically decrease the amount of time it takes to register all of your application's routes. In some cases, your route registration may even be up to 100x faster. To generate a route cache, just execute the <code>route:cache</code> Artisan command:</p>
+<pre><code>php artisan route:cache</code></pre>
+<p>After running this command, your cached routes file will be loaded on every request. Remember, if you add any new routes you will need to generate a fresh route cache. Because of this, you should only run the <code>route:cache</code> command during your project's deployment.</p>
+<p>You may use the <code>route:clear</code> command to clear the route cache:</p>
+<pre><code>php artisan route:clear</code></pre>
+</article>
+</body>
+</html>
