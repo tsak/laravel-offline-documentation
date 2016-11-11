@@ -13,14 +13,12 @@
   <script src="../../laravel-docs/site.js"></script>
 </head>
 <body>
-<aside><h1>Laravel 5.3 offline docs</h1><ul id="navigation">
-<li><a href="application-testing.html">Application Testing</a>
-<li><a href="artisan.html">Console Commands</a>
+<aside><h1>Laravel 5.2 offline docs</h1><ul id="navigation">
+<li><a href="artisan.html">Artisan Console</a>
 <li><a href="authentication.html">Authentication</a>
 <li><a href="authorization.html">Authorization</a>
 <li><a href="billing.html">Laravel Cashier</a>
 <li><a href="blade.html">Blade Templates</a>
-<li><a href="broadcasting.html">Event Broadcasting</a>
 <li><a href="cache.html">Cache</a>
 <li><a href="collections.html">Collections</a>
 <li><a href="configuration.html">Configuration</a>
@@ -28,12 +26,10 @@
 <li><a href="contracts.html">Contracts</a>
 <li><a href="contributing.html">Contribution Guidelines</a>
 <li><a href="contributions.html">Contribution Guide</a>
-<li><a href="controllers.html">Controllers</a>
-<li><a href="csrf.html">CSRF Protection</a>
-<li><a href="database-testing.html">Database Testing</a>
+<li><a href="controllers.html">HTTP Controllers</a>
 <li><a href="database.html">Database: Getting Started</a>
 <li><a href="documentation.html">Prologue</a>
-<li><a href="elixir.html">Compiling Assets (Laravel Elixir)</a>
+<li><a href="elixir.html">Laravel Elixir</a>
 <li><a href="eloquent-collections.html">Eloquent: Collections</a>
 <li><a href="eloquent-mutators.html">Eloquent: Mutators</a>
 <li><a href="eloquent-relationships.html">Eloquent: Relationships</a>
@@ -46,7 +42,6 @@
 </a>
 <li><a href="facades.html">Facades</a>
 <li><a href="filesystem.html">Filesystem / Cloud Storage</a>
-<li><a href="frontend.html">JavaScript & CSS</a>
 <li><a href="hashing.html">Hashing</a>
 <li><a href="helpers.html">Helper Functions</a>
 <li><a href="homestead.html">Laravel Homestead</a>
@@ -55,29 +50,25 @@
 <li><a href="localization.html">Localization</a>
 <li><a href="mail.html">Mail
 </a>
-<li><a href="middleware.html">Middleware</a>
+<li><a href="middleware.html">HTTP Middleware</a>
 <li><a href="migrations.html">Database: Migrations</a>
-<li><a href="mocking.html">Mocking</a>
-<li><a href="notifications.html">Notifications</a>
 <li><a href="packages.html">Package Development</a>
 <li><a href="pagination.html">Pagination</a>
-<li><a href="passport.html">API Authentication (Passport)</a>
-<li><a href="passwords.html">Resetting Passwords</a>
 <li><a href="providers.html">Service Providers</a>
 <li><a href="queries.html">Database: Query Builder</a>
 <li><a href="queues.html">Queues</a>
+<li><a href="quickstart-intermediate.html">Intermediate Task List</a>
+<li><a href="quickstart.html">Basic Task List</a>
 <li><a href="readme.html">Laravel Documentation</a>
-<li><a href="redirects.html">HTTP Redirects</a>
 <li><a href="redis.html">Redis</a>
 <li><a href="releases.html">Release Notes</a>
 <li><a href="requests.html">HTTP Requests</a>
 <li><a href="responses.html">HTTP Responses</a>
-<li><a href="routing.html">Routing</a>
+<li><a href="routing.html">HTTP Routing</a>
 <li><a href="scheduling.html">Task Scheduling</a>
-<li><a href="scout.html">Laravel Scout</a>
 <li><a href="seeding.html">Database: Seeding</a>
-<li><a href="session.html">HTTP Session</a>
-<li><a href="structure.html">Directory Structure</a>
+<li><a href="session.html">Session</a>
+<li><a href="structure.html">Application Structure</a>
 <li><a href="testing.html">Testing</a>
 <li><a href="upgrade.html">Upgrade Guide</a>
 <li><a href="valet.html">Laravel Valet</a>
@@ -92,7 +83,7 @@
 </ul>
 <p><a name="introduction"></a></p>
 <h2 id="introduction">Introduction</h2>
-<p>Laravel includes a variety of global &quot;helper&quot; PHP functions. Many of these functions are used by the framework itself; however, you are free to use them in your own applications if you find them convenient.</p>
+<p>Laravel includes a variety of &quot;helper&quot; PHP functions. Many of these functions are used by the framework itself; however, you are free to use them in your own applications if you find them convenient.</p>
 <p><a name="available-methods"></a></p>
 <h2 id="available-methods">Available Methods</h2>
 <style>
@@ -118,7 +109,6 @@
 [array_forget](#method-array-forget)
 [array_get](#method-array-get)
 [array_has](#method-array-has)
-[array_last](#method-array-last)
 [array_only](#method-array-only)
 [array_pluck](#method-array-pluck)
 [array_prepend](#method-array-prepend)
@@ -161,7 +151,6 @@
 [str_singular](#method-str-singular)
 [str_slug](#method-str-slug)
 [studly_case](#method-studly-case)
-[title_case](#method-title-case)
 [trans](#method-trans)
 [trans_choice](#method-trans-choice)
 
@@ -173,20 +162,15 @@
 [asset](#method-asset)
 [secure_asset](#method-secure-asset)
 [route](#method-route)
-[secure_url](#method-secure-url)
 [url](#method-url)
 
 </div>
 <h3 id="miscellaneous">Miscellaneous</h3>
 <div class="collection-method-list" markdown="1">
 
-[abort](#method-abort)
-[abort_if](#method-abort-if)
-[abort_unless](#method-abort-unless)
 [auth](#method-auth)
 [back](#method-back)
 [bcrypt](#method-bcrypt)
-[cache](#method-cache)
 [collect](#method-collect)
 [config](#method-config)
 [csrf_field](#method-csrf-field)
@@ -196,8 +180,6 @@
 [env](#method-env)
 [event](#method-event)
 [factory](#method-factory)
-[info](#method-info)
-[logger](#method-logger)
 [method_field](#method-method-field)
 [old](#method-old)
 [redirect](#method-redirect)
@@ -206,6 +188,7 @@
 [session](#method-session)
 [value](#method-value)
 [view](#method-view)
+[with](#method-with)
 
 </div>
 <p><a name="method-listing"></a></p>
@@ -260,7 +243,7 @@ $array = array_except($array, [&#39;price&#39;]);
 <p>The <code>array_first</code> function returns the first element of an array passing a given truth test:</p>
 <pre><code>$array = [100, 200, 300];
 
-$value = array_first($array, function ($value, $key) {
+$value = array_first($array, function ($key, $value) {
     return $value &gt;= 150;
 });
 
@@ -295,26 +278,12 @@ $value = array_get($array, &#39;products.desk&#39;);
 <pre><code>$value = array_get($array, &#39;names.john&#39;, &#39;default&#39;);</code></pre>
 <p><a name="method-array-has"></a></p>
 <h4 id="array_has-collection-method"><code>array_has()</code> {#collection-method}</h4>
-<p>The <code>array_has</code> function checks that a given item or items exists in an array using &quot;dot&quot; notation:</p>
-<pre><code>$array = [&#39;product&#39; =&gt; [&#39;name&#39; =&gt; &#39;desk&#39;, &#39;price&#39; =&gt; 100]];
+<p>The <code>array_has</code> function checks that a given item exists in an array using &quot;dot&quot; notation:</p>
+<pre><code>$array = [&#39;products&#39; =&gt; [&#39;desk&#39; =&gt; [&#39;price&#39; =&gt; 100]]];
 
-$hasItem = array_has($array, &#39;product.name&#39;);
+$hasDesk = array_has($array, &#39;products.desk&#39;);
 
-// true
-
-$hasItems = array_has($array, [&#39;product.price&#39;, &#39;product.discount&#39;]);
-
-// false</code></pre>
-<p><a name="method-array-last"></a></p>
-<h4 id="array_last-collection-method"><code>array_last()</code> {#collection-method}</h4>
-<p>The <code>array_last</code> function returns the last element of an array passing a given truth test:</p>
-<pre><code>$array = [100, 200, 300, 110];
-
-$value = array_last($array, function ($value, $key) {
-    return $value &gt;= 150;
-});
-
-// 300</code></pre>
+// true</code></pre>
 <p><a name="method-array-only"></a></p>
 <h4 id="array_only-collection-method"><code>array_only()</code> {#collection-method}</h4>
 <p>The <code>array_only</code> function will return only the specified key / value pairs from the given array:</p>
@@ -419,7 +388,7 @@ $array = array_sort_recursive($array);
 <p>The <code>array_where</code> function filters the array using the given Closure:</p>
 <pre><code>$array = [100, &#39;200&#39;, 300, &#39;400&#39;, 500];
 
-$array = array_where($array, function ($value, $key) {
+$array = array_where($array, function ($key, $value) {
     return is_string($value);
 });
 
@@ -444,16 +413,16 @@ $last = last($array);
 <h2 id="paths-1">Paths</h2>
 <p><a name="method-app-path"></a></p>
 <h4 id="app_path-collection-method"><code>app_path()</code> {#collection-method}</h4>
-<p>The <code>app_path</code> function returns the fully qualified path to the <code>app</code> directory. You may also use the <code>app_path</code> function to generate a fully qualified path to a file relative to the application directory:</p>
-<pre><code>$path = app_path();
-
-$path = app_path(&#39;Http/Controllers/Controller.php&#39;);</code></pre>
+<p>The <code>app_path</code> function returns the fully qualified path to the <code>app</code> directory:</p>
+<pre><code>$path = app_path();</code></pre>
+<p>You may also use the <code>app_path</code> function to generate a fully qualified path to a given file relative to the application directory:</p>
+<pre><code>$path = app_path(&#39;Http/Controllers/Controller.php&#39;);</code></pre>
 <p><a name="method-base-path"></a></p>
 <h4 id="base_path-collection-method"><code>base_path()</code> {#collection-method}</h4>
-<p>The <code>base_path</code> function returns the fully qualified path to the project root. You may also use the <code>base_path</code> function to generate a fully qualified path to a given file relative to the application directory:</p>
-<pre><code>$path = base_path();
-
-$path = base_path(&#39;vendor/bin&#39;);</code></pre>
+<p>The <code>base_path</code> function returns the fully qualified path to the project root:</p>
+<pre><code>$path = base_path();</code></pre>
+<p>You may also use the <code>base_path</code> function to generate a fully qualified path to a given file relative to the application directory:</p>
+<pre><code>$path = base_path(&#39;vendor/bin&#39;);</code></pre>
 <p><a name="method-config-path"></a></p>
 <h4 id="config_path-collection-method"><code>config_path()</code> {#collection-method}</h4>
 <p>The <code>config_path</code> function returns the fully qualified path to the application configuration directory:</p>
@@ -464,7 +433,7 @@ $path = base_path(&#39;vendor/bin&#39;);</code></pre>
 <pre><code>$path = database_path();</code></pre>
 <p><a name="method-elixir"></a></p>
 <h4 id="elixir-collection-method"><code>elixir()</code> {#collection-method}</h4>
-<p>The <code>elixir</code> function gets the path to a <a href="/docs/%7B%7Bversion%7D%7D/elixir">versioned Elixir file</a>:</p>
+<p>The <code>elixir</code> function gets the path to the versioned <a href="elixir.html">Elixir</a> file:</p>
 <pre><code>elixir($file);</code></pre>
 <p><a name="method-public-path"></a></p>
 <h4 id="public_path-collection-method"><code>public_path()</code> {#collection-method}</h4>
@@ -472,16 +441,16 @@ $path = base_path(&#39;vendor/bin&#39;);</code></pre>
 <pre><code>$path = public_path();</code></pre>
 <p><a name="method-resource-path"></a></p>
 <h4 id="resource_path-collection-method"><code>resource_path()</code> {#collection-method}</h4>
-<p>The <code>resource_path</code> function returns the fully qualified path to the <code>resources</code> directory. You may also use the <code>resource_path</code> function to generate a fully qualified path to a given file relative to the storage directory:</p>
-<pre><code>$path = resource_path();
-
-$path = resource_path(&#39;assets/sass/app.scss&#39;);</code></pre>
+<p>The <code>resource_path</code> function returns the fully qualified path to the <code>resources</code> directory:</p>
+<pre><code>$path = resource_path();</code></pre>
+<p>You may also use the <code>resource_path</code> function to generate a fully qualified path to a given file relative to the storage directory:</p>
+<pre><code>$path = resource_path(&#39;assets/sass/app.scss&#39;);</code></pre>
 <p><a name="method-storage-path"></a></p>
 <h4 id="storage_path-collection-method"><code>storage_path()</code> {#collection-method}</h4>
-<p>The <code>storage_path</code> function returns the fully qualified path to the <code>storage</code> directory. You may also use the <code>storage_path</code> function to generate a fully qualified path to a given file relative to the storage directory:</p>
-<pre><code>$path = storage_path();
-
-$path = storage_path(&#39;app/file.txt&#39;);</code></pre>
+<p>The <code>storage_path</code> function returns the fully qualified path to the <code>storage</code> directory:</p>
+<pre><code>$path = storage_path();</code></pre>
+<p>You may also use the <code>storage_path</code> function to generate a fully qualified path to a given file relative to the storage directory:</p>
+<pre><code>$path = storage_path(&#39;app/file.txt&#39;);</code></pre>
 <p><a name="strings"></a></p>
 <h2 id="strings-1">Strings</h2>
 <p><a name="method-camel-case"></a></p>
@@ -532,10 +501,6 @@ $path = storage_path(&#39;app/file.txt&#39;);</code></pre>
 <pre><code>$value = str_contains(&#39;This is my name&#39;, &#39;my&#39;);
 
 // true</code></pre>
-<p>You may also pass an array of values to determine if the given string contains any of the values:</p>
-<pre><code>$value = str_contains(&#39;This is my name&#39;, [&#39;my&#39;, &#39;foo&#39;]);
-
-// true</code></pre>
 <p><a name="method-str-finish"></a></p>
 <h4 id="str_finish-collection-method"><code>str_finish()</code> {#collection-method}</h4>
 <p>The <code>str_finish</code> function adds a single instance of the given value to a string:</p>
@@ -572,7 +537,7 @@ $plural = str_plural(&#39;child&#39;, 1);
 // child</code></pre>
 <p><a name="method-str-random"></a></p>
 <h4 id="str_random-collection-method"><code>str_random()</code> {#collection-method}</h4>
-<p>The <code>str_random</code> function generates a random string of the specified length. This function uses PHP's <code>random_bytes</code> function:</p>
+<p>The <code>str_random</code> function generates a random string of the specified length:</p>
 <pre><code>$string = str_random(40);</code></pre>
 <p><a name="method-str-singular"></a></p>
 <h4 id="str_singular-collection-method"><code>str_singular()</code> {#collection-method}</h4>
@@ -592,15 +557,9 @@ $plural = str_plural(&#39;child&#39;, 1);
 <pre><code>$value = studly_case(&#39;foo_bar&#39;);
 
 // FooBar</code></pre>
-<p><a name="method-title-case"></a></p>
-<h4 id="title_case-collection-method"><code>title_case()</code> {#collection-method}</h4>
-<p>The <code>title_case</code> function converts the given string to <code>Title Case</code>:</p>
-<pre><code>$title = title_case(&#39;a nice title uses the correct case&#39;);
-
-// A Nice Title Uses The Correct Case</code></pre>
 <p><a name="method-trans"></a></p>
 <h4 id="trans-collection-method"><code>trans()</code> {#collection-method}</h4>
-<p>The <code>trans</code> function translates the given language line using your <a href="/docs/%7B%7Bversion%7D%7D/localization">localization files</a>:</p>
+<p>The <code>trans</code> function translates the given language line using your <a href="localization.html">localization files</a>:</p>
 <pre><code>echo trans(&#39;validation.required&#39;):</code></pre>
 <p><a name="method-trans-choice"></a></p>
 <h4 id="trans_choice-collection-method"><code>trans_choice()</code> {#collection-method}</h4>
@@ -628,12 +587,6 @@ $plural = str_plural(&#39;child&#39;, 1);
 <pre><code>$url = route(&#39;routeName&#39;);</code></pre>
 <p>If the route accepts parameters, you may pass them as the second argument to the method:</p>
 <pre><code>$url = route(&#39;routeName&#39;, [&#39;id&#39; =&gt; 1]);</code></pre>
-<p><a name="method-secure-url"></a></p>
-<h4 id="secure_url-collection-method"><code>secure_url()</code> {#collection-method}</h4>
-<p>The <code>secure_url</code> function generates a fully qualified HTTPS URL to the given path:</p>
-<pre><code>echo secure_url(&#39;user/profile&#39;);
-
-echo secure_url(&#39;user/profile&#39;, [1]);</code></pre>
 <p><a name="method-url"></a></p>
 <h4 id="url-collection-method"><code>url()</code> {#collection-method}</h4>
 <p>The <code>url</code> function generates a fully qualified URL to the given path:</p>
@@ -646,20 +599,6 @@ echo url()-&gt;full();
 echo url()-&gt;previous();</code></pre>
 <p><a name="miscellaneous"></a></p>
 <h2 id="miscellaneous-1">Miscellaneous</h2>
-<p><a name="method-abort"></a></p>
-<h4 id="abort-collection-method"><code>abort()</code> {#collection-method}</h4>
-<p>The <code>abort</code> function throws a HTTP exception which will be rendered by the exception handler:</p>
-<pre><code>abort(401);</code></pre>
-<p>You may also provide the exception's response text:</p>
-<pre><code>abort(401, &#39;Unauthorized.&#39;);</code></pre>
-<p><a name="method-abort-if"></a></p>
-<h4 id="abort_if-collection-method"><code>abort_if()</code> {#collection-method}</h4>
-<p>The <code>abort_if</code> function throws an HTTP exception if a given boolean expression evaluates to <code>true</code>:</p>
-<pre><code>abort_if(! Auth::user()-&gt;isAdmin(), 403);</code></pre>
-<p><a name="method-abort-unless"></a></p>
-<h4 id="abort_unless-collection-method"><code>abort_unless()</code> {#collection-method}</h4>
-<p>The <code>abort_unless</code> function throws an HTTP exception if a given boolean expression evaluates to <code>false</code>:</p>
-<pre><code>abort_unless(Auth::user()-&gt;isAdmin(), 403);</code></pre>
 <p><a name="method-auth"></a></p>
 <h4 id="auth-collection-method"><code>auth()</code> {#collection-method}</h4>
 <p>The <code>auth</code> function returns an authenticator instance. You may use it instead of the <code>Auth</code> facade for convenience:</p>
@@ -672,19 +611,9 @@ echo url()-&gt;previous();</code></pre>
 <h4 id="bcrypt-collection-method"><code>bcrypt()</code> {#collection-method}</h4>
 <p>The <code>bcrypt</code> function hashes the given value using Bcrypt. You may use it as an alternative to the <code>Hash</code> facade:</p>
 <pre><code>$password = bcrypt(&#39;my-secret-password&#39;);</code></pre>
-<p><a name="method-cache"></a></p>
-<h4 id="cache-collection-method"><code>cache()</code> {#collection-method}</h4>
-<p>The <code>cache</code> function may be used to get values from the cache. If the given key does not exist in the cache, an optional default value will be returned:</p>
-<pre><code>$value = cache(&#39;key&#39;);
-
-$value = cache(&#39;key&#39;, &#39;default&#39;);</code></pre>
-<p>You may add items to the cache by passing an array of key / value pairs to the function. You should also pass the number of minutes or duration the cached value should be considered valid:</p>
-<pre><code>cache([&#39;key&#39; =&gt; &#39;value&#39;], 5);
-
-cache([&#39;key&#39; =&gt; &#39;value&#39;], Carbon::now()-&gt;addSeconds(10));</code></pre>
 <p><a name="method-collect"></a></p>
 <h4 id="collect-collection-method"><code>collect()</code> {#collection-method}</h4>
-<p>The <code>collect</code> function creates a <a href="/docs/%7B%7Bversion%7D%7D/collections">collection</a> instance from the given array:</p>
+<p>The <code>collect</code> function creates a <a href="collections.html">collection</a> instance from the supplied items:</p>
 <pre><code>$collection = collect([&#39;taylor&#39;, &#39;abigail&#39;]);</code></pre>
 <p><a name="method-config"></a></p>
 <h4 id="config-collection-method"><code>config()</code> {#collection-method}</h4>
@@ -696,7 +625,7 @@ $value = config(&#39;app.timezone&#39;, $default);</code></pre>
 <pre><code>config([&#39;app.debug&#39; =&gt; true]);</code></pre>
 <p><a name="method-csrf-field"></a></p>
 <h4 id="csrf_field-collection-method"><code>csrf_field()</code> {#collection-method}</h4>
-<p>The <code>csrf_field</code> function generates an HTML <code>hidden</code> input field containing the value of the CSRF token. For example, using <a href="/docs/%7B%7Bversion%7D%7D/blade">Blade syntax</a>:</p>
+<p>The <code>csrf_field</code> function generates an HTML <code>hidden</code> input field containing the value of the CSRF token. For example, using <a href="blade.html">Blade syntax</a>:</p>
 <pre><code>{{ csrf_field() }}</code></pre>
 <p><a name="method-csrf-token"></a></p>
 <h4 id="csrf_token-collection-method"><code>csrf_token()</code> {#collection-method}</h4>
@@ -704,15 +633,13 @@ $value = config(&#39;app.timezone&#39;, $default);</code></pre>
 <pre><code>$token = csrf_token();</code></pre>
 <p><a name="method-dd"></a></p>
 <h4 id="dd-collection-method"><code>dd()</code> {#collection-method}</h4>
-<p>The <code>dd</code> function dumps the given variables and ends execution of the script:</p>
-<pre><code>dd($value);
-
-dd($value1, $value2, $value3, ...);</code></pre>
+<p>The <code>dd</code> function dumps the given variable and ends execution of the script:</p>
+<pre><code>dd($value);</code></pre>
 <p>If you do not want to halt the execution of your script, use the <code>dump</code> function instead:</p>
 <pre><code>dump($value);</code></pre>
 <p><a name="method-dispatch"></a></p>
 <h4 id="dispatch-collection-method"><code>dispatch()</code> {#collection-method}</h4>
-<p>The <code>dispatch</code> function pushes a new job onto the Laravel <a href="/docs/%7B%7Bversion%7D%7D/queues">job queue</a>:</p>
+<p>The <code>dispatch</code> function pushes a new job onto the Laravel <a href="queues.html">job queue</a>:</p>
 <pre><code>dispatch(new App\Jobs\SendEmails);</code></pre>
 <p><a name="method-env"></a></p>
 <h4 id="env-collection-method"><code>env()</code> {#collection-method}</h4>
@@ -723,59 +650,43 @@ dd($value1, $value2, $value3, ...);</code></pre>
 $env = env(&#39;APP_ENV&#39;, &#39;production&#39;);</code></pre>
 <p><a name="method-event"></a></p>
 <h4 id="event-collection-method"><code>event()</code> {#collection-method}</h4>
-<p>The <code>event</code> function dispatches the given <a href="/docs/%7B%7Bversion%7D%7D/events">event</a> to its listeners:</p>
+<p>The <code>event</code> function dispatches the given <a href="events.html">event</a> to its listeners:</p>
 <pre><code>event(new UserRegistered($user));</code></pre>
 <p><a name="method-factory"></a></p>
 <h4 id="factory-collection-method"><code>factory()</code> {#collection-method}</h4>
-<p>The <code>factory</code> function creates a model factory builder for a given class, name, and amount. It can be used while <a href="/docs/%7B%7Bversion%7D%7D/database-testing#writing-factories">testing</a> or <a href="/docs/%7B%7Bversion%7D%7D/seeding#using-model-factories">seeding</a>:</p>
+<p>The <code>factory</code> function creates a model factory builder for a given class, name, and amount. It can be used while <a href="testing.html#model-factories">testing</a> or <a href="seeding.html#using-model-factories">seeding</a>:</p>
 <pre><code>$user = factory(App\User::class)-&gt;make();</code></pre>
-<p><a name="method-info"></a></p>
-<h4 id="info-collection-method"><code>info()</code> {#collection-method}</h4>
-<p>The <code>info</code> function will write information to the log:</p>
-<pre><code>info(&#39;Some helpful information!&#39;);</code></pre>
-<p>An array of contextual data may also be passed to the function:</p>
-<pre><code>info(&#39;User login attempt failed.&#39;, [&#39;id&#39; =&gt; $user-&gt;id]);</code></pre>
-<p><a name="method-logger"></a></p>
-<h4 id="logger-collection-method"><code>logger()</code> {#collection-method}</h4>
-<p>The <code>logger</code> function can be used to write a <code>debug</code> level message to the log:</p>
-<pre><code>logger(&#39;Debug message&#39;);</code></pre>
-<p>An array of contextual data may also be passed to the function:</p>
-<pre><code>logger(&#39;User has logged in.&#39;, [&#39;id&#39; =&gt; $user-&gt;id]);</code></pre>
-<p>A <a href="/docs/%7B%7Bversion%7D%7D/errors#logging">logger</a> instance will be returned if no value is passed to the function:</p>
-<pre><code>logger()-&gt;error(&#39;You are not allowed here.&#39;);</code></pre>
 <p><a name="method-method-field"></a></p>
 <h4 id="method_field-collection-method"><code>method_field()</code> {#collection-method}</h4>
-<p>The <code>method_field</code> function generates an HTML <code>hidden</code> input field containing the spoofed value of the form's HTTP verb. For example, using <a href="/docs/%7B%7Bversion%7D%7D/blade">Blade syntax</a>:</p>
+<p>The <code>method_field</code> function generates an HTML <code>hidden</code> input field containing the spoofed value of the form's HTTP verb. For example, using <a href="blade.html">Blade syntax</a>:</p>
 <pre><code>&lt;form method=&quot;POST&quot;&gt;
     {{ method_field(&#39;DELETE&#39;) }}
 &lt;/form&gt;</code></pre>
 <p><a name="method-old"></a></p>
 <h4 id="old-collection-method"><code>old()</code> {#collection-method}</h4>
-<p>The <code>old</code> function <a href="/docs/%7B%7Bversion%7D%7D/requests#retrieving-input">retrieves</a> an old input value flashed into the session:</p>
+<p>The <code>old</code> function <a href="requests.html#retrieving-input">retrieves</a> an old input value flashed into the session:</p>
 <pre><code>$value = old(&#39;value&#39;);
 
 $value = old(&#39;value&#39;, &#39;default&#39;);</code></pre>
 <p><a name="method-redirect"></a></p>
 <h4 id="redirect-collection-method"><code>redirect()</code> {#collection-method}</h4>
-<p>The <code>redirect</code> function returns a redirect HTTP response, or returns the redirector instance if called with no arguments:</p>
-<pre><code>return redirect(&#39;/home&#39;);
-
-return redirect()-&gt;route(&#39;route.name&#39;);</code></pre>
+<p>The <code>redirect</code> function returns an instance of the redirector to do <a href="responses.html#redirects">redirects</a>:</p>
+<pre><code>return redirect(&#39;/home&#39;);</code></pre>
 <p><a name="method-request"></a></p>
 <h4 id="request-collection-method"><code>request()</code> {#collection-method}</h4>
-<p>The <code>request</code> function returns the current <a href="/docs/%7B%7Bversion%7D%7D/requests">request</a> instance or obtains an input item:</p>
+<p>The <code>request</code> function returns the current <a href="requests.html">request</a> instance or obtains an input item:</p>
 <pre><code>$request = request();
 
 $value = request(&#39;key&#39;, $default = null)</code></pre>
 <p><a name="method-response"></a></p>
 <h4 id="response-collection-method"><code>response()</code> {#collection-method}</h4>
-<p>The <code>response</code> function creates a <a href="/docs/%7B%7Bversion%7D%7D/responses">response</a> instance or obtains an instance of the response factory:</p>
+<p>The <code>response</code> function creates a <a href="responses.html">response</a> instance or obtains an instance of the response factory:</p>
 <pre><code>return response(&#39;Hello World&#39;, 200, $headers);
 
 return response()-&gt;json([&#39;foo&#39; =&gt; &#39;bar&#39;], 200, $headers);</code></pre>
 <p><a name="method-session"></a></p>
 <h4 id="session-collection-method"><code>session()</code> {#collection-method}</h4>
-<p>The <code>session</code> function may be used to get or set session values:</p>
+<p>The <code>session</code> function may be used to get / set a session value:</p>
 <pre><code>$value = session(&#39;key&#39;);</code></pre>
 <p>You may set values by passing an array of key / value pairs to the function:</p>
 <pre><code>session([&#39;chairs&#39; =&gt; 7, &#39;instruments&#39; =&gt; 3]);</code></pre>
@@ -789,8 +700,12 @@ session()-&gt;put(&#39;key&#39;, $value);</code></pre>
 <pre><code>$value = value(function() { return &#39;bar&#39;; });</code></pre>
 <p><a name="method-view"></a></p>
 <h4 id="view-collection-method"><code>view()</code> {#collection-method}</h4>
-<p>The <code>view</code> function retrieves a <a href="/docs/%7B%7Bversion%7D%7D/views">view</a> instance:</p>
+<p>The <code>view</code> function retrieves a <a href="views.html">view</a> instance:</p>
 <pre><code>return view(&#39;auth.login&#39;);</code></pre>
+<p><a name="method-with"></a></p>
+<h4 id="with-collection-method"><code>with()</code> {#collection-method}</h4>
+<p>The <code>with</code> function returns the value it is given. This function is primarily useful for method chaining where it would otherwise be impossible:</p>
+<pre><code>$value = with(new Foo)-&gt;work();</code></pre>
 </article>
 </body>
 </html>

@@ -13,14 +13,12 @@
   <script src="../../laravel-docs/site.js"></script>
 </head>
 <body>
-<aside><h1>Laravel 5.3 offline docs</h1><ul id="navigation">
-<li><a href="application-testing.html">Application Testing</a>
-<li><a href="artisan.html">Console Commands</a>
+<aside><h1>Laravel 5.2 offline docs</h1><ul id="navigation">
+<li><a href="artisan.html">Artisan Console</a>
 <li><a href="authentication.html">Authentication</a>
 <li><a href="authorization.html">Authorization</a>
 <li><a href="billing.html">Laravel Cashier</a>
 <li><a href="blade.html">Blade Templates</a>
-<li><a href="broadcasting.html">Event Broadcasting</a>
 <li><a href="cache.html">Cache</a>
 <li><a href="collections.html">Collections</a>
 <li><a href="configuration.html">Configuration</a>
@@ -28,12 +26,10 @@
 <li><a href="contracts.html">Contracts</a>
 <li><a href="contributing.html">Contribution Guidelines</a>
 <li><a href="contributions.html">Contribution Guide</a>
-<li><a href="controllers.html">Controllers</a>
-<li><a href="csrf.html">CSRF Protection</a>
-<li><a href="database-testing.html">Database Testing</a>
+<li><a href="controllers.html">HTTP Controllers</a>
 <li><a href="database.html">Database: Getting Started</a>
 <li><a href="documentation.html">Prologue</a>
-<li><a href="elixir.html">Compiling Assets (Laravel Elixir)</a>
+<li><a href="elixir.html">Laravel Elixir</a>
 <li><a href="eloquent-collections.html">Eloquent: Collections</a>
 <li><a href="eloquent-mutators.html">Eloquent: Mutators</a>
 <li><a href="eloquent-relationships.html">Eloquent: Relationships</a>
@@ -46,7 +42,6 @@
 </a>
 <li><a href="facades.html">Facades</a>
 <li><a href="filesystem.html">Filesystem / Cloud Storage</a>
-<li><a href="frontend.html">JavaScript & CSS</a>
 <li><a href="hashing.html">Hashing</a>
 <li><a href="helpers.html">Helper Functions</a>
 <li><a href="homestead.html">Laravel Homestead</a>
@@ -55,29 +50,25 @@
 <li><a href="localization.html">Localization</a>
 <li><a href="mail.html">Mail
 </a>
-<li><a href="middleware.html">Middleware</a>
+<li><a href="middleware.html">HTTP Middleware</a>
 <li><a href="migrations.html">Database: Migrations</a>
-<li><a href="mocking.html">Mocking</a>
-<li><a href="notifications.html">Notifications</a>
 <li><a href="packages.html">Package Development</a>
 <li><a href="pagination.html">Pagination</a>
-<li><a href="passport.html">API Authentication (Passport)</a>
-<li><a href="passwords.html">Resetting Passwords</a>
 <li><a href="providers.html">Service Providers</a>
 <li><a href="queries.html">Database: Query Builder</a>
 <li><a href="queues.html">Queues</a>
+<li><a href="quickstart-intermediate.html">Intermediate Task List</a>
+<li><a href="quickstart.html">Basic Task List</a>
 <li><a href="readme.html">Laravel Documentation</a>
-<li><a href="redirects.html">HTTP Redirects</a>
 <li><a href="redis.html">Redis</a>
 <li><a href="releases.html">Release Notes</a>
 <li><a href="requests.html">HTTP Requests</a>
 <li><a href="responses.html">HTTP Responses</a>
-<li><a href="routing.html">Routing</a>
+<li><a href="routing.html">HTTP Routing</a>
 <li><a href="scheduling.html">Task Scheduling</a>
-<li><a href="scout.html">Laravel Scout</a>
 <li><a href="seeding.html">Database: Seeding</a>
-<li><a href="session.html">HTTP Session</a>
-<li><a href="structure.html">Directory Structure</a>
+<li><a href="session.html">Session</a>
+<li><a href="structure.html">Application Structure</a>
 <li><a href="testing.html">Testing</a>
 <li><a href="upgrade.html">Upgrade Guide</a>
 <li><a href="valet.html">Laravel Valet</a>
@@ -89,23 +80,19 @@
 <ul>
 <li><a href="#accessing-the-request">Accessing The Request</a>
 <ul>
-<li><a href="#request-path-and-method">Request Path &amp; Method</a></li>
+<li><a href="#basic-request-information">Basic Request Information</a></li>
 <li><a href="#psr7-requests">PSR-7 Requests</a></li>
 </ul></li>
 <li><a href="#retrieving-input">Retrieving Input</a>
 <ul>
 <li><a href="#old-input">Old Input</a></li>
 <li><a href="#cookies">Cookies</a></li>
-</ul></li>
-<li><a href="#files">Files</a>
-<ul>
-<li><a href="#retrieving-uploaded-files">Retrieving Uploaded Files</a></li>
-<li><a href="#storing-uploaded-files">Storing Uploaded Files</a></li>
+<li><a href="#files">Files</a></li>
 </ul></li>
 </ul>
 <p><a name="accessing-the-request"></a></p>
 <h2 id="accessing-the-request">Accessing The Request</h2>
-<p>To obtain an instance of the current HTTP request via dependency injection, you should type-hint the <code>Illuminate\Http\Request</code> class on your controller method. The incoming request instance will automatically be injected by the <a href="/docs/%7B%7Bversion%7D%7D/container">service container</a>:</p>
+<p>To obtain an instance of the current HTTP request via dependency injection, you should type-hint the <code>Illuminate\Http\Request</code> class on your controller constructor or method. The current request instance will automatically be injected by the <a href="container.html">service container</a>:</p>
 <pre><code>&lt;?php
 
 namespace App\Http\Controllers;
@@ -127,10 +114,9 @@ class UserController extends Controller
         //
     }
 }</code></pre>
-<h4 id="dependency-injection-route-parameters">Dependency Injection &amp; Route Parameters</h4>
-<p>If your controller method is also expecting input from a route parameter you should list your route parameters after your other dependencies. For example, if your route is defined like so:</p>
+<p>If your controller method is also expecting input from a route parameter, simply list your route arguments after your other dependencies. For example, if your route is defined like so:</p>
 <pre><code>Route::put(&#39;user/{id}&#39;, &#39;UserController@update&#39;);</code></pre>
-<p>You may still type-hint the <code>Illuminate\Http\Request</code> and access your route parameter <code>id</code> by defining your controller method as follows:</p>
+<p>You may still type-hint the <code>Illuminate\Http\Request</code> and access your route parameter <code>id</code> by defining your controller method like the following:</p>
 <pre><code>&lt;?php
 
 namespace App\Http\Controllers;
@@ -151,32 +137,26 @@ class UserController extends Controller
         //
     }
 }</code></pre>
-<h4 id="accessing-the-request-via-route-closures">Accessing The Request Via Route Closures</h4>
-<p>You may also type-hint the <code>Illuminate\Http\Request</code> class on a route Closure. The service container will automatically inject the incoming request into the Closure when it is executed:</p>
-<pre><code>use Illuminate\Http\Request;
-
-Route::get(&#39;/&#39;, function (Request $request) {
-    //
-});</code></pre>
-<p><a name="request-path-and-method"></a></p>
-<h3 id="request-path-method">Request Path &amp; Method</h3>
-<p>The <code>Illuminate\Http\Request</code> instance provides a variety of methods for examining the HTTP request for your application and extends the <code>Symfony\Component\HttpFoundation\Request</code> class. We will discuss a few of the most important methods below.</p>
-<h4 id="retrieving-the-request-path">Retrieving The Request Path</h4>
-<p>The <code>path</code> method returns the request's path information. So, if the incoming request is targeted at <code>http://domain.com/foo/bar</code>, the <code>path</code> method will return <code>foo/bar</code>:</p>
+<p><a name="basic-request-information"></a></p>
+<h3 id="basic-request-information">Basic Request Information</h3>
+<p>The <code>Illuminate\Http\Request</code> instance provides a variety of methods for examining the HTTP request for your application and extends the <code>Symfony\Component\HttpFoundation\Request</code> class. Here are a few more of the useful methods available on this class:</p>
+<h4 id="retrieving-the-request-uri">Retrieving The Request URI</h4>
+<p>The <code>path</code> method returns the request's URI. So, if the incoming request is targeted at <code>http://domain.com/foo/bar</code>, the <code>path</code> method will return <code>foo/bar</code>:</p>
 <pre><code>$uri = $request-&gt;path();</code></pre>
-<p>The <code>is</code> method allows you to verify that the incoming request path matches a given pattern. You may use the <code>*</code> character as a wildcard when utilizing this method:</p>
+<p>The <code>is</code> method allows you to verify that the incoming request URI matches a given pattern. You may use the <code>*</code> character as a wildcard when utilizing this method:</p>
 <pre><code>if ($request-&gt;is(&#39;admin/*&#39;)) {
     //
 }</code></pre>
-<h4 id="retrieving-the-request-url">Retrieving The Request URL</h4>
-<p>To retrieve the full URL for the incoming request you may use the <code>url</code> or <code>fullUrl</code> methods. The <code>url</code> method will return the URL without the query string, while the <code>fullUrl</code> method includes the query string:</p>
+<p>To get the full URL, not just the path info, you may use the <code>url</code> or <code>fullUrl</code> methods on the request instance:</p>
 <pre><code>// Without Query String...
 $url = $request-&gt;url();
 
 // With Query String...
 $url = $request-&gt;fullUrl();</code></pre>
+<p>You may also get the full URL and append query parameters. For example, if the request is targeted at <code>http://domain.com/foo</code>, the following method will return <code>http://domain.com/foo?bar=baz</code>:</p>
+<pre><code>$url = $request-&gt;fullUrlWithQuery([&#39;bar&#39; =&gt; &#39;baz&#39;]);</code></pre>
 <h4 id="retrieving-the-request-method">Retrieving The Request Method</h4>
-<p>The <code>method</code> method will return the HTTP verb for the request. You may use the <code>isMethod</code> method to verify that the HTTP verb matches a given string:</p>
+<p>The <code>method</code> method will return the HTTP verb for the request. You may also use the <code>isMethod</code> method to verify that the HTTP verb matches a given string:</p>
 <pre><code>$method = $request-&gt;method();
 
 if ($request-&gt;isMethod(&#39;post&#39;)) {
@@ -184,41 +164,41 @@ if ($request-&gt;isMethod(&#39;post&#39;)) {
 }</code></pre>
 <p><a name="psr7-requests"></a></p>
 <h3 id="psr-7-requests">PSR-7 Requests</h3>
-<p>The <a href="http://www.php-fig.org/psr/psr-7/">PSR-7 standard</a> specifies interfaces for HTTP messages, including requests and responses. If you would like to obtain an instance of a PSR-7 request instead of a Laravel request, you will first need to install a few libraries. Laravel uses the <em>Symfony HTTP Message Bridge</em> component to convert typical Laravel requests and responses into PSR-7 compatible implementations:</p>
+<p>The PSR-7 standard specifies interfaces for HTTP messages, including requests and responses. If you would like to obtain an instance of a PSR-7 request, you will first need to install a few libraries. Laravel uses the Symfony HTTP Message Bridge component to convert typical Laravel requests and responses into PSR-7 compatible implementations:</p>
 <pre><code>composer require symfony/psr-http-message-bridge
+
 composer require zendframework/zend-diactoros</code></pre>
-<p>Once you have installed these libraries, you may obtain a PSR-7 request by type-hinting the request interface on your route Closure or controller method:</p>
+<p>Once you have installed these libraries, you may obtain a PSR-7 request by simply type-hinting the request type on your route or controller:</p>
 <pre><code>use Psr\Http\Message\ServerRequestInterface;
 
 Route::get(&#39;/&#39;, function (ServerRequestInterface $request) {
     //
 });</code></pre>
-<blockquote>
-<p>{tip} If you return a PSR-7 response instance from a route or controller, it will automatically be converted back to a Laravel response instance and be displayed by the framework.</p>
-</blockquote>
+<p>If you return a PSR-7 response instance from a route or controller, it will automatically be converted back to a Laravel response instance and be displayed by the framework.</p>
 <p><a name="retrieving-input"></a></p>
 <h2 id="retrieving-input">Retrieving Input</h2>
-<h4 id="retrieving-all-input-data">Retrieving All Input Data</h4>
-<p>You may also retrieve all of the input data as an <code>array</code> using the <code>all</code> method:</p>
-<pre><code>$input = $request-&gt;all();</code></pre>
 <h4 id="retrieving-an-input-value">Retrieving An Input Value</h4>
-<p>Using a few simple methods, you may access all of the user input from your <code>Illuminate\Http\Request</code> instance without worrying about which HTTP verb was used for the request. Regardless of the HTTP verb, the <code>input</code> method may be used to retrieve user input:</p>
+<p>Using a few simple methods, you may access all user input from your <code>Illuminate\Http\Request</code> instance. You do not need to worry about the HTTP verb used for the request, as input is accessed in the same way for all verbs:</p>
 <pre><code>$name = $request-&gt;input(&#39;name&#39;);</code></pre>
 <p>You may pass a default value as the second argument to the <code>input</code> method. This value will be returned if the requested input value is not present on the request:</p>
 <pre><code>$name = $request-&gt;input(&#39;name&#39;, &#39;Sally&#39;);</code></pre>
-<p>When working with forms that contain array inputs, use &quot;dot&quot; notation to access the arrays:</p>
+<p>When working on forms with array inputs, you may use &quot;dot&quot; notation to access the arrays:</p>
 <pre><code>$name = $request-&gt;input(&#39;products.0.name&#39;);
 
 $names = $request-&gt;input(&#39;products.*.name&#39;);</code></pre>
-<h4 id="retrieving-input-via-dynamic-properties">Retrieving Input Via Dynamic Properties</h4>
-<p>You may also access user input using dynamic properties on the <code>Illuminate\Http\Request</code> instance. For example, if one of your application's forms contains a <code>name</code> field, you may access the value of the field like so:</p>
-<pre><code>$name = $request-&gt;name;</code></pre>
-<p>When using dynamic properties, Laravel will first look for the parameter's value in the request payload. If it is not present, Laravel will search for the field in the route parameters.</p>
 <h4 id="retrieving-json-input-values">Retrieving JSON Input Values</h4>
-<p>When sending JSON requests to your application, you may access the JSON data via the <code>input</code> method as long as the <code>Content-Type</code> header of the request is properly set to <code>application/json</code>. You may even use &quot;dot&quot; syntax to dig into JSON arrays:</p>
+<p>When sending JSON requests to your application, you may access the JSON data via the <code>input</code> method as long as the <code>Content-Type</code> header of the request is properly set to <code>application/json</code>. You may even use &quot;dot&quot; syntax to dig deeper into JSON arrays:</p>
 <pre><code>$name = $request-&gt;input(&#39;user.name&#39;);</code></pre>
+<h4 id="determining-if-an-input-value-is-present">Determining If An Input Value Is Present</h4>
+<p>To determine if a value is present on the request, you may use the <code>has</code> method. The <code>has</code> method returns <code>true</code> if the value is present <strong>and</strong> is not an empty string:</p>
+<pre><code>if ($request-&gt;has(&#39;name&#39;)) {
+    //
+}</code></pre>
+<h4 id="retrieving-all-input-data">Retrieving All Input Data</h4>
+<p>You may also retrieve all of the input data as an <code>array</code> using the <code>all</code> method:</p>
+<pre><code>$input = $request-&gt;all();</code></pre>
 <h4 id="retrieving-a-portion-of-the-input-data">Retrieving A Portion Of The Input Data</h4>
-<p>If you need to retrieve a subset of the input data, you may use the <code>only</code> and <code>except</code> methods. Both of these methods accept a single <code>array</code> or a dynamic list of arguments:</p>
+<p>If you need to retrieve a sub-set of the input data, you may use the <code>only</code> and <code>except</code> methods. Both of these methods will accept a single <code>array</code> or a dynamic list of arguments:</p>
 <pre><code>$input = $request-&gt;only([&#39;username&#39;, &#39;password&#39;]);
 
 $input = $request-&gt;only(&#39;username&#39;, &#39;password&#39;);
@@ -226,60 +206,49 @@ $input = $request-&gt;only(&#39;username&#39;, &#39;password&#39;);
 $input = $request-&gt;except([&#39;credit_card&#39;]);
 
 $input = $request-&gt;except(&#39;credit_card&#39;);</code></pre>
-<h4 id="determining-if-an-input-value-is-present">Determining If An Input Value Is Present</h4>
-<p>You should use the <code>has</code> method to determine if a value is present on the request. The <code>has</code> method returns <code>true</code> if the value is present and is not an empty string:</p>
-<pre><code>if ($request-&gt;has(&#39;name&#39;)) {
-    //
-}</code></pre>
+<h4 id="dynamic-properties">Dynamic Properties</h4>
+<p>You may also access user input using dynamic properties on the <code>Illuminate\Http\Request</code> instance. For example, if one of your application's forms contains a <code>name</code> field, you may access the value of the posted field like so:</p>
+<pre><code>$name = $request-&gt;name;</code></pre>
+<p>When using dynamic properties, Laravel will first look for the parameter's value in the request payload and then in the route parameters.</p>
 <p><a name="old-input"></a></p>
 <h3 id="old-input">Old Input</h3>
-<p>Laravel allows you to keep input from one request during the next request. This feature is particularly useful for re-populating forms after detecting validation errors. However, if you are using Laravel's included <a href="/docs/%7B%7Bversion%7D%7D/validation">validation features</a>, it is unlikely you will need to manually use these methods, as some of Laravel's built-in validation facilities will call them automatically.</p>
+<p>Laravel allows you to keep input from one request during the next request. This feature is particularly useful for re-populating forms after detecting validation errors. However, if you are using Laravel's included <a href="validation.html">validation services</a>, it is unlikely you will need to manually use these methods, as some of Laravel's built-in validation facilities will call them automatically.</p>
 <h4 id="flashing-input-to-the-session">Flashing Input To The Session</h4>
-<p>The <code>flash</code> method on the <code>Illuminate\Http\Request</code> class will flash the current input to the <a href="/docs/%7B%7Bversion%7D%7D/session">session</a> so that it is available during the user's next request to the application:</p>
+<p>The <code>flash</code> method on the <code>Illuminate\Http\Request</code> instance will flash the current input to the <a href="session.html">session</a> so that it is available during the user's next request to the application:</p>
 <pre><code>$request-&gt;flash();</code></pre>
-<p>You may also use the <code>flashOnly</code> and <code>flashExcept</code> methods to flash a subset of the request data to the session. These methods are useful for keeping sensitive information such as passwords out of the session:</p>
+<p>You may also use the <code>flashOnly</code> and <code>flashExcept</code> methods to flash a sub-set of the request data into the session:</p>
 <pre><code>$request-&gt;flashOnly([&#39;username&#39;, &#39;email&#39;]);
 
 $request-&gt;flashExcept(&#39;password&#39;);</code></pre>
-<h4 id="flashing-input-then-redirecting">Flashing Input Then Redirecting</h4>
-<p>Since you often will want to flash input to the session and then redirect to the previous page, you may easily chain input flashing onto a redirect using the <code>withInput</code> method:</p>
+<h4 id="flash-input-into-session-then-redirect">Flash Input Into Session Then Redirect</h4>
+<p>Since you often will want to flash input in association with a redirect to the previous page, you may easily chain input flashing onto a redirect using the <code>withInput</code> method:</p>
 <pre><code>return redirect(&#39;form&#39;)-&gt;withInput();
 
-return redirect(&#39;form&#39;)-&gt;withInput(
-    $request-&gt;except(&#39;password&#39;)
-);</code></pre>
-<h4 id="retrieving-old-input">Retrieving Old Input</h4>
-<p>To retrieve flashed input from the previous request, use the <code>old</code> method on the <code>Request</code> instance. The <code>old</code> method will pull the previously flashed input data from the <a href="/docs/%7B%7Bversion%7D%7D/session">session</a>:</p>
+return redirect(&#39;form&#39;)-&gt;withInput($request-&gt;except(&#39;password&#39;));</code></pre>
+<h4 id="retrieving-old-data">Retrieving Old Data</h4>
+<p>To retrieve flashed input from the previous request, use the <code>old</code> method on the <code>Request</code> instance. The <code>old</code> method provides a convenient helper for pulling the flashed input data out of the <a href="session.html">session</a>:</p>
 <pre><code>$username = $request-&gt;old(&#39;username&#39;);</code></pre>
-<p>Laravel also provides a global <code>old</code> helper. If you are displaying old input within a <a href="/docs/%7B%7Bversion%7D%7D/blade">Blade template</a>, it is more convenient to use the <code>old</code> helper. If no old input exists for the given field, <code>null</code> will be returned:</p>
+<p>Laravel also provides a global <code>old</code> helper function. If you are displaying old input within a <a href="blade.html">Blade template</a>, it is more convenient to use the <code>old</code> helper. If no old input exists for the given string, <code>null</code> will be returned:</p>
 <pre><code>&lt;input type=&quot;text&quot; name=&quot;username&quot; value=&quot;{{ old(&#39;username&#39;) }}&quot;&gt;</code></pre>
 <p><a name="cookies"></a></p>
 <h3 id="cookies">Cookies</h3>
-<h4 id="retrieving-cookies-from-requests">Retrieving Cookies From Requests</h4>
-<p>All cookies created by the Laravel framework are encrypted and signed with an authentication code, meaning they will be considered invalid if they have been changed by the client. To retrieve a cookie value from the request, use the <code>cookie</code> method on a <code>Illuminate\Http\Request</code> instance:</p>
+<h4 id="retrieving-cookies-from-the-request">Retrieving Cookies From The Request</h4>
+<p>All cookies created by the Laravel framework are encrypted and signed with an authentication code, meaning they will be considered invalid if they have been changed by the client. To retrieve a cookie value from the request, you may use the <code>cookie</code> method on the <code>Illuminate\Http\Request</code> instance:</p>
 <pre><code>$value = $request-&gt;cookie(&#39;name&#39;);</code></pre>
-<h4 id="attaching-cookies-to-responses">Attaching Cookies To Responses</h4>
-<p>You may attach a cookie to an outgoing <code>Illuminate\Http\Response</code> instance using the <code>cookie</code> method. You should pass the name, value, and number of minutes the cookie should be considered valid to this method:</p>
-<pre><code>return response(&#39;Hello World&#39;)-&gt;cookie(
-    &#39;name&#39;, &#39;value&#39;, $minutes
-);</code></pre>
-<p>The <code>cookie</code> method also accepts a few more arguments which are used less frequently. Generally, these arguments have the same purpose and meaning as the arguments that would be given to PHP's native <a href="https://secure.php.net/manual/en/function.setcookie.php">setcookie</a> method:</p>
-<pre><code>return response(&#39;Hello World&#39;)-&gt;cookie(
-    &#39;name&#39;, &#39;value&#39;, $minutes, $path, $domain, $secure, $httpOnly
-);</code></pre>
-<h4 id="generating-cookie-instances">Generating Cookie Instances</h4>
-<p>If you would like to generate a <code>Symfony\Component\HttpFoundation\Cookie</code> instance that can be given to a response instance at a later time, you may use the global <code>cookie</code> helper. This cookie will not be sent back to the client unless it is attached to a response instance:</p>
-<pre><code>$cookie = cookie(&#39;name&#39;, &#39;value&#39;, $minutes);
+<h4 id="attaching-a-new-cookie-to-a-response">Attaching A New Cookie To A Response</h4>
+<p>Laravel provides a global <code>cookie</code> helper function which serves as a simple factory for generating new <code>Symfony\Component\HttpFoundation\Cookie</code> instances. The cookies may be attached to a <code>Illuminate\Http\Response</code> instance using the <code>withCookie</code> method:</p>
+<pre><code>$response = new Illuminate\Http\Response(&#39;Hello World&#39;);
 
-return response(&#39;Hello World&#39;)-&gt;cookie($cookie);</code></pre>
+$response-&gt;withCookie(&#39;name&#39;, &#39;value&#39;, $minutes);
+
+return $response;</code></pre>
+<p>To create a long-lived cookie, which lasts for five years, you may use the <code>forever</code> method on the cookie factory by first calling the <code>cookie</code> helper with no arguments, and then chaining the <code>forever</code> method onto the returned cookie factory:</p>
+<pre><code>$response-&gt;withCookie(cookie()-&gt;forever(&#39;name&#39;, &#39;value&#39;));</code></pre>
 <p><a name="files"></a></p>
 <h3 id="files">Files</h3>
-<p><a name="retrieving-uploaded-files"></a></p>
-<h3 id="retrieving-uploaded-files">Retrieving Uploaded Files</h3>
-<p>You may access uploaded files from a <code>Illuminate\Http\Request</code> instance using the <code>file</code> method or using dynamic properties. The <code>file</code> method returns an instance of the <code>Illuminate\Http\UploadedFile</code> class, which extends the PHP <code>SplFileInfo</code> class and provides a variety of methods for interacting with the file:</p>
-<pre><code>$file = $request-&gt;file(&#39;photo&#39;);
-
-$file = $request-&gt;photo;</code></pre>
+<h4 id="retrieving-uploaded-files">Retrieving Uploaded Files</h4>
+<p>You may access uploaded files that are included with the <code>Illuminate\Http\Request</code> instance using the <code>file</code> method. The object returned by the <code>file</code> method is an instance of the <code>Symfony\Component\HttpFoundation\File\UploadedFile</code> class, which extends the PHP <code>SplFileInfo</code> class and provides a variety of methods for interacting with the file:</p>
+<pre><code>$file = $request-&gt;file(&#39;photo&#39;);</code></pre>
 <p>You may determine if a file is present on the request using the <code>hasFile</code> method:</p>
 <pre><code>if ($request-&gt;hasFile(&#39;photo&#39;)) {
     //
@@ -289,25 +258,13 @@ $file = $request-&gt;photo;</code></pre>
 <pre><code>if ($request-&gt;file(&#39;photo&#39;)-&gt;isValid()) {
     //
 }</code></pre>
-<h4 id="file-paths-extensions">File Paths &amp; Extensions</h4>
-<p>The <code>UploadedFile</code> class also contains methods for accessing the file's fully-qualified path and its extension. The <code>extension</code> method will attempt to guess the file's extension based on its contents. This extension may be different from the extension that was supplied by the client:</p>
-<pre><code>$path = $request-&gt;photo-&gt;path();
+<h4 id="moving-uploaded-files">Moving Uploaded Files</h4>
+<p>To move the uploaded file to a new location, you should use the <code>move</code> method. This method will move the file from its temporary upload location (as determined by your PHP configuration) to a more permanent destination of your choosing:</p>
+<pre><code>$request-&gt;file(&#39;photo&#39;)-&gt;move($destinationPath);
 
-$extension = $request-&gt;photo-&gt;extension();</code></pre>
+$request-&gt;file(&#39;photo&#39;)-&gt;move($destinationPath, $fileName);</code></pre>
 <h4 id="other-file-methods">Other File Methods</h4>
 <p>There are a variety of other methods available on <code>UploadedFile</code> instances. Check out the <a href="http://api.symfony.com/3.0/Symfony/Component/HttpFoundation/File/UploadedFile.html">API documentation for the class</a> for more information regarding these methods.</p>
-<p><a name="storing-uploaded-files"></a></p>
-<h3 id="storing-uploaded-files">Storing Uploaded Files</h3>
-<p>To store an uploaded file, you will typically use one of your configured <a href="/docs/%7B%7Bversion%7D%7D/filesystem">filesystems</a>. The <code>UploadedFile</code> class has a <code>store</code> method which will move an uploaded file to one of your disks, which may be a location on your local filesystem or even a cloud storage location like Amazon S3.</p>
-<p>The <code>store</code> method accepts the path where the file should be stored relative to the filesystem's configured root directory. This path should not contain a file name, since the name will automatically be generated using the MD5 hash of the file's contents.</p>
-<p>The <code>store</code> method also accepts an optional second argument for the name of the disk that should be used to store the file. The method will return the path of the file relative to the disk's root:</p>
-<pre><code>$path = $request-&gt;photo-&gt;store(&#39;images&#39;);
-
-$path = $request-&gt;photo-&gt;store(&#39;images&#39;, &#39;s3&#39;);</code></pre>
-<p>If you do not want a file name to be automatically generated, you may use the <code>storeAs</code> method, which accepts the path, file name, and disk name as its arguments:</p>
-<pre><code>$path = $request-&gt;photo-&gt;storeAs(&#39;images&#39;, &#39;filename.jpg&#39;);
-
-$path = $request-&gt;photo-&gt;storeAs(&#39;images&#39;, &#39;filename.jpg&#39;, &#39;s3&#39;);</code></pre>
 </article>
 </body>
 </html>

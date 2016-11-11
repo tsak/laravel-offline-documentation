@@ -13,14 +13,12 @@
   <script src="../../laravel-docs/site.js"></script>
 </head>
 <body>
-<aside><h1>Laravel 5.3 offline docs</h1><ul id="navigation">
-<li><a href="application-testing.html">Application Testing</a>
-<li><a href="artisan.html">Console Commands</a>
+<aside><h1>Laravel 5.2 offline docs</h1><ul id="navigation">
+<li><a href="artisan.html">Artisan Console</a>
 <li><a href="authentication.html">Authentication</a>
 <li><a href="authorization.html">Authorization</a>
 <li><a href="billing.html">Laravel Cashier</a>
 <li><a href="blade.html">Blade Templates</a>
-<li><a href="broadcasting.html">Event Broadcasting</a>
 <li><a href="cache.html">Cache</a>
 <li><a href="collections.html">Collections</a>
 <li><a href="configuration.html">Configuration</a>
@@ -28,12 +26,10 @@
 <li><a href="contracts.html">Contracts</a>
 <li><a href="contributing.html">Contribution Guidelines</a>
 <li><a href="contributions.html">Contribution Guide</a>
-<li><a href="controllers.html">Controllers</a>
-<li><a href="csrf.html">CSRF Protection</a>
-<li><a href="database-testing.html">Database Testing</a>
+<li><a href="controllers.html">HTTP Controllers</a>
 <li><a href="database.html">Database: Getting Started</a>
 <li><a href="documentation.html">Prologue</a>
-<li><a href="elixir.html">Compiling Assets (Laravel Elixir)</a>
+<li><a href="elixir.html">Laravel Elixir</a>
 <li><a href="eloquent-collections.html">Eloquent: Collections</a>
 <li><a href="eloquent-mutators.html">Eloquent: Mutators</a>
 <li><a href="eloquent-relationships.html">Eloquent: Relationships</a>
@@ -46,7 +42,6 @@
 </a>
 <li><a href="facades.html">Facades</a>
 <li><a href="filesystem.html">Filesystem / Cloud Storage</a>
-<li><a href="frontend.html">JavaScript & CSS</a>
 <li><a href="hashing.html">Hashing</a>
 <li><a href="helpers.html">Helper Functions</a>
 <li><a href="homestead.html">Laravel Homestead</a>
@@ -55,29 +50,25 @@
 <li><a href="localization.html">Localization</a>
 <li><a href="mail.html">Mail
 </a>
-<li><a href="middleware.html">Middleware</a>
+<li><a href="middleware.html">HTTP Middleware</a>
 <li><a href="migrations.html">Database: Migrations</a>
-<li><a href="mocking.html">Mocking</a>
-<li><a href="notifications.html">Notifications</a>
 <li><a href="packages.html">Package Development</a>
 <li><a href="pagination.html">Pagination</a>
-<li><a href="passport.html">API Authentication (Passport)</a>
-<li><a href="passwords.html">Resetting Passwords</a>
 <li><a href="providers.html">Service Providers</a>
 <li><a href="queries.html">Database: Query Builder</a>
 <li><a href="queues.html">Queues</a>
+<li><a href="quickstart-intermediate.html">Intermediate Task List</a>
+<li><a href="quickstart.html">Basic Task List</a>
 <li><a href="readme.html">Laravel Documentation</a>
-<li><a href="redirects.html">HTTP Redirects</a>
 <li><a href="redis.html">Redis</a>
 <li><a href="releases.html">Release Notes</a>
 <li><a href="requests.html">HTTP Requests</a>
 <li><a href="responses.html">HTTP Responses</a>
-<li><a href="routing.html">Routing</a>
+<li><a href="routing.html">HTTP Routing</a>
 <li><a href="scheduling.html">Task Scheduling</a>
-<li><a href="scout.html">Laravel Scout</a>
 <li><a href="seeding.html">Database: Seeding</a>
-<li><a href="session.html">HTTP Session</a>
-<li><a href="structure.html">Directory Structure</a>
+<li><a href="session.html">Session</a>
+<li><a href="structure.html">Application Structure</a>
 <li><a href="testing.html">Testing</a>
 <li><a href="upgrade.html">Upgrade Guide</a>
 <li><a href="valet.html">Laravel Valet</a>
@@ -91,10 +82,8 @@
 <ul>
 <li><a href="#valet-or-homestead">Valet Or Homestead</a></li>
 </ul></li>
-<li><a href="#installation">Installation</a>
-<ul>
-<li><a href="#upgrading">Upgrading</a></li>
-</ul></li>
+<li><a href="#installation">Installation</a></li>
+<li><a href="#release-notes">Release Notes</a></li>
 <li><a href="#serving-sites">Serving Sites</a>
 <ul>
 <li><a href="#the-park-command">The &quot;Park&quot; Command</a></li>
@@ -116,10 +105,10 @@
 - [Laravel](https://laravel.com)
 - [Lumen](https://lumen.laravel.com)
 - [Symfony](https://symfony.com)
-- [Zend](https://framework.zend.com)
-- [CakePHP 3](https://cakephp.org)
+- [Zend](http://framework.zend.com)
+- [CakePHP 3](http://cakephp.org)
 - [WordPress](https://wordpress.org)
-- [Bedrock](https://roots.io/bedrock/)
+- [Bedrock](https://roots.io/bedrock)
 - [Craft](https://craftcms.com)
 - [Statamic](https://statamic.com)
 - [Jigsaw](http://jigsaw.tighten.co)
@@ -128,12 +117,12 @@
 <p>However, you may extend Valet with your own <a href="#custom-valet-drivers">custom drivers</a>.</p>
 <p><a name="valet-or-homestead"></a></p>
 <h3 id="valet-or-homestead">Valet Or Homestead</h3>
-<p>As you may know, Laravel offers <a href="/docs/%7B%7Bversion%7D%7D/homestead">Homestead</a>, another local Laravel development environment. Homestead and Valet differ in regards to their intended audience and their approach to local development. Homestead offers an entire Ubuntu virtual machine with automated Nginx configuration. Homestead is a wonderful choice if you want a fully virtualized Linux development environment or are on Windows / Linux.</p>
+<p>As you may know, Laravel offers <a href="homestead.html">Homestead</a>, another local Laravel development environment. Homestead and Valet differ in regards to their intended audience and their approach to local development. Homestead offers an entire Ubuntu virtual machine with automated Nginx configuration. Homestead is a wonderful choice if you want a fully virtualized Linux development environment or are on Windows / Linux.</p>
 <p>Valet only supports Mac, and requires you to install PHP and a database server directly onto your local machine. This is easily achieved by using <a href="http://brew.sh/">Homebrew</a> with commands like <code>brew install php70</code> and <code>brew install mariadb</code>. Valet provides a blazing fast local development environment with minimal resource consumption, so it's great for developers who only require PHP / MySQL and do not need a fully virtualized development environment.</p>
 <p>Both Valet and Homestead are great choices for configuring your Laravel development environment. Which one you choose will depend on your personal taste and your team's needs.</p>
 <p><a name="installation"></a></p>
 <h2 id="installation">Installation</h2>
-<p><strong>Valet requires macOS and <a href="http://brew.sh/">Homebrew</a>. Before installation, you should make sure that no other programs such as Apache or Nginx are binding to your local machine's port 80.</strong></p>
+<p><strong>Valet requires the Mac operating system and <a href="http://brew.sh/">Homebrew</a>. Before installation, you should make sure that no other programs such as Apache or Nginx are binding to your local machine's port 80.</strong></p>
 <div class="content-list" markdown="1">
 - Install or update [Homebrew](http://brew.sh/) to the latest version using `brew update`.
 - Install PHP 7.0 using Homebrew via `brew install homebrew/php/php70`.
@@ -146,10 +135,17 @@
 <p>By default, Valet serves your projects using the <code>.dev</code> TLD. If you'd like to use another domain, you can do so using the <code>valet domain tld-name</code> command.</p>
 <p>For example, if you'd like to use <code>.app</code> instead of <code>.dev</code>, run <code>valet domain app</code> and Valet will start serving your projects at <code>*.app</code> automatically.</p>
 <h4 id="database">Database</h4>
-<p>If you need a database, try MariaDB by running <code>brew install mariadb</code> on your command line. Once MariaDB has been installed, you may start it using the <code>brew services start mariadb</code> command. You can then connect to the database at <code>127.0.0.1</code> using the <code>root</code> username and an empty string for the password.</p>
-<p><a name="upgrading"></a></p>
-<h3 id="upgrading">Upgrading</h3>
-<p>You may update your Valet installation using the <code>composer global update</code> command in your terminal. After upgrading, it is good practice to run the <code>valet install</code> command so Valet can make additional upgrades to your configuration files if necessary.</p>
+<p>If you need a database, try MariaDB by running <code>brew install mariadb</code> on your command line. You can connect to the database at <code>127.0.0.1</code> using the <code>root</code> username and an empty string for the password.</p>
+<p><a name="release-notes"></a></p>
+<h2 id="release-notes">Release Notes</h2>
+<h3 id="version-1.1.5">Version 1.1.5</h3>
+<p>The 1.1.5 release of Valet brings a variety of internal improvements.</p>
+<h4 id="upgrade-instructions">Upgrade Instructions</h4>
+<p>After updating your Valet installation using <code>composer global update</code>, you should run the <code>valet install</code> command in your terminal.</p>
+<h3 id="version-1.1.0">Version 1.1.0</h3>
+<p>The 1.1.0 release of Valet brings a variety of great improvements. The built-in PHP server has been replaced with <a href="https://caddyserver.com/">Caddy</a> for serving incoming HTTP requests. Introducing Caddy allows for a variety of future improvements and allows Valet sites to make HTTP requests to other Valet sites without blocking the built-in PHP server.</p>
+<h4 id="upgrade-instructions-1">Upgrade Instructions</h4>
+<p>After updating your Valet installation using <code>composer global update</code>, you should run the <code>valet install</code> command in your terminal to create the new Caddy daemon file on your system.</p>
 <p><a name="serving-sites"></a></p>
 <h2 id="serving-sites">Serving Sites</h2>
 <p>Once Valet is installed, you're ready to start serving sites. Valet provides two commands to help you serve your Laravel sites: <code>park</code> and <code>link</code>.</p>
@@ -169,9 +165,6 @@
 - After running the `link` command, you can access the site in your browser at `http://app-name.dev`.
 </div>
 <p>To see a listing of all of your linked directories, run the <code>valet links</code> command. You may use <code>valet unlink app-name</code> to destroy the symbolic link.</p>
-<blockquote>
-<p>{tip} You can use <code>valet link</code> to serve the same project from multiple (sub)domains. To add a subdomain or another domain to your project run <code>valet link subdomain.app-name</code> from the project folder.</p>
-</blockquote>
 <p><a name="securing-sites"></a><br />
 <strong>Securing Sites With TLS</strong></p>
 <p>By default, Valet serves sites over plain HTTP. However, if you would like to serve a site over encrypted TLS using HTTP/2, use the <code>secure</code> command. For example, if your site is being served by Valet on the <code>laravel.dev</code> domain, you should run the following command to secure it:</p>
@@ -226,7 +219,7 @@ public function isStaticFile($sitePath, $siteName, $uri)
     return false;
 }</code></pre>
 <blockquote>
-<p>{note} The <code>isStaticFile</code> method will only be called if the <code>serves</code> method returns <code>true</code> for the incoming request and the request URI is not <code>/</code>.</p>
+<p><strong>Note:</strong> The <code>isStaticFile</code> method will only be called if the <code>serves</code> method returns <code>true</code> for the incoming request and the request URI is not <code>/</code>.</p>
 </blockquote>
 <h4 id="the-frontcontrollerpath-method">The <code>frontControllerPath</code> Method</h4>
 <p>The <code>frontControllerPath</code> method should return the fully qualified path to your application's &quot;front controller&quot;, which is typically your &quot;index.php&quot; file or equivalent:</p>

@@ -13,14 +13,12 @@
   <script src="../../laravel-docs/site.js"></script>
 </head>
 <body>
-<aside><h1>Laravel 5.3 offline docs</h1><ul id="navigation">
-<li><a href="application-testing.html">Application Testing</a>
-<li><a href="artisan.html">Console Commands</a>
+<aside><h1>Laravel 5.2 offline docs</h1><ul id="navigation">
+<li><a href="artisan.html">Artisan Console</a>
 <li><a href="authentication.html">Authentication</a>
 <li><a href="authorization.html">Authorization</a>
 <li><a href="billing.html">Laravel Cashier</a>
 <li><a href="blade.html">Blade Templates</a>
-<li><a href="broadcasting.html">Event Broadcasting</a>
 <li><a href="cache.html">Cache</a>
 <li><a href="collections.html">Collections</a>
 <li><a href="configuration.html">Configuration</a>
@@ -28,12 +26,10 @@
 <li><a href="contracts.html">Contracts</a>
 <li><a href="contributing.html">Contribution Guidelines</a>
 <li><a href="contributions.html">Contribution Guide</a>
-<li><a href="controllers.html">Controllers</a>
-<li><a href="csrf.html">CSRF Protection</a>
-<li><a href="database-testing.html">Database Testing</a>
+<li><a href="controllers.html">HTTP Controllers</a>
 <li><a href="database.html">Database: Getting Started</a>
 <li><a href="documentation.html">Prologue</a>
-<li><a href="elixir.html">Compiling Assets (Laravel Elixir)</a>
+<li><a href="elixir.html">Laravel Elixir</a>
 <li><a href="eloquent-collections.html">Eloquent: Collections</a>
 <li><a href="eloquent-mutators.html">Eloquent: Mutators</a>
 <li><a href="eloquent-relationships.html">Eloquent: Relationships</a>
@@ -46,7 +42,6 @@
 </a>
 <li><a href="facades.html">Facades</a>
 <li><a href="filesystem.html">Filesystem / Cloud Storage</a>
-<li><a href="frontend.html">JavaScript & CSS</a>
 <li><a href="hashing.html">Hashing</a>
 <li><a href="helpers.html">Helper Functions</a>
 <li><a href="homestead.html">Laravel Homestead</a>
@@ -55,29 +50,25 @@
 <li><a href="localization.html">Localization</a>
 <li><a href="mail.html">Mail
 </a>
-<li><a href="middleware.html">Middleware</a>
+<li><a href="middleware.html">HTTP Middleware</a>
 <li><a href="migrations.html">Database: Migrations</a>
-<li><a href="mocking.html">Mocking</a>
-<li><a href="notifications.html">Notifications</a>
 <li><a href="packages.html">Package Development</a>
 <li><a href="pagination.html">Pagination</a>
-<li><a href="passport.html">API Authentication (Passport)</a>
-<li><a href="passwords.html">Resetting Passwords</a>
 <li><a href="providers.html">Service Providers</a>
 <li><a href="queries.html">Database: Query Builder</a>
 <li><a href="queues.html">Queues</a>
+<li><a href="quickstart-intermediate.html">Intermediate Task List</a>
+<li><a href="quickstart.html">Basic Task List</a>
 <li><a href="readme.html">Laravel Documentation</a>
-<li><a href="redirects.html">HTTP Redirects</a>
 <li><a href="redis.html">Redis</a>
 <li><a href="releases.html">Release Notes</a>
 <li><a href="requests.html">HTTP Requests</a>
 <li><a href="responses.html">HTTP Responses</a>
-<li><a href="routing.html">Routing</a>
+<li><a href="routing.html">HTTP Routing</a>
 <li><a href="scheduling.html">Task Scheduling</a>
-<li><a href="scout.html">Laravel Scout</a>
 <li><a href="seeding.html">Database: Seeding</a>
-<li><a href="session.html">HTTP Session</a>
-<li><a href="structure.html">Directory Structure</a>
+<li><a href="session.html">Session</a>
+<li><a href="structure.html">Application Structure</a>
 <li><a href="testing.html">Testing</a>
 <li><a href="upgrade.html">Upgrade Guide</a>
 <li><a href="valet.html">Laravel Valet</a>
@@ -87,17 +78,11 @@
 </ul></aside><article>
 <h1 id="http-responses">HTTP Responses</h1>
 <ul>
-<li><a href="#creating-responses">Creating Responses</a>
+<li><a href="#basic-responses">Basic Responses</a>
 <ul>
 <li><a href="#attaching-headers-to-responses">Attaching Headers To Responses</a></li>
 <li><a href="#attaching-cookies-to-responses">Attaching Cookies To Responses</a></li>
 <li><a href="#cookies-and-encryption">Cookies &amp; Encryption</a></li>
-</ul></li>
-<li><a href="#redirects">Redirects</a>
-<ul>
-<li><a href="#redirecting-named-routes">Redirecting To Named Routes</a></li>
-<li><a href="#redirecting-controller-actions">Redirecting To Controller Actions</a></li>
-<li><a href="#redirecting-with-flashed-session-data">Redirecting With Flashed Session Data</a></li>
 </ul></li>
 <li><a href="#other-response-types">Other Response Types</a>
 <ul>
@@ -106,32 +91,40 @@
 <li><a href="#file-downloads">File Downloads</a></li>
 <li><a href="#file-responses">File Responses</a></li>
 </ul></li>
+<li><a href="#redirects">Redirects</a>
+<ul>
+<li><a href="#redirecting-named-routes">Redirecting To Named Routes</a></li>
+<li><a href="#redirecting-controller-actions">Redirecting To Controller Actions</a></li>
+<li><a href="#redirecting-with-flashed-session-data">Redirecting With Flashed Session Data</a></li>
+</ul></li>
 <li><a href="#response-macros">Response Macros</a></li>
 </ul>
-<p><a name="creating-responses"></a></p>
-<h2 id="creating-responses">Creating Responses</h2>
-<h4 id="strings-arrays">Strings &amp; Arrays</h4>
-<p>All routes and controllers should return a response to be sent back to the user's browser. Laravel provides several different ways to return responses. The most basic response is simply returning a string from a route or controller. The framework will automatically convert the string into a full HTTP response:</p>
+<p><a name="basic-responses"></a></p>
+<h2 id="basic-responses">Basic Responses</h2>
+<p>Of course, all routes and controllers should return some kind of response to be sent back to the user's browser. Laravel provides several different ways to return responses. The most basic response is simply returning a string from a route or controller:</p>
 <pre><code>Route::get(&#39;/&#39;, function () {
     return &#39;Hello World&#39;;
 });</code></pre>
-<p>In addition to returning strings from your routes and controllers, you may also return arrays. The framework will automatically convert the array into a JSON response:</p>
-<pre><code>Route::get(&#39;/&#39;, function () {
-    return [1, 2, 3];
+<p>The given string will automatically be converted into an HTTP response by the framework.</p>
+<h4 id="response-objects">Response Objects</h4>
+<p>However, for most routes and controller actions, you will be returning a full <code>Illuminate\Http\Response</code> instance or a <a href="views.html">view</a>. Returning a full <code>Response</code> instance allows you to customize the response's HTTP status code and headers. A <code>Response</code> instance inherits from the <code>Symfony\Component\HttpFoundation\Response</code> class, providing a variety of methods for building HTTP responses:</p>
+<pre><code>use Illuminate\Http\Response;
+
+Route::get(&#39;home&#39;, function () {
+    return (new Response($content, $status))
+                  -&gt;header(&#39;Content-Type&#39;, $value);
+});</code></pre>
+<p>For convenience, you may also use the <code>response</code> helper:</p>
+<pre><code>Route::get(&#39;home&#39;, function () {
+    return response($content, $status)
+                  -&gt;header(&#39;Content-Type&#39;, $value);
 });</code></pre>
 <blockquote>
-<p>{tip} Did you know you can also return <a href="/docs/%7B%7Bversion%7D%7D/eloquent-collections">Eloquent collections</a> from your routes or controllers? They will automatically be converted to JSON. Give it a shot!</p>
+<p><strong>Note:</strong> For a full list of available <code>Response</code> methods, check out its <a href="http://laravel.com/api/master/Illuminate/Http/Response.html">API documentation</a> and the <a href="http://api.symfony.com/3.0/Symfony/Component/HttpFoundation/Response.html">Symfony API documentation</a>.</p>
 </blockquote>
-<h4 id="response-objects">Response Objects</h4>
-<p>Typically, you won't just be returning simple strings or arrays from your route actions. Instead, you will be returning full <code>Illuminate\Http\Response</code> instances or <a href="/docs/%7B%7Bversion%7D%7D/views">views</a>.</p>
-<p>Returning a full <code>Response</code> instance allows you to customize the response's HTTP status code and headers. A <code>Response</code> instance inherits from the <code>Symfony\Component\HttpFoundation\Response</code> class, which provides a variety of methods for building HTTP responses:</p>
-<pre><code>Route::get(&#39;home&#39;, function () {
-    return response(&#39;Hello World&#39;, 200)
-                  -&gt;header(&#39;Content-Type&#39;, &#39;text/plain&#39;);
-});</code></pre>
 <p><a name="attaching-headers-to-responses"></a></p>
 <h4 id="attaching-headers-to-responses">Attaching Headers To Responses</h4>
-<p>Keep in mind that most response methods are chainable, allowing for the fluent construction of response instances. For example, you may use the <code>header</code> method to add a series of headers to the response before sending it back to the user:</p>
+<p>Keep in mind that most response methods are chainable, allowing for the fluent building of responses. For example, you may use the <code>header</code> method to add a series of headers to the response before sending it back to the user:</p>
 <pre><code>return response($content)
             -&gt;header(&#39;Content-Type&#39;, $type)
             -&gt;header(&#39;X-Header-One&#39;, &#39;Header Value&#39;)
@@ -145,15 +138,37 @@
             ]);</code></pre>
 <p><a name="attaching-cookies-to-responses"></a></p>
 <h4 id="attaching-cookies-to-responses">Attaching Cookies To Responses</h4>
-<p>The <code>cookie</code> method on response instances allows you to easily attach cookies to the response. For example, you may use the <code>cookie</code> method to generate a cookie and fluently attach it to the response instance like so:</p>
+<p>The <code>cookie</code> helper method on the response instance allows you to easily attach cookies to the response. For example, you may use the <code>cookie</code> method to generate a cookie and attach it to the response instance:</p>
 <pre><code>return response($content)
                 -&gt;header(&#39;Content-Type&#39;, $type)
-                -&gt;cookie(&#39;name&#39;, &#39;value&#39;, $minutes);</code></pre>
-<p>The <code>cookie</code> method also accepts a few more arguments which are used less frequently. Generally, these arguments have the same purpose and meaning as the arguments that would be given to PHP's native <a href="https://secure.php.net/manual/en/function.setcookie.php">setcookie</a> method:</p>
+                -&gt;cookie(&#39;name&#39;, &#39;value&#39;);</code></pre>
+<p>The <code>cookie</code> method accepts additional optional arguments which allow you to further customize your cookie's properties:</p>
 <pre><code>-&gt;cookie($name, $value, $minutes, $path, $domain, $secure, $httpOnly)</code></pre>
-<p><a name="cookies-and-encryption"></a></p>
+<p>Alternatively, you may use the <code>queue</code> method on the <code>Cookie</code> <a href="facades.html">facade</a> to create a cookie that will be automatically added to the outgoing response:</p>
+<pre><code>&lt;?php
+
+namespace App\Http\Controllers;
+
+use Cookie;
+use App\Http\Controllers\Controller;
+
+class DashboardController extends Controller
+{
+    /**
+     * Show the application dashboard.
+     *
+     * @return Response
+     */
+    public function index()
+    {
+        Cookie::queue(&#39;saw_dashboard&#39;, true, 15);
+
+        return view(&#39;dashboard&#39;);
+    }
+}</code></pre>
+<p>In this example, the <code>saw_dashboard</code> cookie will automatically be added to the outgoing response without forcing you to manually attach the cookie to a specific response instance.</p>
 <h4 id="cookies-encryption">Cookies &amp; Encryption</h4>
-<p>By default, all cookies generated by Laravel are encrypted and signed so that they can't be modified or read by the client. If you would like to disable encryption for a subset of cookies generated by your application, you may use the <code>$except</code> property of the <code>App\Http\Middleware\EncryptCookies</code> middleware, which is located in the <code>app/Http/Middleware</code> directory:</p>
+<p>By default, all cookies generated by Laravel are encrypted and signed so that they can't be modified or read by the client. If you would like to disable encryption for a certain subset of cookies generated by your application, you may use the <code>$except</code> property of the <code>App\Http\Middleware\EncryptCookies</code> middleware:</p>
 <pre><code>/**
  * The names of the cookies that should not be encrypted.
  *
@@ -162,113 +177,96 @@
 protected $except = [
     &#39;cookie_name&#39;,
 ];</code></pre>
+<p><a name="other-response-types"></a></p>
+<h2 id="other-response-types">Other Response Types</h2>
+<p>The <code>response</code> helper may be used to conveniently generate other types of response instances. When the <code>response</code> helper is called without arguments, an implementation of the <code>Illuminate\Contracts\Routing\ResponseFactory</code> <a href="contracts.html">contract</a> is returned. This contract provides several helpful methods for generating responses.</p>
+<p><a name="view-responses"></a></p>
+<h4 id="view-responses">View Responses</h4>
+<p>If you need control over the response status and headers, but also need to return a <a href="views.html">view</a> as the response content, you may use the <code>view</code> method:</p>
+<pre><code>return response()
+            -&gt;view(&#39;hello&#39;, $data)
+            -&gt;header(&#39;Content-Type&#39;, $type);</code></pre>
+<p>Of course, if you do not need to pass a custom HTTP status code or custom headers, you should simply use the global <code>view</code> helper function.</p>
+<p><a name="json-responses"></a></p>
+<h4 id="json-responses">JSON Responses</h4>
+<p>The <code>json</code> method will automatically set the <code>Content-Type</code> header to <code>application/json</code>, as well as convert the given array into JSON using the <code>json_encode</code> PHP function:</p>
+<pre><code>return response()-&gt;json([&#39;name&#39; =&gt; &#39;Abigail&#39;, &#39;state&#39; =&gt; &#39;CA&#39;]);</code></pre>
+<p>If you would like to create a JSONP response, you may use the <code>json</code> method in addition to <code>setCallback</code>:</p>
+<pre><code>return response()
+            -&gt;json([&#39;name&#39; =&gt; &#39;Abigail&#39;, &#39;state&#39; =&gt; &#39;CA&#39;])
+            -&gt;setCallback($request-&gt;input(&#39;callback&#39;));</code></pre>
+<p><a name="file-downloads"></a></p>
+<h4 id="file-downloads">File Downloads</h4>
+<p>The <code>download</code> method may be used to generate a response that forces the user's browser to download the file at the given path. The <code>download</code> method accepts a file name as the second argument to the method, which will determine the file name that is seen by the user downloading the file. Finally, you may pass an array of HTTP headers as the third argument to the method:</p>
+<pre><code>return response()-&gt;download($pathToFile);
+
+return response()-&gt;download($pathToFile, $name, $headers);</code></pre>
+<blockquote>
+<p><strong>Note:</strong> Symfony HttpFoundation, which manages file downloads, requires the file being downloaded to have an ASCII file name.</p>
+</blockquote>
+<p><a name="file-responses"></a></p>
+<h4 id="file-responses">File Responses</h4>
+<p>The <code>file</code> method can be used to display a file, such as an image or PDF, directly in the user's browser instead of initiating a download. This method accepts the path to the file as its first argument and an array of headers as its second argument:</p>
+<pre><code>return response()-&gt;file($pathToFile);
+
+return response()-&gt;file($pathToFile, $headers);</code></pre>
 <p><a name="redirects"></a></p>
 <h2 id="redirects">Redirects</h2>
-<p>Redirect responses are instances of the <code>Illuminate\Http\RedirectResponse</code> class, and contain the proper headers needed to redirect the user to another URL. There are several ways to generate a <code>RedirectResponse</code> instance. The simplest method is to use the global <code>redirect</code> helper:</p>
+<p>Redirect responses are instances of the <code>Illuminate\Http\RedirectResponse</code> class, and contain the proper headers needed to redirect the user to another URL. There are several ways to generate a <code>RedirectResponse</code> instance. The simplest method is to use the global <code>redirect</code> helper method:</p>
 <pre><code>Route::get(&#39;dashboard&#39;, function () {
     return redirect(&#39;home/dashboard&#39;);
 });</code></pre>
-<p>Sometimes you may wish to redirect the user to their previous location, such as when a submitted form is invalid. You may do so by using the global <code>back</code> helper function. Since this feature utilizes the <a href="/docs/%7B%7Bversion%7D%7D/session">session</a>, make sure the route calling the <code>back</code> function is using the <code>web</code> middleware group or has all of the session middleware applied:</p>
+<p>Sometimes you may wish to redirect the user to their previous location, for example, after a form submission that is invalid. You may do so by using the global <code>back</code> helper function. However, make sure the route using the <code>back</code> function is using the <code>web</code> middleware group or has all of the session middleware applied:</p>
 <pre><code>Route::post(&#39;user/profile&#39;, function () {
     // Validate the request...
 
     return back()-&gt;withInput();
 });</code></pre>
 <p><a name="redirecting-named-routes"></a></p>
-<h3 id="redirecting-to-named-routes">Redirecting To Named Routes</h3>
+<h4 id="redirecting-to-named-routes">Redirecting To Named Routes</h4>
 <p>When you call the <code>redirect</code> helper with no parameters, an instance of <code>Illuminate\Routing\Redirector</code> is returned, allowing you to call any method on the <code>Redirector</code> instance. For example, to generate a <code>RedirectResponse</code> to a named route, you may use the <code>route</code> method:</p>
 <pre><code>return redirect()-&gt;route(&#39;login&#39;);</code></pre>
 <p>If your route has parameters, you may pass them as the second argument to the <code>route</code> method:</p>
 <pre><code>// For a route with the following URI: profile/{id}
 
 return redirect()-&gt;route(&#39;profile&#39;, [&#39;id&#39; =&gt; 1]);</code></pre>
-<h4 id="populating-parameters-via-eloquent-models">Populating Parameters Via Eloquent Models</h4>
 <p>If you are redirecting to a route with an &quot;ID&quot; parameter that is being populated from an Eloquent model, you may simply pass the model itself. The ID will be extracted automatically:</p>
-<pre><code>// For a route with the following URI: profile/{id}
-
-return redirect()-&gt;route(&#39;profile&#39;, [$user]);</code></pre>
-<p>If you would like to customize the value that is placed in the route parameter, you should override the <code>getRouteKey</code> method on your Eloquent model:</p>
-<pre><code>/**
- * Get the value of the model&#39;s route key.
- *
- * @return mixed
- */
-public function getRouteKey()
-{
-    return $this-&gt;slug;
-}</code></pre>
+<pre><code>return redirect()-&gt;route(&#39;profile&#39;, [$user]);</code></pre>
 <p><a name="redirecting-controller-actions"></a></p>
-<h3 id="redirecting-to-controller-actions">Redirecting To Controller Actions</h3>
-<p>You may also generate redirects to <a href="/docs/%7B%7Bversion%7D%7D/controllers">controller actions</a>. To do so, pass the controller and action name to the <code>action</code> method. Remember, you do not need to specify the full namespace to the controller since Laravel's <code>RouteServiceProvider</code> will automatically set the base controller namespace:</p>
+<h4 id="redirecting-to-controller-actions">Redirecting To Controller Actions</h4>
+<p>You may also generate redirects to <a href="controllers.html">controller actions</a>. To do so, simply pass the controller and action name to the <code>action</code> method. Remember, you do not need to specify the full namespace to the controller since Laravel's <code>RouteServiceProvider</code> will automatically set the default controller namespace:</p>
 <pre><code>return redirect()-&gt;action(&#39;HomeController@index&#39;);</code></pre>
-<p>If your controller route requires parameters, you may pass them as the second argument to the <code>action</code> method:</p>
-<pre><code>return redirect()-&gt;action(
-    &#39;UserController@profile&#39;, [&#39;id&#39; =&gt; 1]
-);</code></pre>
+<p>Of course, if your controller route requires parameters, you may pass them as the second argument to the <code>action</code> method:</p>
+<pre><code>return redirect()-&gt;action(&#39;UserController@profile&#39;, [&#39;id&#39; =&gt; 1]);</code></pre>
 <p><a name="redirecting-with-flashed-session-data"></a></p>
-<h3 id="redirecting-with-flashed-session-data">Redirecting With Flashed Session Data</h3>
-<p>Redirecting to a new URL and <a href="/docs/%7B%7Bversion%7D%7D/session#flash-data">flashing data to the session</a> are usually done at the same time. Typically, this is done after successfully performing an action when you flash a success message to the session. For convenience, you may create a <code>RedirectResponse</code> instance and flash data to the session in a single, fluent method chain:</p>
+<h4 id="redirecting-with-flashed-session-data">Redirecting With Flashed Session Data</h4>
+<p>Redirecting to a new URL and <a href="session.html#flash-data">flashing data to the session</a> are typically done at the same time. So, for convenience, you may create a <code>RedirectResponse</code> instance <strong>and</strong> flash data to the session in a single method chain. This is particularly convenient for storing status messages after an action:</p>
 <pre><code>Route::post(&#39;user/profile&#39;, function () {
     // Update the user&#39;s profile...
 
     return redirect(&#39;dashboard&#39;)-&gt;with(&#39;status&#39;, &#39;Profile updated!&#39;);
 });</code></pre>
-<p>After the user is redirected, you may display the flashed message from the <a href="/docs/%7B%7Bversion%7D%7D/session">session</a>. For example, using <a href="/docs/%7B%7Bversion%7D%7D/blade">Blade syntax</a>:</p>
+<p>Of course, after the user is redirected to a new page, you may retrieve and display the flashed message from the <a href="session.html">session</a>. For example, using <a href="blade.html">Blade syntax</a>:</p>
 <pre><code>@if (session(&#39;status&#39;))
     &lt;div class=&quot;alert alert-success&quot;&gt;
         {{ session(&#39;status&#39;) }}
     &lt;/div&gt;
 @endif</code></pre>
-<p><a name="other-response-types"></a></p>
-<h2 id="other-response-types">Other Response Types</h2>
-<p>The <code>response</code> helper may be used to generate other types of response instances. When the <code>response</code> helper is called without arguments, an implementation of the <code>Illuminate\Contracts\Routing\ResponseFactory</code> <a href="/docs/%7B%7Bversion%7D%7D/contracts">contract</a> is returned. This contract provides several helpful methods for generating responses.</p>
-<p><a name="view-responses"></a></p>
-<h3 id="view-responses">View Responses</h3>
-<p>If you need control over the response's status and headers but also need to return a <a href="/docs/%7B%7Bversion%7D%7D/views">view</a> as the response's content, you should use the <code>view</code> method:</p>
-<pre><code>return response()
-            -&gt;view(&#39;hello&#39;, $data, 200)
-            -&gt;header(&#39;Content-Type&#39;, $type);</code></pre>
-<p>Of course, if you do not need to pass a custom HTTP status code or custom headers, you should use the global <code>view</code> helper function.</p>
-<p><a name="json-responses"></a></p>
-<h3 id="json-responses">JSON Responses</h3>
-<p>The <code>json</code> method will automatically set the <code>Content-Type</code> header to <code>application/json</code>, as well as convert the given array to JSON using the <code>json_encode</code> PHP function:</p>
-<pre><code>return response()-&gt;json([
-    &#39;name&#39; =&gt; &#39;Abigail&#39;,
-    &#39;state&#39; =&gt; &#39;CA&#39;
-]);</code></pre>
-<p>If you would like to create a JSONP response, you may use the <code>json</code> method in combination with the <code>withCallback</code> method:</p>
-<pre><code>return response()
-            -&gt;json([&#39;name&#39; =&gt; &#39;Abigail&#39;, &#39;state&#39; =&gt; &#39;CA&#39;])
-            -&gt;withCallback($request-&gt;input(&#39;callback&#39;));</code></pre>
-<p><a name="file-downloads"></a></p>
-<h3 id="file-downloads">File Downloads</h3>
-<p>The <code>download</code> method may be used to generate a response that forces the user's browser to download the file at the given path. The <code>download</code> method accepts a file name as the second argument to the method, which will determine the file name that is seen by the user downloading the file. Finally, you may pass an array of HTTP headers as the third argument to the method:</p>
-<pre><code>return response()-&gt;download($pathToFile);
-
-return response()-&gt;download($pathToFile, $name, $headers);</code></pre>
-<blockquote>
-<p>{note} Symfony HttpFoundation, which manages file downloads, requires the file being downloaded to have an ASCII file name.</p>
-</blockquote>
-<p><a name="file-responses"></a></p>
-<h3 id="file-responses">File Responses</h3>
-<p>The <code>file</code> method may be used to display a file, such as an image or PDF, directly in the user's browser instead of initiating a download. This method accepts the path to the file as its first argument and an array of headers as its second argument:</p>
-<pre><code>return response()-&gt;file($pathToFile);
-
-return response()-&gt;file($pathToFile, $headers);</code></pre>
 <p><a name="response-macros"></a></p>
 <h2 id="response-macros">Response Macros</h2>
-<p>If you would like to define a custom response that you can re-use in a variety of your routes and controllers, you may use the <code>macro</code> method on the <code>Response</code> facade. For example, from a <a href="/docs/%7B%7Bversion%7D%7D/providers">service provider's</a> <code>boot</code> method:</p>
+<p>If you would like to define a custom response that you can re-use in a variety of your routes and controllers, you may use the <code>macro</code> method on the <code>Response</code> facade or the implementation of <code>Illuminate\Contracts\Routing\ResponseFactory</code>.</p>
+<p>For example, from a <a href="providers.html">service provider's</a> <code>boot</code> method:</p>
 <pre><code>&lt;?php
 
 namespace App\Providers;
 
+use Response;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Facades\Response;
 
 class ResponseMacroServiceProvider extends ServiceProvider
 {
     /**
-     * Register the application&#39;s response macros.
+     * Perform post-registration booting of services.
      *
      * @return void
      */

@@ -13,14 +13,12 @@
   <script src="../../laravel-docs/site.js"></script>
 </head>
 <body>
-<aside><h1>Laravel 5.3 offline docs</h1><ul id="navigation">
-<li><a href="application-testing.html">Application Testing</a>
-<li><a href="artisan.html">Console Commands</a>
+<aside><h1>Laravel 5.2 offline docs</h1><ul id="navigation">
+<li><a href="artisan.html">Artisan Console</a>
 <li><a href="authentication.html">Authentication</a>
 <li><a href="authorization.html">Authorization</a>
 <li><a href="billing.html">Laravel Cashier</a>
 <li><a href="blade.html">Blade Templates</a>
-<li><a href="broadcasting.html">Event Broadcasting</a>
 <li><a href="cache.html">Cache</a>
 <li><a href="collections.html">Collections</a>
 <li><a href="configuration.html">Configuration</a>
@@ -28,12 +26,10 @@
 <li><a href="contracts.html">Contracts</a>
 <li><a href="contributing.html">Contribution Guidelines</a>
 <li><a href="contributions.html">Contribution Guide</a>
-<li><a href="controllers.html">Controllers</a>
-<li><a href="csrf.html">CSRF Protection</a>
-<li><a href="database-testing.html">Database Testing</a>
+<li><a href="controllers.html">HTTP Controllers</a>
 <li><a href="database.html">Database: Getting Started</a>
 <li><a href="documentation.html">Prologue</a>
-<li><a href="elixir.html">Compiling Assets (Laravel Elixir)</a>
+<li><a href="elixir.html">Laravel Elixir</a>
 <li><a href="eloquent-collections.html">Eloquent: Collections</a>
 <li><a href="eloquent-mutators.html">Eloquent: Mutators</a>
 <li><a href="eloquent-relationships.html">Eloquent: Relationships</a>
@@ -46,7 +42,6 @@
 </a>
 <li><a href="facades.html">Facades</a>
 <li><a href="filesystem.html">Filesystem / Cloud Storage</a>
-<li><a href="frontend.html">JavaScript & CSS</a>
 <li><a href="hashing.html">Hashing</a>
 <li><a href="helpers.html">Helper Functions</a>
 <li><a href="homestead.html">Laravel Homestead</a>
@@ -55,29 +50,25 @@
 <li><a href="localization.html">Localization</a>
 <li><a href="mail.html">Mail
 </a>
-<li><a href="middleware.html">Middleware</a>
+<li><a href="middleware.html">HTTP Middleware</a>
 <li><a href="migrations.html">Database: Migrations</a>
-<li><a href="mocking.html">Mocking</a>
-<li><a href="notifications.html">Notifications</a>
 <li><a href="packages.html">Package Development</a>
 <li><a href="pagination.html">Pagination</a>
-<li><a href="passport.html">API Authentication (Passport)</a>
-<li><a href="passwords.html">Resetting Passwords</a>
 <li><a href="providers.html">Service Providers</a>
 <li><a href="queries.html">Database: Query Builder</a>
 <li><a href="queues.html">Queues</a>
+<li><a href="quickstart-intermediate.html">Intermediate Task List</a>
+<li><a href="quickstart.html">Basic Task List</a>
 <li><a href="readme.html">Laravel Documentation</a>
-<li><a href="redirects.html">HTTP Redirects</a>
 <li><a href="redis.html">Redis</a>
 <li><a href="releases.html">Release Notes</a>
 <li><a href="requests.html">HTTP Requests</a>
 <li><a href="responses.html">HTTP Responses</a>
-<li><a href="routing.html">Routing</a>
+<li><a href="routing.html">HTTP Routing</a>
 <li><a href="scheduling.html">Task Scheduling</a>
-<li><a href="scout.html">Laravel Scout</a>
 <li><a href="seeding.html">Database: Seeding</a>
-<li><a href="session.html">HTTP Session</a>
-<li><a href="structure.html">Directory Structure</a>
+<li><a href="session.html">Session</a>
+<li><a href="structure.html">Application Structure</a>
 <li><a href="testing.html">Testing</a>
 <li><a href="upgrade.html">Upgrade Guide</a>
 <li><a href="valet.html">Laravel Valet</a>
@@ -88,85 +79,196 @@
 <h1 id="authorization">Authorization</h1>
 <ul>
 <li><a href="#introduction">Introduction</a></li>
-<li><a href="#gates">Gates</a>
+<li><a href="#defining-abilities">Defining Abilities</a></li>
+<li><a href="#checking-abilities">Checking Abilities</a>
 <ul>
-<li><a href="#writing-gates">Writing Gates</a></li>
-<li><a href="#authorizing-actions-via-gates">Authorizing Actions</a></li>
-</ul></li>
-<li><a href="#creating-policies">Creating Policies</a>
-<ul>
-<li><a href="#generating-policies">Generating Policies</a></li>
-<li><a href="#registering-policies">Registering Policies</a></li>
-</ul></li>
-<li><a href="#writing-policies">Writing Policies</a>
-<ul>
-<li><a href="#policy-methods">Policy Methods</a></li>
-<li><a href="#methods-without-models">Methods Without Models</a></li>
-<li><a href="#policy-filters">Policy Filters</a></li>
-</ul></li>
-<li><a href="#authorizing-actions-using-policies">Authorizing Actions Using Policies</a>
-<ul>
+<li><a href="#via-the-gate-facade">Via The Gate Facade</a></li>
 <li><a href="#via-the-user-model">Via The User Model</a></li>
-<li><a href="#via-middleware">Via Middleware</a></li>
-<li><a href="#via-controller-helpers">Via Controller Helpers</a></li>
-<li><a href="#via-blade-templates">Via Blade Templates</a></li>
+<li><a href="#within-blade-templates">Within Blade Templates</a></li>
+<li><a href="#within-form-requests">Within Form Requests</a></li>
 </ul></li>
+<li><a href="#policies">Policies</a>
+<ul>
+<li><a href="#creating-policies">Creating Policies</a></li>
+<li><a href="#writing-policies">Writing Policies</a></li>
+<li><a href="#checking-policies">Checking Policies</a></li>
+</ul></li>
+<li><a href="#controller-authorization">Controller Authorization</a></li>
 </ul>
 <p><a name="introduction"></a></p>
 <h2 id="introduction">Introduction</h2>
-<p>In addition to providing <a href="/docs/%7B%7Bversion%7D%7D/authentication">authentication</a> services out of the box, Laravel also provides a simple way to authorize user actions against a given resource. Like authentication, Laravel's approach to authorization is simple, and there are two primary ways of authorizing actions: gates and policies.</p>
-<p>Think of gates and policies like routes and controllers. Gates provide a simple, Closure based approach to authorization while policies, like controllers, group their logic around a particular model or resource. We'll explore gates first and then examine policies.</p>
-<p>It is important to not view gates and policies as mutually exclusive for your application. Most applications will most likely contain a mixture of gates and policies, and that is perfectly fine! Gates are most applicable to actions which are not related to any model or resource, such as viewing an administrator dashboard. In contrast, policies should be used when you wish to authorize an action for a particular model or resource.</p>
-<p><a name="gates"></a></p>
-<h2 id="gates">Gates</h2>
-<p><a name="writing-gates"></a></p>
-<h3 id="writing-gates">Writing Gates</h3>
-<p>Gates are Closures that determine if a user is authorized to perform a given action and are typically defined in the <code>App\Providers\AuthServiceProvider</code> class using the <code>Gate</code> facade. Gates always receive a user instance as their first argument, and may optionally receive additional arguments such as a relevant Eloquent model:</p>
-<pre><code>/**
- * Register any authentication / authorization services.
- *
- * @return void
- */
-public function boot()
-{
-    $this-&gt;registerPolicies();
+<p>In addition to providing <a href="authentication.html">authentication</a> services out of the box, Laravel also provides a simple way to organize authorization logic and control access to resources. There are a variety of methods and helpers to assist you in organizing your authorization logic, and we'll cover each of them in this document.</p>
+<p><a name="defining-abilities"></a></p>
+<h2 id="defining-abilities">Defining Abilities</h2>
+<p>The simplest way to determine if a user may perform a given action is to define an &quot;ability&quot; using the <code>Illuminate\Auth\Access\Gate</code> class. The <code>AuthServiceProvider</code> which ships with Laravel serves as a convenient location to define all of the abilities for your application. For example, let's define an <code>update-post</code> ability which receives the current <code>User</code> and a <code>Post</code> <a href="eloquent.html">model</a>. Within our ability, we will determine if the user's <code>id</code> matches the post's <code>user_id</code>:</p>
+<pre><code>&lt;?php
 
-    Gate::define(&#39;update-post&#39;, function ($user, $post) {
-        return $user-&gt;id == $post-&gt;user_id;
-    });
+namespace App\Providers;
+
+use Illuminate\Contracts\Auth\Access\Gate as GateContract;
+use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+
+class AuthServiceProvider extends ServiceProvider
+{
+    /**
+     * Register any application authentication / authorization services.
+     *
+     * @param  \Illuminate\Contracts\Auth\Access\Gate  $gate
+     * @return void
+     */
+    public function boot(GateContract $gate)
+    {
+        $this-&gt;registerPolicies($gate);
+
+        $gate-&gt;define(&#39;update-post&#39;, function ($user, $post) {
+            return $user-&gt;id == $post-&gt;user_id;
+        });
+    }
 }</code></pre>
-<p><a name="authorizing-actions-via-gates"></a></p>
-<h3 id="authorizing-actions">Authorizing Actions</h3>
-<p>To authorize an action using gates, you should use the <code>allows</code> method. Note that you are not required to pass the currently authenticated user to the <code>allows</code> method. Laravel will automatically take care of passing the user into the gate Closure:</p>
-<pre><code>if (Gate::allows(&#39;update-post&#39;, $post)) {
-    // The current user can update the post...
+<p>Note that we did not check if the given <code>$user</code> is not <code>NULL</code>. The <code>Gate</code> will automatically return <code>false</code> for <strong>all abilities</strong> when there is not an authenticated user or a specific user has not been specified using the <code>forUser</code> method.</p>
+<h4 id="class-based-abilities">Class Based Abilities</h4>
+<p>In addition to registering <code>Closures</code> as authorization callbacks, you may register class methods by passing a string containing the class name and the method. When needed, the class will be resolved via the <a href="container.html">service container</a>:</p>
+<pre><code>$gate-&gt;define(&#39;update-post&#39;, &#39;Class@method&#39;);</code></pre>
+<p><a name="intercepting-all-checks"></a><br />
+<a name="intercepting-authorization-checks"></a></p>
+<h4 id="intercepting-authorization-checks">Intercepting Authorization Checks</h4>
+<p>Sometimes, you may wish to grant all abilities to a specific user. For this situation, use the <code>before</code> method to define a callback that is run before all other authorization checks:</p>
+<pre><code>$gate-&gt;before(function ($user, $ability) {
+    if ($user-&gt;isSuperAdmin()) {
+        return true;
+    }
+});</code></pre>
+<p>If the <code>before</code> callback returns a non-null result that result will be considered the result of the check.</p>
+<p>You may use the <code>after</code> method to define a callback to be executed after every authorization check. However, you may not modify the result of the authorization check from an <code>after</code> callback:</p>
+<pre><code>$gate-&gt;after(function ($user, $ability, $result, $arguments) {
+    //
+});</code></pre>
+<p><a name="checking-abilities"></a></p>
+<h2 id="checking-abilities">Checking Abilities</h2>
+<p><a name="via-the-gate-facade"></a></p>
+<h3 id="via-the-gate-facade">Via The Gate Facade</h3>
+<p>Once an ability has been defined, we may &quot;check&quot; it in a variety of ways. First, we may use the <code>check</code>, <code>allows</code>, or <code>denies</code> methods on the <code>Gate</code> <a href="facades.html">facade</a>. All of these methods receive the name of the ability and the arguments that should be passed to the ability's callback. You do <strong>not</strong> need to pass the current user to these methods, since the <code>Gate</code> will automatically prepend the current user to the arguments passed to the callback. So, when checking the <code>update-post</code> ability we defined earlier, we only need to pass a <code>Post</code> instance to the <code>denies</code> method:</p>
+<pre><code>&lt;?php
+
+namespace App\Http\Controllers;
+
+use Gate;
+use App\User;
+use App\Post;
+use App\Http\Controllers\Controller;
+
+class PostController extends Controller
+{
+    /**
+     * Update the given post.
+     *
+     * @param  int  $id
+     * @return Response
+     */
+    public function update($id)
+    {
+        $post = Post::findOrFail($id);
+
+        if (Gate::denies(&#39;update-post&#39;, $post)) {
+            abort(403);
+        }
+
+        // Update Post...
+    }
 }</code></pre>
-<p>If you would like to determine if a particular user is authorized to perform an action, you may use the <code>forUser</code> method on the <code>Gate</code> facade:</p>
+<p>Of course, the <code>allows</code> method is simply the inverse of the <code>denies</code> method, and returns <code>true</code> if the action is authorized. The <code>check</code> method is an alias of the <code>allows</code> method.</p>
+<h4 id="checking-abilities-for-specific-users">Checking Abilities For Specific Users</h4>
+<p>If you would like to use the <code>Gate</code> facade to check if a user <strong>other than the currently authenticated user</strong> has a given ability, you may use the <code>forUser</code> method:</p>
 <pre><code>if (Gate::forUser($user)-&gt;allows(&#39;update-post&#39;, $post)) {
-    // The user can update the post...
+    //
 }</code></pre>
+<h4 id="passing-multiple-arguments">Passing Multiple Arguments</h4>
+<p>Of course, ability callbacks may receive multiple arguments:</p>
+<pre><code>Gate::define(&#39;delete-comment&#39;, function ($user, $post, $comment) {
+    //
+});</code></pre>
+<p>If your ability needs multiple arguments, simply pass an array of arguments to the <code>Gate</code> methods:</p>
+<pre><code>if (Gate::allows(&#39;delete-comment&#39;, [$post, $comment])) {
+    //
+}</code></pre>
+<p><a name="via-the-user-model"></a></p>
+<h3 id="via-the-user-model">Via The User Model</h3>
+<p>Alternatively, you may check abilities via the <code>User</code> model instance. By default, Laravel's <code>App\User</code> model uses an <code>Authorizable</code> trait which provides two methods: <code>can</code> and <code>cannot</code>. These methods may be used similarly to the <code>allows</code> and <code>denies</code> methods present on the <code>Gate</code> facade. So, using our previous example, we may modify our code like so:</p>
+<pre><code>&lt;?php
+
+namespace App\Http\Controllers;
+
+use App\Post;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+
+class PostController extends Controller
+{
+    /**
+     * Update the given post.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return Response
+     */
+    public function update(Request $request, $id)
+    {
+        $post = Post::findOrFail($id);
+
+        if ($request-&gt;user()-&gt;cannot(&#39;update-post&#39;, $post)) {
+            abort(403);
+        }
+
+        // Update Post...
+    }
+}</code></pre>
+<p>Of course, the <code>can</code> method is simply the inverse of the <code>cannot</code> method:</p>
+<pre><code>if ($request-&gt;user()-&gt;can(&#39;update-post&#39;, $post)) {
+    // Update Post...
+}</code></pre>
+<p><a name="within-blade-templates"></a></p>
+<h3 id="within-blade-templates">Within Blade Templates</h3>
+<p>For convenience, Laravel provides the <code>@can</code> Blade directive to quickly check if the currently authenticated user has a given ability. For example:</p>
+<pre><code>&lt;a href=&quot;/post/{{ $post-&gt;id }}&quot;&gt;View Post&lt;/a&gt;
+
+@can(&#39;update-post&#39;, $post)
+    &lt;a href=&quot;/post/{{ $post-&gt;id }}/edit&quot;&gt;Edit Post&lt;/a&gt;
+@endcan</code></pre>
+<p>You may also combine the <code>@can</code> directive with <code>@else</code> directive:</p>
+<pre><code>@can(&#39;update-post&#39;, $post)
+    &lt;!-- The Current User Can Update The Post --&gt;
+@else
+    &lt;!-- The Current User Can&#39;t Update The Post --&gt;
+@endcan</code></pre>
+<p><a name="within-form-requests"></a></p>
+<h3 id="within-form-requests">Within Form Requests</h3>
+<p>You may also choose to utilize your <code>Gate</code> defined abilities from a <a href="validation.html#form-request-validation">form request's</a> <code>authorize</code> method. For example:</p>
+<pre><code>/**
+ * Determine if the user is authorized to make this request.
+ *
+ * @return bool
+ */
+public function authorize()
+{
+    $postId = $this-&gt;route(&#39;post&#39;);
+
+    return Gate::allows(&#39;update&#39;, Post::findOrFail($postId));
+}</code></pre>
+<p><a name="policies"></a></p>
+<h2 id="policies">Policies</h2>
 <p><a name="creating-policies"></a></p>
-<h2 id="creating-policies">Creating Policies</h2>
-<p><a name="generating-policies"></a></p>
-<h3 id="generating-policies">Generating Policies</h3>
-<p>Policies are classes that organize authorization logic around a particular model or resource. For example, if your application is a blog, you may have a <code>Post</code> model and a corresponding <code>PostPolicy</code> to authorize user actions such as creating or updating posts.</p>
-<p>You may generate a policy using the <code>make:policy</code> <a href="/docs/%7B%7Bversion%7D%7D/artisan">artisan command</a>. The generated policy will be placed in the <code>app/Policies</code> directory. If this directory does not exist in your application, Laravel will create it for you:</p>
+<h3 id="creating-policies">Creating Policies</h3>
+<p>Since defining all of your authorization logic in the <code>AuthServiceProvider</code> could become cumbersome in large applications, Laravel allows you to split your authorization logic into &quot;Policy&quot; classes. Policies are plain PHP classes that group authorization logic based on the resource they authorize.</p>
+<p>First, let's generate a policy to manage authorization for our <code>Post</code> model. You may generate a policy using the <code>make:policy</code> <a href="artisan.html">artisan command</a>. The generated policy will be placed in the <code>app/Policies</code> directory:</p>
 <pre><code>php artisan make:policy PostPolicy</code></pre>
-<p>The <code>make:policy</code> command will generate an empty policy class. If you would like to generate a class with the basic &quot;CRUD&quot; policy methods already included in the class, you may specify a <code>--model</code> when executing the command:</p>
-<pre><code>php artisan make:policy PostPolicy --model=Post</code></pre>
-<blockquote>
-<p>{tip} All policies are resolved via the Laravel <a href="/docs/%7B%7Bversion%7D%7D/container">service container</a>, allowing you to type-hint any needed dependencies in the policy's constructor to have them automatically injected.</p>
-</blockquote>
-<p><a name="registering-policies"></a></p>
-<h3 id="registering-policies">Registering Policies</h3>
-<p>Once the policy exists, it needs to be registered. The <code>AuthServiceProvider</code> included with fresh Laravel applications contains a <code>policies</code> property which maps your Eloquent models to their corresponding policies. Registering a policy will instruct Laravel which policy to utilize when authorizing actions against a given model:</p>
+<h4 id="registering-policies">Registering Policies</h4>
+<p>Once the policy exists, we need to register it with the <code>Gate</code> class. The <code>AuthServiceProvider</code> contains a <code>policies</code> property which maps various entities to the policies that manage them. So, we will specify that the <code>Post</code> model's policy is the <code>PostPolicy</code> class:</p>
 <pre><code>&lt;?php
 
 namespace App\Providers;
 
 use App\Post;
 use App\Policies\PostPolicy;
-use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
@@ -183,21 +285,17 @@ class AuthServiceProvider extends ServiceProvider
     /**
      * Register any application authentication / authorization services.
      *
+     * @param  \Illuminate\Contracts\Auth\Access\Gate  $gate
      * @return void
      */
-    public function boot()
+    public function boot(GateContract $gate)
     {
-        $this-&gt;registerPolicies();
-
-        //
+        $this-&gt;registerPolicies($gate);
     }
 }</code></pre>
 <p><a name="writing-policies"></a></p>
-<h2 id="writing-policies">Writing Policies</h2>
-<p><a name="policy-methods"></a></p>
-<h3 id="policy-methods">Policy Methods</h3>
-<p>Once the policy has been registered, you may add methods for each action it authorizes. For example, let's define an <code>update</code> method on our <code>PostPolicy</code> which determines if a given <code>User</code> can update a given <code>Post</code> instance.</p>
-<p>The <code>update</code> method will receive a <code>User</code> and a <code>Post</code> instance as its arguments, and should return <code>true</code> or <code>false</code> indicating whether the user is authorized to update the given <code>Post</code>. So, for this example, let's verify that the user's <code>id</code> matches the <code>user_id</code> on the post:</p>
+<h3 id="writing-policies">Writing Policies</h3>
+<p>Once the policy has been generated and registered, we can add methods for each ability it authorizes. For example, let's define an <code>update</code> method on our <code>PostPolicy</code>, which will determine if the given <code>User</code> can &quot;update&quot; a <code>Post</code>:</p>
 <pre><code>&lt;?php
 
 namespace App\Policies;
@@ -219,134 +317,119 @@ class PostPolicy
         return $user-&gt;id === $post-&gt;user_id;
     }
 }</code></pre>
-<p>You may continue to define additional methods on the policy as needed for the various actions it authorizes. For example, you might define <code>view</code> or <code>delete</code> methods to authorize various <code>Post</code> actions, but remember you are free to give your policy methods any name you like.</p>
+<p>You may continue to define additional methods on the policy as needed for the various abilities it authorizes. For example, you might define <code>show</code>, <code>destroy</code>, or <code>addComment</code> methods to authorize various <code>Post</code> actions.</p>
 <blockquote>
-<p>{tip} If you used the <code>--model</code> option when generating your policy via the Artisan console, it will already contain methods for the <code>view</code>, <code>create</code>, <code>update</code>, and <code>delete</code> actions.</p>
+<p><strong>Note:</strong> All policies are resolved via the Laravel <a href="container.html">service container</a>, meaning you may type-hint any needed dependencies in the policy's constructor and they will be automatically injected.</p>
 </blockquote>
-<p><a name="methods-without-models"></a></p>
-<h3 id="methods-without-models">Methods Without Models</h3>
-<p>Some policy methods only receive the currently authenticated user and not an instance of the model they authorize. This situation is most common when authorizing <code>create</code> actions. For example, if you are creating a blog, you may wish to check if a user is authorized to create any posts at all.</p>
-<p>When defining policy methods that will not receive a model instance, such as a <code>create</code> method, it will not receive a model instance. Instead, you should define the method as only expecting the authenticated user:</p>
-<pre><code>/**
- * Determine if the given user can create posts.
- *
- * @param  \App\User  $user
- * @return bool
- */
-public function create(User $user)
-{
-    //
-}</code></pre>
-<blockquote>
-<p>{tip} If you used the <code>--model</code> option when generating your policy, all of the relevant &quot;CRUD&quot; policy methods will already be defined on the generated policy.</p>
-</blockquote>
-<p><a name="policy-filters"></a></p>
-<h3 id="policy-filters">Policy Filters</h3>
-<p>For certain users, you may wish to authorize all actions within a given policy. To accomplish this, define a <code>before</code> method on the policy. The <code>before</code> method will be executed before any other methods on the policy, giving you an opportunity to authorize the action before the intended policy method is actually called. This feature is most commonly used for authorizing application administrators to perform any action:</p>
+<h4 id="intercepting-all-checks">Intercepting All Checks</h4>
+<p>Sometimes, you may wish to grant all abilities to a specific user on a policy. For this situation, define a <code>before</code> method on the policy. This method will be run before all other authorization checks on the policy:</p>
 <pre><code>public function before($user, $ability)
 {
     if ($user-&gt;isSuperAdmin()) {
         return true;
     }
 }</code></pre>
-<p><a name="authorizing-actions-using-policies"></a></p>
-<h2 id="authorizing-actions-using-policies">Authorizing Actions Using Policies</h2>
-<p><a name="via-the-user-model"></a></p>
-<h3 id="via-the-user-model">Via The User Model</h3>
-<p>The <code>User</code> model that is included with your Laravel application includes two helpful methods for authorizing actions: <code>can</code> and <code>cant</code>. The <code>can</code> method receives the action you wish to authorize and the relevant model. For example, let's determine if a user is authorized to update a given <code>Post</code> model:</p>
-<pre><code>if ($user-&gt;can(&#39;update&#39;, $post)) {
-    //
-}</code></pre>
-<p>If a <a href="#registering-policies">policy is registered</a> for the given model, the <code>can</code> method will automatically call the appropriate policy and return the boolean result. If no policy is registered for the model, the <code>can</code> method will attempt to call the Closure based Gate matching the given action name.</p>
-<h4 id="actions-that-dont-require-models">Actions That Don't Require Models</h4>
-<p>Remember, some actions like <code>create</code> may not require a model instance. In these situations, you may pass a class name to the <code>can</code> method. The class name will be used to determine which policy to use when authorizing the action:</p>
-<pre><code>use App\Post;
-
-if ($user-&gt;can(&#39;create&#39;, Post::class)) {
-    // Executes the &quot;create&quot; method on the relevant policy...
-}</code></pre>
-<p><a name="via-middleware"></a></p>
-<h3 id="via-middleware">Via Middleware</h3>
-<p>Laravel includes a middleware that can authorize actions before the incoming request even reaches your routes or controllers. By default, the <code>Illuminate\Auth\Middleware\Authorize</code> middleware is assigned the <code>can</code> key in your <code>App\Http\Kernel</code> class. Let's explore an example of using the <code>can</code> middleware to authorize that a user can update a blog post:</p>
-<pre><code>use App\Post;
-
-Route::put(&#39;/post/{post}&#39;, function (Post $post) {
-    // The current user may update the post...
-})-&gt;middleware(&#39;can:update,post&#39;);</code></pre>
-<p>In this example, we're passing the <code>can</code> middleware two arguments. The first is the name of the action we wish to authorize and the second is the route parameter we wish to pass to the policy method. In this case, since we are using <a href="/docs/%7B%7Bversion%7D%7D/routing#implicit-binding">implicit model binding</a>, a <code>Post</code> model will be passed to the policy method. If the user is not authorized to perform the given action, a HTTP response with a <code>403</code> status code will be generated by the middleware.</p>
-<h4 id="actions-that-dont-require-models-1">Actions That Don't Require Models</h4>
-<p>Again, some actions like <code>create</code> may not require a model instance. In these situations, you may pass a class name to the middleware. The class name will be used to determine which policy to use when authorizing the action:</p>
-<pre><code>Route::post(&#39;/post&#39;, function () {
-    // The current user may create posts...
-})-&gt;middleware(&#39;can:create,App\Post&#39;);</code></pre>
-<p><a name="via-controller-helpers"></a></p>
-<h3 id="via-controller-helpers">Via Controller Helpers</h3>
-<p>In addition to helpful methods provided to the <code>User</code> model, Laravel provides a helpful <code>authorize</code> method to any of your controllers which extend the <code>App\Http\Controllers\Controller</code> base class. Like the <code>can</code> method, this method accepts the name of the action you wish to authorize and the relevant model. If the action is not authorized, the <code>authorize</code> method will throw an <code>Illuminate\Auth\Access\AuthorizationException</code>, which the default Laravel exception handler will convert to an HTTP response with a <code>403</code> status code:</p>
+<p>If the <code>before</code> method returns a non-null result that result will be considered the result of the check.</p>
+<p><a name="checking-policies"></a></p>
+<h3 id="checking-policies">Checking Policies</h3>
+<p>Policy methods are called in exactly the same way as <code>Closure</code> based authorization callbacks. You may use the <code>Gate</code> facade, the <code>User</code> model, the <code>@can</code> Blade directive, or the <code>policy</code> helper.</p>
+<h4 id="via-the-gate-facade-1">Via The Gate Facade</h4>
+<p>The <code>Gate</code> will automatically determine which policy to use by examining the class of the arguments passed to its methods. So, if we pass a <code>Post</code> instance to the <code>denies</code> method, the <code>Gate</code> will utilize the corresponding <code>PostPolicy</code> to authorize actions:</p>
 <pre><code>&lt;?php
 
 namespace App\Http\Controllers;
 
+use Gate;
+use App\User;
 use App\Post;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 class PostController extends Controller
 {
     /**
-     * Update the given blog post.
+     * Update the given post.
      *
-     * @param  Request  $request
-     * @param  Post  $post
+     * @param  int  $id
      * @return Response
      */
-    public function update(Request $request, Post $post)
+    public function update($id)
     {
-        $this-&gt;authorize(&#39;update&#39;, $post);
+        $post = Post::findOrFail($id);
 
-        // The current user can update the blog post...
+        if (Gate::denies(&#39;update&#39;, $post)) {
+            abort(403);
+        }
+
+        // Update Post...
     }
 }</code></pre>
-<h4 id="actions-that-dont-require-models-2">Actions That Don't Require Models</h4>
-<p>As previously discussed, some actions like <code>create</code> may not require a model instance. In these situations, you may pass a class name to the <code>authorize</code> method. The class name will be used to determine which policy to use when authorizing the action:</p>
-<pre><code>/**
- * Create a new blog post.
- *
- * @param  Request  $request
- * @return Response
- */
-public function create(Request $request)
-{
-    $this-&gt;authorize(&#39;create&#39;, Post::class);
+<h4 id="via-the-user-model-1">Via The User Model</h4>
+<p>The <code>User</code> model's <code>can</code> and <code>cannot</code> methods will also automatically utilize policies when they are available for the given arguments. These methods provide a convenient way to authorize actions for any <code>User</code> instance retrieved by your application:</p>
+<pre><code>if ($user-&gt;can(&#39;update&#39;, $post)) {
+    //
+}
 
-    // The current user can create blog posts...
+if ($user-&gt;cannot(&#39;update&#39;, $post)) {
+    //
 }</code></pre>
-<p><a name="via-blade-templates"></a></p>
-<h3 id="via-blade-templates">Via Blade Templates</h3>
-<p>When writing Blade templates, you may wish to display a portion of the page only if the user is authorized to perform a given action. For example, you may wish to show an update form for a blog post only if the user can actually update the post. In this situation, you may use the <code>@can</code> and <code>@cannot</code> directives.</p>
+<h4 id="within-blade-templates-1">Within Blade Templates</h4>
+<p>Likewise, the <code>@can</code> Blade directive will utilize policies when they are available for the given arguments:</p>
 <pre><code>@can(&#39;update&#39;, $post)
     &lt;!-- The Current User Can Update The Post --&gt;
-@endcan
+@endcan</code></pre>
+<h4 id="via-the-policy-helper">Via The Policy Helper</h4>
+<p>The global <code>policy</code> helper function may be used to retrieve the <code>Policy</code> class for a given class instance. For example, we may pass a <code>Post</code> instance to the <code>policy</code> helper to get an instance of our corresponding <code>PostPolicy</code> class:</p>
+<pre><code>if (policy($post)-&gt;update($user, $post)) {
+    //
+}</code></pre>
+<p><a name="controller-authorization"></a></p>
+<h2 id="controller-authorization">Controller Authorization</h2>
+<p>By default, the base <code>App\Http\Controllers\Controller</code> class included with Laravel uses the <code>AuthorizesRequests</code> trait. This trait provides the <code>authorize</code> method, which may be used to quickly authorize a given action and throw a <code>AuthorizationException</code> if the action is not authorized.</p>
+<p>The <code>authorize</code> method shares the same signature as the various other authorization methods such as <code>Gate::allows</code> and <code>$user-&gt;can()</code>. So, let's use the <code>authorize</code> method to quickly authorize a request to update a <code>Post</code>:</p>
+<pre><code>&lt;?php
 
-@cannot(&#39;update&#39;, $post)
-    &lt;!-- The Current User Can&#39;t Update The Post --&gt;
-@endcannot</code></pre>
-<p>These directives are convenient short-cuts for writing <code>@if</code> and <code>@unless</code> statements. The <code>@can</code> and <code>@cannot</code> statements above respectively translate to the following statements:</p>
-<pre><code>@if (Auth::user()-&gt;can(&#39;update&#39;, $post))
-    &lt;!-- The Current User Can Update The Post --&gt;
-@endif
+namespace App\Http\Controllers;
 
-@unless (Auth::user()-&gt;can(&#39;update&#39;, $post))
-    &lt;!-- The Current User Can&#39;t Update The Post --&gt;
-@endunless</code></pre>
-<h4 id="actions-that-dont-require-models-3">Actions That Don't Require Models</h4>
-<p>Like most of the other authorization methods, you may pass a class name to the <code>@can</code> and <code>@cannot</code> directives if the action does not require a model instance:</p>
-<pre><code>@can(&#39;create&#39;, Post::class)
-    &lt;!-- The Current User Can Create Posts --&gt;
-@endcan
+use App\Post;
+use App\Http\Controllers\Controller;
 
-@cannot(&#39;create&#39;, Post::class)
-    &lt;!-- The Current User Can&#39;t Create Posts --&gt;
-@endcannot</code></pre>
+class PostController extends Controller
+{
+    /**
+     * Update the given post.
+     *
+     * @param  int  $id
+     * @return Response
+     */
+    public function update($id)
+    {
+        $post = Post::findOrFail($id);
+
+        $this-&gt;authorize(&#39;update&#39;, $post);
+
+        // Update Post...
+    }
+}</code></pre>
+<p>If the action is authorized, the controller will continue executing normally; however, if the <code>authorize</code> method determines that the action is not authorized, a <code>AuthorizationException</code> will automatically be thrown which generates a HTTP response with a <code>403 Not Authorized</code> status code. As you can see, the <code>authorize</code> method is a convenient, fast way to authorize an action or throw an exception with a single line of code.</p>
+<p>The <code>AuthorizesRequests</code> trait also provides the <code>authorizeForUser</code> method to authorize an action on a user that is not the currently authenticated user:</p>
+<pre><code>$this-&gt;authorizeForUser($user, &#39;update&#39;, $post);</code></pre>
+<h4 id="automatically-determining-policy-methods">Automatically Determining Policy Methods</h4>
+<p>Frequently, a policy's methods will correspond to the methods on a controller. For example, in the <code>update</code> method above, the controller method and the policy method share the same name: <code>update</code>.</p>
+<p>For this reason, Laravel allows you to simply pass the instance arguments to the <code>authorize</code> method, and the ability being authorized will automatically be determined based on the name of the calling function. In this example, since <code>authorize</code> is called from the controller's <code>update</code> method, the <code>update</code> method will also be called on the <code>PostPolicy</code>:</p>
+<pre><code>/**
+ * Update the given post.
+ *
+ * @param  int  $id
+ * @return Response
+ */
+public function update($id)
+{
+    $post = Post::findOrFail($id);
+
+    $this-&gt;authorize($post);
+
+    // Update Post...
+}</code></pre>
 </article>
 </body>
 </html>

@@ -13,14 +13,12 @@
   <script src="../../laravel-docs/site.js"></script>
 </head>
 <body>
-<aside><h1>Laravel 5.3 offline docs</h1><ul id="navigation">
-<li><a href="application-testing.html">Application Testing</a>
-<li><a href="artisan.html">Console Commands</a>
+<aside><h1>Laravel 5.2 offline docs</h1><ul id="navigation">
+<li><a href="artisan.html">Artisan Console</a>
 <li><a href="authentication.html">Authentication</a>
 <li><a href="authorization.html">Authorization</a>
 <li><a href="billing.html">Laravel Cashier</a>
 <li><a href="blade.html">Blade Templates</a>
-<li><a href="broadcasting.html">Event Broadcasting</a>
 <li><a href="cache.html">Cache</a>
 <li><a href="collections.html">Collections</a>
 <li><a href="configuration.html">Configuration</a>
@@ -28,12 +26,10 @@
 <li><a href="contracts.html">Contracts</a>
 <li><a href="contributing.html">Contribution Guidelines</a>
 <li><a href="contributions.html">Contribution Guide</a>
-<li><a href="controllers.html">Controllers</a>
-<li><a href="csrf.html">CSRF Protection</a>
-<li><a href="database-testing.html">Database Testing</a>
+<li><a href="controllers.html">HTTP Controllers</a>
 <li><a href="database.html">Database: Getting Started</a>
 <li><a href="documentation.html">Prologue</a>
-<li><a href="elixir.html">Compiling Assets (Laravel Elixir)</a>
+<li><a href="elixir.html">Laravel Elixir</a>
 <li><a href="eloquent-collections.html">Eloquent: Collections</a>
 <li><a href="eloquent-mutators.html">Eloquent: Mutators</a>
 <li><a href="eloquent-relationships.html">Eloquent: Relationships</a>
@@ -46,7 +42,6 @@
 </a>
 <li><a href="facades.html">Facades</a>
 <li><a href="filesystem.html">Filesystem / Cloud Storage</a>
-<li><a href="frontend.html">JavaScript & CSS</a>
 <li><a href="hashing.html">Hashing</a>
 <li><a href="helpers.html">Helper Functions</a>
 <li><a href="homestead.html">Laravel Homestead</a>
@@ -55,29 +50,25 @@
 <li><a href="localization.html">Localization</a>
 <li><a href="mail.html">Mail
 </a>
-<li><a href="middleware.html">Middleware</a>
+<li><a href="middleware.html">HTTP Middleware</a>
 <li><a href="migrations.html">Database: Migrations</a>
-<li><a href="mocking.html">Mocking</a>
-<li><a href="notifications.html">Notifications</a>
 <li><a href="packages.html">Package Development</a>
 <li><a href="pagination.html">Pagination</a>
-<li><a href="passport.html">API Authentication (Passport)</a>
-<li><a href="passwords.html">Resetting Passwords</a>
 <li><a href="providers.html">Service Providers</a>
 <li><a href="queries.html">Database: Query Builder</a>
 <li><a href="queues.html">Queues</a>
+<li><a href="quickstart-intermediate.html">Intermediate Task List</a>
+<li><a href="quickstart.html">Basic Task List</a>
 <li><a href="readme.html">Laravel Documentation</a>
-<li><a href="redirects.html">HTTP Redirects</a>
 <li><a href="redis.html">Redis</a>
 <li><a href="releases.html">Release Notes</a>
 <li><a href="requests.html">HTTP Requests</a>
 <li><a href="responses.html">HTTP Responses</a>
-<li><a href="routing.html">Routing</a>
+<li><a href="routing.html">HTTP Routing</a>
 <li><a href="scheduling.html">Task Scheduling</a>
-<li><a href="scout.html">Laravel Scout</a>
 <li><a href="seeding.html">Database: Seeding</a>
-<li><a href="session.html">HTTP Session</a>
-<li><a href="structure.html">Directory Structure</a>
+<li><a href="session.html">Session</a>
+<li><a href="structure.html">Application Structure</a>
 <li><a href="testing.html">Testing</a>
 <li><a href="upgrade.html">Upgrade Guide</a>
 <li><a href="valet.html">Laravel Valet</a>
@@ -93,7 +84,7 @@
 </ul>
 <p><a name="introduction"></a></p>
 <h2 id="introduction">Introduction</h2>
-<p>All multi-result sets returned by Eloquent are instances of the <code>Illuminate\Database\Eloquent\Collection</code> object, including results retrieved via the <code>get</code> method or accessed via a relationship. The Eloquent collection object extends the Laravel <a href="/docs/%7B%7Bversion%7D%7D/collections">base collection</a>, so it naturally inherits dozens of methods used to fluently work with the underlying array of Eloquent models.</p>
+<p>All multi-result sets returned by Eloquent are an instance of the <code>Illuminate\Database\Eloquent\Collection</code> object, including results retrieved via the <code>get</code> method or accessed via a relationship. The Eloquent collection object extends the Laravel <a href="collections.html">base collection</a>, so it naturally inherits dozens of methods used to fluently work with the underlying array of Eloquent models.</p>
 <p>Of course, all collections also serve as iterators, allowing you to loop over them as if they were simple PHP arrays:</p>
 <pre><code>$users = App\User::where(&#39;active&#39;, 1)-&gt;get();
 
@@ -110,12 +101,12 @@ $names = $users-&gt;reject(function ($user) {
     return $user-&gt;name;
 });</code></pre>
 <blockquote>
-<p>{note} While most Eloquent collection methods return a new instance of an Eloquent collection, the <code>pluck</code>, <code>keys</code>, <code>zip</code>, <code>collapse</code>, <code>flatten</code> and <code>flip</code> methods return a <a href="/docs/%7B%7Bversion%7D%7D/collections">base collection</a> instance. Likewise, if a <code>map</code> operation returns a collection that does not contain any Eloquent models, it will be automatically cast to a base collection.</p>
+<p><strong>Note:</strong> While most Eloquent collection methods return a new instance of an Eloquent collection, the <code>pluck</code>, <code>keys</code>, <code>zip</code>, <code>collapse</code>, <code>flatten</code> and <code>flip</code> methods return a <a href="collections.html">base collection</a> instance.</p>
 </blockquote>
 <p><a name="available-methods"></a></p>
 <h2 id="available-methods">Available Methods</h2>
 <h3 id="the-base-collection">The Base Collection</h3>
-<p>All Eloquent collections extend the base <a href="/docs/%7B%7Bversion%7D%7D/collections">Laravel collection</a> object; therefore, they inherit all of the powerful methods provided by the base collection class:</p>
+<p>All Eloquent collections extend the base <a href="collections.html">Laravel collection</a> object; therefore, they inherit all of the powerful methods provided by the base collection class:</p>
 <style>
     #collection-method-list > p {
         column-count: 3; -moz-column-count: 3; -webkit-column-count: 3;
@@ -129,20 +120,15 @@ $names = $users-&gt;reject(function ($user) {
 <div id="collection-method-list" markdown="1">
 
 [all](/docs/{{version}}/collections#method-all)
-[avg](/docs/{{version}}/collections#method-avg)
 [chunk](/docs/{{version}}/collections#method-chunk)
 [collapse](/docs/{{version}}/collections#method-collapse)
-[combine](/docs/{{version}}/collections#method-combine)
 [contains](/docs/{{version}}/collections#method-contains)
 [count](/docs/{{version}}/collections#method-count)
 [diff](/docs/{{version}}/collections#method-diff)
-[diffKeys](/docs/{{version}}/collections#method-diffkeys)
 [each](/docs/{{version}}/collections#method-each)
 [every](/docs/{{version}}/collections#method-every)
-[except](/docs/{{version}}/collections#method-except)
 [filter](/docs/{{version}}/collections#method-filter)
 [first](/docs/{{version}}/collections#method-first)
-[flatMap](/docs/{{version}}/collections#method-flatmap)
 [flatten](/docs/{{version}}/collections#method-flatten)
 [flip](/docs/{{version}}/collections#method-flip)
 [forget](/docs/{{version}}/collections#method-forget)
@@ -157,10 +143,7 @@ $names = $users-&gt;reject(function ($user) {
 [keys](/docs/{{version}}/collections#method-keys)
 [last](/docs/{{version}}/collections#method-last)
 [map](/docs/{{version}}/collections#method-map)
-[max](/docs/{{version}}/collections#method-max)
 [merge](/docs/{{version}}/collections#method-merge)
-[min](/docs/{{version}}/collections#method-min)
-[only](/docs/{{version}}/collections#method-only)
 [pluck](/docs/{{version}}/collections#method-pluck)
 [pop](/docs/{{version}}/collections#method-pop)
 [prepend](/docs/{{version}}/collections#method-prepend)
@@ -184,13 +167,10 @@ $names = $users-&gt;reject(function ($user) {
 [toArray](/docs/{{version}}/collections#method-toarray)
 [toJson](/docs/{{version}}/collections#method-tojson)
 [transform](/docs/{{version}}/collections#method-transform)
-[union](/docs/{{version}}/collections#method-union)
 [unique](/docs/{{version}}/collections#method-unique)
 [values](/docs/{{version}}/collections#method-values)
 [where](/docs/{{version}}/collections#method-where)
-[whereStrict](/docs/{{version}}/collections#method-wherestrict)
-[whereIn](/docs/{{version}}/collections#method-wherein)
-[whereInLoose](/docs/{{version}}/collections#method-whereinloose)
+[whereLoose](/docs/{{version}}/collections#method-whereloose)
 [zip](/docs/{{version}}/collections#method-zip)
 
 </div>
@@ -217,7 +197,7 @@ class User extends Model
         return new CustomCollection($models);
     }
 }</code></pre>
-<p>Once you have defined a <code>newCollection</code> method, you will receive an instance of your custom collection anytime Eloquent returns a <code>Collection</code> instance of that model. If you would like to use a custom collection for every model in your application, you should override the <code>newCollection</code> method on a base model class that is extended by all of your models.</p>
+<p>Once you have defined a <code>newCollection</code> method, you will receive an instance of your custom collection anytime Eloquent returns a <code>Collection</code> instance of that model. If you would like to use a custom collection for every model in your application, you should override the <code>newCollection</code> method on a model base class that is extended by all of your models.</p>
 </article>
 </body>
 </html>

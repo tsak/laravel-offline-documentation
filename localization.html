@@ -13,14 +13,12 @@
   <script src="../../laravel-docs/site.js"></script>
 </head>
 <body>
-<aside><h1>Laravel 5.3 offline docs</h1><ul id="navigation">
-<li><a href="application-testing.html">Application Testing</a>
-<li><a href="artisan.html">Console Commands</a>
+<aside><h1>Laravel 5.2 offline docs</h1><ul id="navigation">
+<li><a href="artisan.html">Artisan Console</a>
 <li><a href="authentication.html">Authentication</a>
 <li><a href="authorization.html">Authorization</a>
 <li><a href="billing.html">Laravel Cashier</a>
 <li><a href="blade.html">Blade Templates</a>
-<li><a href="broadcasting.html">Event Broadcasting</a>
 <li><a href="cache.html">Cache</a>
 <li><a href="collections.html">Collections</a>
 <li><a href="configuration.html">Configuration</a>
@@ -28,12 +26,10 @@
 <li><a href="contracts.html">Contracts</a>
 <li><a href="contributing.html">Contribution Guidelines</a>
 <li><a href="contributions.html">Contribution Guide</a>
-<li><a href="controllers.html">Controllers</a>
-<li><a href="csrf.html">CSRF Protection</a>
-<li><a href="database-testing.html">Database Testing</a>
+<li><a href="controllers.html">HTTP Controllers</a>
 <li><a href="database.html">Database: Getting Started</a>
 <li><a href="documentation.html">Prologue</a>
-<li><a href="elixir.html">Compiling Assets (Laravel Elixir)</a>
+<li><a href="elixir.html">Laravel Elixir</a>
 <li><a href="eloquent-collections.html">Eloquent: Collections</a>
 <li><a href="eloquent-mutators.html">Eloquent: Mutators</a>
 <li><a href="eloquent-relationships.html">Eloquent: Relationships</a>
@@ -46,7 +42,6 @@
 </a>
 <li><a href="facades.html">Facades</a>
 <li><a href="filesystem.html">Filesystem / Cloud Storage</a>
-<li><a href="frontend.html">JavaScript & CSS</a>
 <li><a href="hashing.html">Hashing</a>
 <li><a href="helpers.html">Helper Functions</a>
 <li><a href="homestead.html">Laravel Homestead</a>
@@ -55,29 +50,25 @@
 <li><a href="localization.html">Localization</a>
 <li><a href="mail.html">Mail
 </a>
-<li><a href="middleware.html">Middleware</a>
+<li><a href="middleware.html">HTTP Middleware</a>
 <li><a href="migrations.html">Database: Migrations</a>
-<li><a href="mocking.html">Mocking</a>
-<li><a href="notifications.html">Notifications</a>
 <li><a href="packages.html">Package Development</a>
 <li><a href="pagination.html">Pagination</a>
-<li><a href="passport.html">API Authentication (Passport)</a>
-<li><a href="passwords.html">Resetting Passwords</a>
 <li><a href="providers.html">Service Providers</a>
 <li><a href="queries.html">Database: Query Builder</a>
 <li><a href="queues.html">Queues</a>
+<li><a href="quickstart-intermediate.html">Intermediate Task List</a>
+<li><a href="quickstart.html">Basic Task List</a>
 <li><a href="readme.html">Laravel Documentation</a>
-<li><a href="redirects.html">HTTP Redirects</a>
 <li><a href="redis.html">Redis</a>
 <li><a href="releases.html">Release Notes</a>
 <li><a href="requests.html">HTTP Requests</a>
 <li><a href="responses.html">HTTP Responses</a>
-<li><a href="routing.html">Routing</a>
+<li><a href="routing.html">HTTP Routing</a>
 <li><a href="scheduling.html">Task Scheduling</a>
-<li><a href="scout.html">Laravel Scout</a>
 <li><a href="seeding.html">Database: Seeding</a>
-<li><a href="session.html">HTTP Session</a>
-<li><a href="structure.html">Directory Structure</a>
+<li><a href="session.html">Session</a>
+<li><a href="structure.html">Application Structure</a>
 <li><a href="testing.html">Testing</a>
 <li><a href="upgrade.html">Upgrade Guide</a>
 <li><a href="valet.html">Laravel Valet</a>
@@ -88,16 +79,16 @@
 <h1 id="localization">Localization</h1>
 <ul>
 <li><a href="#introduction">Introduction</a></li>
-<li><a href="#retrieving-language-lines">Retrieving Language Lines</a>
+<li><a href="#basic-usage">Basic Usage</a>
 <ul>
-<li><a href="#replacing-parameters-in-language-lines">Replacing Parameters In Language Lines</a></li>
 <li><a href="#pluralization">Pluralization</a></li>
 </ul></li>
-<li><a href="#overriding-package-language-files">Overriding Package Language Files</a></li>
+<li><a href="#overriding-vendor-language-files">Overriding Vendor Language Files</a></li>
 </ul>
 <p><a name="introduction"></a></p>
 <h2 id="introduction">Introduction</h2>
-<p>Laravel's localization features provide a convenient way to retrieve strings in various languages, allowing you to easily support multiple languages within your application. Language strings are stored in files within the <code>resources/lang</code> directory. Within this directory there should be a subdirectory for each language supported by the application:</p>
+<p>Laravel's localization features provide a convenient way to retrieve strings in various languages, allowing you to easily support multiple languages within your application.</p>
+<p>Language strings are stored in files within the <code>resources/lang</code> directory. Within this directory there should be a subdirectory for each language supported by the application:</p>
 <pre><code>/resources
     /lang
         /en
@@ -110,33 +101,31 @@
 return [
     &#39;welcome&#39; =&gt; &#39;Welcome to our application&#39;
 ];</code></pre>
-<h3 id="configuring-the-locale">Configuring The Locale</h3>
+<h4 id="configuring-the-locale">Configuring The Locale</h4>
 <p>The default language for your application is stored in the <code>config/app.php</code> configuration file. Of course, you may modify this value to suit the needs of your application. You may also change the active language at runtime using the <code>setLocale</code> method on the <code>App</code> facade:</p>
 <pre><code>Route::get(&#39;welcome/{locale}&#39;, function ($locale) {
     App::setLocale($locale);
 
     //
 });</code></pre>
-<p>You may configure a &quot;fallback language&quot;, which will be used when the active language does not contain a given language line. Like the default language, the fallback language is also configured in the <code>config/app.php</code> configuration file:</p>
+<p>You may also configure a &quot;fallback language&quot;, which will be used when the active language does not contain a given language line. Like the default language, the fallback language is also configured in the <code>config/app.php</code> configuration file:</p>
 <pre><code>&#39;fallback_locale&#39; =&gt; &#39;en&#39;,</code></pre>
-<h4 id="determining-the-current-locale">Determining The Current Locale</h4>
-<p>You may use the <code>getLocale</code> and <code>isLocale</code> methods on the <code>App</code> facade to determine the current locale or check if the locale is a given value:</p>
-<pre><code>$locale = App::getLocale();
-
-if (App::isLocale(&#39;en&#39;)) {
+<p>You may check if a given locale is currently being used by calling the <code>isLocale</code> method on the <code>App</code> <a href="facades.html">facade</a>:</p>
+<pre><code>if (App::isLocale(&#39;en&#39;)) {
     //
 }</code></pre>
-<p><a name="retrieving-language-lines"></a></p>
-<h2 id="retrieving-language-lines">Retrieving Language Lines</h2>
-<p>You may retrieve lines from language files using the <code>trans</code> helper function. The <code>trans</code> method accepts the file and key of the language line as its first argument. For example, let's retrieve the <code>welcome</code> language line from the <code>resources/lang/messages.php</code> language file:</p>
+<p>To retrieve the current application locale, call the <code>getLocale</code> method on the <code>App</code> <a href="facades.html">facade</a>:</p>
+<pre><code>return App::getLocale();</code></pre>
+<p><a name="basic-usage"></a></p>
+<h2 id="basic-usage">Basic Usage</h2>
+<p>You may retrieve lines from language files using the <code>trans</code> helper function. The <code>trans</code> method accepts the file and key of the language line as its first argument. For example, let's retrieve the language line <code>welcome</code> in the <code>resources/lang/messages.php</code> language file:</p>
 <pre><code>echo trans(&#39;messages.welcome&#39;);</code></pre>
-<p>Of course if you are using the <a href="/docs/%7B%7Bversion%7D%7D/blade">Blade templating engine</a>, you may use the <code>{{ }}</code> syntax to echo the language line or use the <code>@lang</code> directive:</p>
+<p>Of course if you are using the <a href="blade.html">Blade templating engine</a>, you may use the <code>{{ }}</code> syntax to echo the language line or use the <code>@lang</code> directive:</p>
 <pre><code>{{ trans(&#39;messages.welcome&#39;) }}
 
 @lang(&#39;messages.welcome&#39;)</code></pre>
 <p>If the specified language line does not exist, the <code>trans</code> function will simply return the language line key. So, using the example above, the <code>trans</code> function would return <code>messages.welcome</code> if the language line does not exist.</p>
-<p><a name="replacing-parameters-in-language-lines"></a></p>
-<h3 id="replacing-parameters-in-language-lines">Replacing Parameters In Language Lines</h3>
+<h4 id="replacing-parameters-in-language-lines">Replacing Parameters In Language Lines</h4>
 <p>If you wish, you may define place-holders in your language lines. All place-holders are prefixed with a <code>:</code>. For example, you may define a welcome message with a place-holder name:</p>
 <pre><code>&#39;welcome&#39; =&gt; &#39;Welcome, :name&#39;,</code></pre>
 <p>To replace the place-holders when retrieving a language line, pass an array of replacements as the second argument to the <code>trans</code> function:</p>
@@ -146,16 +135,16 @@ if (App::isLocale(&#39;en&#39;)) {
 &#39;goodbye&#39; =&gt; &#39;Goodbye, :Name&#39;, // Goodbye, Dayle</code></pre>
 <p><a name="pluralization"></a></p>
 <h3 id="pluralization">Pluralization</h3>
-<p>Pluralization is a complex problem, as different languages have a variety of complex rules for pluralization. By using a &quot;pipe&quot; character, you may distinguish singular and plural forms of a string:</p>
+<p>Pluralization is a complex problem, as different languages have a variety of complex rules for pluralization. By using a &quot;pipe&quot; character, you may distinguish a singular and plural form of a string:</p>
 <pre><code>&#39;apples&#39; =&gt; &#39;There is one apple|There are many apples&#39;,</code></pre>
-<p>After defining a language line that has pluralization options, you may use the <code>trans_choice</code> function to retrieve the line for a given &quot;count&quot;. In this example, since the count is greater than one, the plural form of the language line is returned:</p>
+<p>Then, you may use the <code>trans_choice</code> function to retrieve the line for a given &quot;count&quot;. In this example, since the count is greater than one, the plural form of the language line is returned:</p>
 <pre><code>echo trans_choice(&#39;messages.apples&#39;, 10);</code></pre>
-<p>Since the Laravel translator is powered by the Symfony Translation component, you may create even more complex pluralization rules which specify language lines for multiple number ranges:</p>
+<p>Since the Laravel translator is powered by the Symfony Translation component, you may create even more complex pluralization rules:</p>
 <pre><code>&#39;apples&#39; =&gt; &#39;{0} There are none|[1,19] There are some|[20,Inf] There are many&#39;,</code></pre>
-<p><a name="overriding-package-language-files"></a></p>
-<h2 id="overriding-package-language-files">Overriding Package Language Files</h2>
-<p>Some packages may ship with their own language files. Instead of changing the package's core files to tweak these lines, you may override them by placing files in the <code>resources/lang/vendor/{package}/{locale}</code> directory.</p>
-<p>So, for example, if you need to override the English language lines in <code>messages.php</code> for a package named <code>skyrim/hearthfire</code>, you should place a language file at: <code>resources/lang/vendor/hearthfire/en/messages.php</code>. Within this file, you should only define the language lines you wish to override. Any language lines you don't override will still be loaded from the package's original language files.</p>
+<p><a name="overriding-vendor-language-files"></a></p>
+<h2 id="overriding-vendor-language-files">Overriding Vendor Language Files</h2>
+<p>Some packages may ship with their own language files. Instead of hacking the package's core files to tweak these lines, you may override them by placing your own files in the <code>resources/lang/vendor/{package}/{locale}</code> directory.</p>
+<p>So, for example, if you need to override the English language lines in <code>messages.php</code> for a package named <code>skyrim/hearthfire</code>, you would place a language file at: <code>resources/lang/vendor/hearthfire/en/messages.php</code>. In this file you should only define the language lines you wish to override. Any language lines you don't override will still be loaded from the package's original language files.</p>
 </article>
 </body>
 </html>

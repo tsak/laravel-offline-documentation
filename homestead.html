@@ -13,14 +13,12 @@
   <script src="../../laravel-docs/site.js"></script>
 </head>
 <body>
-<aside><h1>Laravel 5.3 offline docs</h1><ul id="navigation">
-<li><a href="application-testing.html">Application Testing</a>
-<li><a href="artisan.html">Console Commands</a>
+<aside><h1>Laravel 5.2 offline docs</h1><ul id="navigation">
+<li><a href="artisan.html">Artisan Console</a>
 <li><a href="authentication.html">Authentication</a>
 <li><a href="authorization.html">Authorization</a>
 <li><a href="billing.html">Laravel Cashier</a>
 <li><a href="blade.html">Blade Templates</a>
-<li><a href="broadcasting.html">Event Broadcasting</a>
 <li><a href="cache.html">Cache</a>
 <li><a href="collections.html">Collections</a>
 <li><a href="configuration.html">Configuration</a>
@@ -28,12 +26,10 @@
 <li><a href="contracts.html">Contracts</a>
 <li><a href="contributing.html">Contribution Guidelines</a>
 <li><a href="contributions.html">Contribution Guide</a>
-<li><a href="controllers.html">Controllers</a>
-<li><a href="csrf.html">CSRF Protection</a>
-<li><a href="database-testing.html">Database Testing</a>
+<li><a href="controllers.html">HTTP Controllers</a>
 <li><a href="database.html">Database: Getting Started</a>
 <li><a href="documentation.html">Prologue</a>
-<li><a href="elixir.html">Compiling Assets (Laravel Elixir)</a>
+<li><a href="elixir.html">Laravel Elixir</a>
 <li><a href="eloquent-collections.html">Eloquent: Collections</a>
 <li><a href="eloquent-mutators.html">Eloquent: Mutators</a>
 <li><a href="eloquent-relationships.html">Eloquent: Relationships</a>
@@ -46,7 +42,6 @@
 </a>
 <li><a href="facades.html">Facades</a>
 <li><a href="filesystem.html">Filesystem / Cloud Storage</a>
-<li><a href="frontend.html">JavaScript & CSS</a>
 <li><a href="hashing.html">Hashing</a>
 <li><a href="helpers.html">Helper Functions</a>
 <li><a href="homestead.html">Laravel Homestead</a>
@@ -55,29 +50,25 @@
 <li><a href="localization.html">Localization</a>
 <li><a href="mail.html">Mail
 </a>
-<li><a href="middleware.html">Middleware</a>
+<li><a href="middleware.html">HTTP Middleware</a>
 <li><a href="migrations.html">Database: Migrations</a>
-<li><a href="mocking.html">Mocking</a>
-<li><a href="notifications.html">Notifications</a>
 <li><a href="packages.html">Package Development</a>
 <li><a href="pagination.html">Pagination</a>
-<li><a href="passport.html">API Authentication (Passport)</a>
-<li><a href="passwords.html">Resetting Passwords</a>
 <li><a href="providers.html">Service Providers</a>
 <li><a href="queries.html">Database: Query Builder</a>
 <li><a href="queues.html">Queues</a>
+<li><a href="quickstart-intermediate.html">Intermediate Task List</a>
+<li><a href="quickstart.html">Basic Task List</a>
 <li><a href="readme.html">Laravel Documentation</a>
-<li><a href="redirects.html">HTTP Redirects</a>
 <li><a href="redis.html">Redis</a>
 <li><a href="releases.html">Release Notes</a>
 <li><a href="requests.html">HTTP Requests</a>
 <li><a href="responses.html">HTTP Responses</a>
-<li><a href="routing.html">Routing</a>
+<li><a href="routing.html">HTTP Routing</a>
 <li><a href="scheduling.html">Task Scheduling</a>
-<li><a href="scout.html">Laravel Scout</a>
 <li><a href="seeding.html">Database: Seeding</a>
-<li><a href="session.html">HTTP Session</a>
-<li><a href="structure.html">Directory Structure</a>
+<li><a href="session.html">Session</a>
+<li><a href="structure.html">Application Structure</a>
 <li><a href="testing.html">Testing</a>
 <li><a href="upgrade.html">Upgrade Guide</a>
 <li><a href="valet.html">Laravel Valet</a>
@@ -109,11 +100,11 @@
 </ul>
 <p><a name="introduction"></a></p>
 <h2 id="introduction">Introduction</h2>
-<p>Laravel strives to make the entire PHP development experience delightful, including your local development environment. <a href="https://www.vagrantup.com">Vagrant</a> provides a simple, elegant way to manage and provision Virtual Machines.</p>
-<p>Laravel Homestead is an official, pre-packaged Vagrant box that provides you a wonderful development environment without requiring you to install PHP, a web server, and any other server software on your local machine. No more worrying about messing up your operating system! Vagrant boxes are completely disposable. If something goes wrong, you can destroy and re-create the box in minutes!</p>
+<p>Laravel strives to make the entire PHP development experience delightful, including your local development environment. <a href="http://vagrantup.com">Vagrant</a> provides a simple, elegant way to manage and provision Virtual Machines.</p>
+<p>Laravel Homestead is an official, pre-packaged Vagrant box that provides you a wonderful development environment without requiring you to install PHP, HHVM, a web server, and any other server software on your local machine. No more worrying about messing up your operating system! Vagrant boxes are completely disposable. If something goes wrong, you can destroy and re-create the box in minutes!</p>
 <p>Homestead runs on any Windows, Mac, or Linux system, and includes the Nginx web server, PHP 7.0, MySQL, Postgres, Redis, Memcached, Node, and all of the other goodies you need to develop amazing Laravel applications.</p>
 <blockquote>
-<p>{note} If you are using Windows, you may need to enable hardware virtualization (VT-x). It can usually be enabled via your BIOS. If you are using Hyper-V on a UEFI system you may additionally need to disable Hyper-V in order to access VT-x.</p>
+<p><strong>Note:</strong> If you are using Windows, you may need to enable hardware virtualization (VT-x). It can usually be enabled via your BIOS. If you are using Hyper-V on a UEFI system you may additionally need to disable Hyper-V in order to access VT-x.</p>
 </blockquote>
 <p><a name="included-software"></a></p>
 <h3 id="included-software">Included Software</h3>
@@ -121,6 +112,7 @@
 <li>Ubuntu 16.04</li>
 <li>Git</li>
 <li>PHP 7.0</li>
+<li>HHVM</li>
 <li>Nginx</li>
 <li>MySQL</li>
 <li>MariaDB</li>
@@ -136,8 +128,8 @@
 <h2 id="installation-setup">Installation &amp; Setup</h2>
 <p><a name="first-steps"></a></p>
 <h3 id="first-steps">First Steps</h3>
-<p>Before launching your Homestead environment, you must install <a href="https://www.virtualbox.org/wiki/Downloads">VirtualBox 5.x</a> or <a href="https://www.vmware.com">VMWare</a> as well as <a href="https://www.vagrantup.com/downloads.html">Vagrant</a>. All of these software packages provide easy-to-use visual installers for all popular operating systems.</p>
-<p>To use the VMware provider, you will need to purchase both VMware Fusion / Workstation and the <a href="https://www.vagrantup.com/vmware">VMware Vagrant plug-in</a>. Though it is not free, VMware can provide faster shared folder performance out of the box.</p>
+<p>Before launching your Homestead environment, you must install <a href="https://www.virtualbox.org/wiki/Downloads">VirtualBox 5.x</a> or <a href="http://www.vmware.com">VMWare</a> as well as <a href="http://www.vagrantup.com/downloads.html">Vagrant</a>. All of these software packages provide easy-to-use visual installers for all popular operating systems.</p>
+<p>To use the VMware provider, you will need to purchase both VMware Fusion / Workstation and the <a href="http://www.vagrantup.com/vmware">VMware Vagrant plug-in</a>. Though it is not free, VMware can provide faster shared folder performance out of the box.</p>
 <h4 id="installing-the-homestead-vagrant-box">Installing The Homestead Vagrant Box</h4>
 <p>Once VirtualBox / VMware and Vagrant have been installed, you should add the <code>laravel/homestead</code> box to your Vagrant installation using the following command in your terminal. It will take a few minutes to download the box, depending on your Internet connection speed:</p>
 <pre><code>vagrant box add laravel/homestead</code></pre>
@@ -159,24 +151,21 @@ git clone https://github.com/laravel/homestead.git Homestead</code></pre>
 <pre><code>folders:
     - map: ~/Code
       to: /home/vagrant/Code</code></pre>
-<p>To enable <a href="https://www.vagrantup.com/docs/synced-folders/nfs.html">NFS</a>, just add a simple flag to your synced folder configuration:</p>
+<p>To enable <a href="http://docs.vagrantup.com/v2/synced-folders/nfs.html">NFS</a>, just add a simple flag to your synced folder configuration:</p>
 <pre><code>folders:
     - map: ~/Code
       to: /home/vagrant/Code
       type: &quot;nfs&quot;</code></pre>
-<p>You may also pass any options supported by Vagrant's <a href="https://www.vagrantup.com/docs/synced-folders/basic_usage.html">Synced Folders</a> by listing them under the <code>options</code> key:</p>
-<pre><code>folders:
-    - map: ~/Code
-      to: /home/vagrant/Code
-      type: &quot;rsync&quot;
-      options:
-          rsync__args: [&quot;--verbose&quot;, &quot;--archive&quot;, &quot;--delete&quot;, &quot;-zz&quot;]
-          rsync__exclude: [&quot;node_modules&quot;]</code></pre>
 <h4 id="configuring-nginx-sites">Configuring Nginx Sites</h4>
 <p>Not familiar with Nginx? No problem. The <code>sites</code> property allows you to easily map a &quot;domain&quot; to a folder on your Homestead environment. A sample site configuration is included in the <code>Homestead.yaml</code> file. Again, you may add as many sites to your Homestead environment as necessary. Homestead can serve as a convenient, virtualized environment for every Laravel project you are working on:</p>
 <pre><code>sites:
     - map: homestead.app
       to: /home/vagrant/Code/Laravel/public</code></pre>
+<p>You can make any Homestead site use <a href="http://hhvm.com">HHVM</a> by setting the <code>hhvm</code> option to <code>true</code>:</p>
+<pre><code>sites:
+    - map: homestead.app
+      to: /home/vagrant/Code/Laravel/public
+      hhvm: true</code></pre>
 <p>If you change the <code>sites</code> property after provisioning the Homestead box, you should re-run <code>vagrant reload --provision</code> to update the Nginx configuration on the virtual machine.</p>
 <h4 id="the-hosts-file">The Hosts File</h4>
 <p>You must add the &quot;domains&quot; for your Nginx sites to the <code>hosts</code> file on your machine. The <code>hosts</code> file will redirect requests for your Homestead sites into your Homestead machine. On Mac and Linux, this file is located at <code>/etc/hosts</code>. On Windows, it is located at <code>C:\Windows\System32\drivers\etc\hosts</code>. The lines you add to this file will look like the following:</p>
@@ -225,14 +214,14 @@ mariadb: true</code></pre>
 <p>A <code>homestead</code> database is configured for both MySQL and Postgres out of the box. For even more convenience, Laravel's <code>.env</code> file configures the framework to use this database out of the box.</p>
 <p>To connect to your MySQL or Postgres database from your host machine via Navicat or Sequel Pro, you should connect to <code>127.0.0.1</code> and port <code>33060</code> (MySQL) or <code>54320</code> (Postgres). The username and password for both databases is <code>homestead</code> / <code>secret</code>.</p>
 <blockquote>
-<p>{note} You should only use these non-standard ports when connecting to the databases from your host machine. You will use the default 3306 and 5432 ports in your Laravel database configuration file since Laravel is running <em>within</em> the virtual machine.</p>
+<p><strong>Note:</strong> You should only use these non-standard ports when connecting to the databases from your host machine. You will use the default 3306 and 5432 ports in your Laravel database configuration file since Laravel is running <em>within</em> the virtual machine.</p>
 </blockquote>
 <p><a name="adding-additional-sites"></a></p>
 <h3 id="adding-additional-sites">Adding Additional Sites</h3>
-<p>Once your Homestead environment is provisioned and running, you may want to add additional Nginx sites for your Laravel applications. You can run as many Laravel installations as you wish on a single Homestead environment. To add an additional site, simply add the site to your <code>~/.homestead/Homestead.yaml</code> file and then run the <code>vagrant reload --provision</code> terminal command from your Homestead directory.</p>
+<p>Once your Homestead environment is provisioned and running, you may want to add additional Nginx sites for your Laravel applications. You can run as many Laravel installations as you wish on a single Homestead environment. To add an additional site, simply add the site to your <code>~/.homestead/Homestead.yaml</code> file and then run the <code>vagrant provision</code> terminal command from your Homestead directory.</p>
 <p><a name="configuring-cron-schedules"></a></p>
 <h3 id="configuring-cron-schedules">Configuring Cron Schedules</h3>
-<p>Laravel provides a convenient way to <a href="/docs/%7B%7Bversion%7D%7D/scheduling">schedule Cron jobs</a> by scheduling a single <code>schedule:run</code> Artisan command to be run every minute. The <code>schedule:run</code> command will examine the job scheduled defined in your <code>App\Console\Kernel</code> class to determine which jobs should be run.</p>
+<p>Laravel provides a convenient way to <a href="scheduling.html">schedule Cron jobs</a> by scheduling a single <code>schedule:run</code> Artisan command to be run every minute. The <code>schedule:run</code> command will examine the job scheduled defined in your <code>App\Console\Kernel</code> class to determine which jobs should be run.</p>
 <p>If you would like the <code>schedule:run</code> command to be run for a Homestead site, you may set the <code>schedule</code> option to <code>true</code> when defining the site:</p>
 <pre><code>sites:
     - map: homestead.app

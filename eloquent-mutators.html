@@ -13,14 +13,12 @@
   <script src="../../laravel-docs/site.js"></script>
 </head>
 <body>
-<aside><h1>Laravel 5.3 offline docs</h1><ul id="navigation">
-<li><a href="application-testing.html">Application Testing</a>
-<li><a href="artisan.html">Console Commands</a>
+<aside><h1>Laravel 5.2 offline docs</h1><ul id="navigation">
+<li><a href="artisan.html">Artisan Console</a>
 <li><a href="authentication.html">Authentication</a>
 <li><a href="authorization.html">Authorization</a>
 <li><a href="billing.html">Laravel Cashier</a>
 <li><a href="blade.html">Blade Templates</a>
-<li><a href="broadcasting.html">Event Broadcasting</a>
 <li><a href="cache.html">Cache</a>
 <li><a href="collections.html">Collections</a>
 <li><a href="configuration.html">Configuration</a>
@@ -28,12 +26,10 @@
 <li><a href="contracts.html">Contracts</a>
 <li><a href="contributing.html">Contribution Guidelines</a>
 <li><a href="contributions.html">Contribution Guide</a>
-<li><a href="controllers.html">Controllers</a>
-<li><a href="csrf.html">CSRF Protection</a>
-<li><a href="database-testing.html">Database Testing</a>
+<li><a href="controllers.html">HTTP Controllers</a>
 <li><a href="database.html">Database: Getting Started</a>
 <li><a href="documentation.html">Prologue</a>
-<li><a href="elixir.html">Compiling Assets (Laravel Elixir)</a>
+<li><a href="elixir.html">Laravel Elixir</a>
 <li><a href="eloquent-collections.html">Eloquent: Collections</a>
 <li><a href="eloquent-mutators.html">Eloquent: Mutators</a>
 <li><a href="eloquent-relationships.html">Eloquent: Relationships</a>
@@ -46,7 +42,6 @@
 </a>
 <li><a href="facades.html">Facades</a>
 <li><a href="filesystem.html">Filesystem / Cloud Storage</a>
-<li><a href="frontend.html">JavaScript & CSS</a>
 <li><a href="hashing.html">Hashing</a>
 <li><a href="helpers.html">Helper Functions</a>
 <li><a href="homestead.html">Laravel Homestead</a>
@@ -55,29 +50,25 @@
 <li><a href="localization.html">Localization</a>
 <li><a href="mail.html">Mail
 </a>
-<li><a href="middleware.html">Middleware</a>
+<li><a href="middleware.html">HTTP Middleware</a>
 <li><a href="migrations.html">Database: Migrations</a>
-<li><a href="mocking.html">Mocking</a>
-<li><a href="notifications.html">Notifications</a>
 <li><a href="packages.html">Package Development</a>
 <li><a href="pagination.html">Pagination</a>
-<li><a href="passport.html">API Authentication (Passport)</a>
-<li><a href="passwords.html">Resetting Passwords</a>
 <li><a href="providers.html">Service Providers</a>
 <li><a href="queries.html">Database: Query Builder</a>
 <li><a href="queues.html">Queues</a>
+<li><a href="quickstart-intermediate.html">Intermediate Task List</a>
+<li><a href="quickstart.html">Basic Task List</a>
 <li><a href="readme.html">Laravel Documentation</a>
-<li><a href="redirects.html">HTTP Redirects</a>
 <li><a href="redis.html">Redis</a>
 <li><a href="releases.html">Release Notes</a>
 <li><a href="requests.html">HTTP Requests</a>
 <li><a href="responses.html">HTTP Responses</a>
-<li><a href="routing.html">Routing</a>
+<li><a href="routing.html">HTTP Routing</a>
 <li><a href="scheduling.html">Task Scheduling</a>
-<li><a href="scout.html">Laravel Scout</a>
 <li><a href="seeding.html">Database: Seeding</a>
-<li><a href="session.html">HTTP Session</a>
-<li><a href="structure.html">Directory Structure</a>
+<li><a href="session.html">Session</a>
+<li><a href="structure.html">Application Structure</a>
 <li><a href="testing.html">Testing</a>
 <li><a href="upgrade.html">Upgrade Guide</a>
 <li><a href="valet.html">Laravel Valet</a>
@@ -88,26 +79,18 @@
 <h1 id="eloquent-mutators">Eloquent: Mutators</h1>
 <ul>
 <li><a href="#introduction">Introduction</a></li>
-<li><a href="#accessors-and-mutators">Accessors &amp; Mutators</a>
-<ul>
-<li><a href="#defining-an-accessor">Defining An Accessor</a></li>
-<li><a href="#defining-a-mutator">Defining A Mutator</a></li>
-</ul></li>
+<li><a href="#accessors-and-mutators">Accessors &amp; Mutators</a></li>
 <li><a href="#date-mutators">Date Mutators</a></li>
-<li><a href="#attribute-casting">Attribute Casting</a>
-<ul>
-<li><a href="#array-and-json-casting">Array &amp; JSON Casting</a></li>
-</ul></li>
+<li><a href="#attribute-casting">Attribute Casting</a></li>
 </ul>
 <p><a name="introduction"></a></p>
 <h2 id="introduction">Introduction</h2>
-<p>Accessors and mutators allow you to format Eloquent attribute values when you retrieve or set them on model instances. For example, you may want to use the <a href="/docs/%7B%7Bversion%7D%7D/encryption">Laravel encrypter</a> to encrypt a value while it is stored in the database, and then automatically decrypt the attribute when you access it on an Eloquent model.</p>
+<p>Accessors and mutators allow you to format Eloquent attributes when retrieving them from a model or setting their value. For example, you may want to use the <a href="encryption.html">Laravel encrypter</a> to encrypt a value while it is stored in the database, and then automatically decrypt the attribute when you access it on an Eloquent model.</p>
 <p>In addition to custom accessors and mutators, Eloquent can also automatically cast date fields to <a href="https://github.com/briannesbitt/Carbon">Carbon</a> instances or even <a href="#attribute-casting">cast text fields to JSON</a>.</p>
 <p><a name="accessors-and-mutators"></a></p>
 <h2 id="accessors-mutators">Accessors &amp; Mutators</h2>
-<p><a name="defining-an-accessor"></a></p>
-<h3 id="defining-an-accessor">Defining An Accessor</h3>
-<p>To define an accessor, create a <code>getFooAttribute</code> method on your model where <code>Foo</code> is the &quot;studly&quot; cased name of the column you wish to access. In this example, we'll define an accessor for the <code>first_name</code> attribute. The accessor will automatically be called by Eloquent when attempting to retrieve the value of the <code>first_name</code> attribute:</p>
+<h4 id="defining-an-accessor">Defining An Accessor</h4>
+<p>To define an accessor, create a <code>getFooAttribute</code> method on your model where <code>Foo</code> is the &quot;studly&quot; cased name of the column you wish to access. In this example, we'll define an accessor for the <code>first_name</code> attribute. The accessor will automatically be called by Eloquent when attempting to retrieve the value of <code>first_name</code>:</p>
 <pre><code>&lt;?php
 
 namespace App;
@@ -127,12 +110,11 @@ class User extends Model
         return ucfirst($value);
     }
 }</code></pre>
-<p>As you can see, the original value of the column is passed to the accessor, allowing you to manipulate and return the value. To access the value of the mutator, you may simply access the <code>first_name</code> attribute on a model instance:</p>
+<p>As you can see, the original value of the column is passed to the accessor, allowing you to manipulate and return the value. To access the value of the mutator, you may simply access the <code>first_name</code> attribute:</p>
 <pre><code>$user = App\User::find(1);
 
 $firstName = $user-&gt;first_name;</code></pre>
-<p><a name="defining-a-mutator"></a></p>
-<h3 id="defining-a-mutator">Defining A Mutator</h3>
+<h4 id="defining-a-mutator">Defining A Mutator</h4>
 <p>To define a mutator, define a <code>setFooAttribute</code> method on your model where <code>Foo</code> is the &quot;studly&quot; cased name of the column you wish to access. So, again, let's define a mutator for the <code>first_name</code> attribute. This mutator will be automatically called when we attempt to set the value of the <code>first_name</code> attribute on the model:</p>
 <pre><code>&lt;?php
 
@@ -146,7 +128,7 @@ class User extends Model
      * Set the user&#39;s first name.
      *
      * @param  string  $value
-     * @return void
+     * @return string
      */
     public function setFirstNameAttribute($value)
     {
@@ -157,10 +139,11 @@ class User extends Model
 <pre><code>$user = App\User::find(1);
 
 $user-&gt;first_name = &#39;Sally&#39;;</code></pre>
-<p>In this example, the <code>setFirstNameAttribute</code> function will be called with the value <code>Sally</code>. The mutator will then apply the <code>strtolower</code> function to the name and set its resulting value in the internal <code>$attributes</code> array.</p>
+<p>In this example, the <code>setFirstNameAttribute</code> function will be called with the value <code>Sally</code>. The mutator will then apply the <code>strtolower</code> function to the name and set its value in the internal <code>$attributes</code> array.</p>
 <p><a name="date-mutators"></a></p>
 <h2 id="date-mutators">Date Mutators</h2>
-<p>By default, Eloquent will convert the <code>created_at</code> and <code>updated_at</code> columns to instances of <a href="https://github.com/briannesbitt/Carbon">Carbon</a>, which extends the PHP <code>DateTime</code> class to provide an assortment of helpful methods. You may customize which dates are automatically mutated, and even completely disable this mutation, by overriding the <code>$dates</code> property of your model:</p>
+<p>By default, Eloquent will convert the <code>created_at</code> and <code>updated_at</code> columns to instances of <a href="https://github.com/briannesbitt/Carbon">Carbon</a>, which provides an assortment of helpful methods, and extends the native PHP <code>DateTime</code> class.</p>
+<p>You may customize which fields are automatically mutated, and even completely disable this mutation, by overriding the <code>$dates</code> property of your model:</p>
 <pre><code>&lt;?php
 
 namespace App;
@@ -174,11 +157,7 @@ class User extends Model
      *
      * @var array
      */
-    protected $dates = [
-        &#39;created_at&#39;,
-        &#39;updated_at&#39;,
-        &#39;deleted_at&#39;
-    ];
+    protected $dates = [&#39;created_at&#39;, &#39;updated_at&#39;, &#39;deleted_at&#39;];
 }</code></pre>
 <p>When a column is considered a date, you may set its value to a UNIX timestamp, date string (<code>Y-m-d</code>), date-time string, and of course a <code>DateTime</code> / <code>Carbon</code> instance, and the date's value will automatically be correctly stored in your database:</p>
 <pre><code>$user = App\User::find(1);
@@ -190,7 +169,6 @@ $user-&gt;save();</code></pre>
 <pre><code>$user = App\User::find(1);
 
 return $user-&gt;deleted_at-&gt;getTimestamp();</code></pre>
-<h4 id="date-formats">Date Formats</h4>
 <p>By default, timestamps are formatted as <code>'Y-m-d H:i:s'</code>. If you need to customize the timestamp format, set the <code>$dateFormat</code> property on your model. This property determines how date attributes are stored in the database, as well as their format when the model is serialized to an array or JSON:</p>
 <pre><code>&lt;?php
 
@@ -209,7 +187,7 @@ class Flight extends Model
 }</code></pre>
 <p><a name="attribute-casting"></a></p>
 <h2 id="attribute-casting">Attribute Casting</h2>
-<p>The <code>$casts</code> property on your model provides a convenient method of converting attributes to common data types. The <code>$casts</code> property should be an array where the key is the name of the attribute being cast and the value is the type you wish to cast the column to. The supported cast types are: <code>integer</code>, <code>real</code>, <code>float</code>, <code>double</code>, <code>string</code>, <code>boolean</code>, <code>object</code>, <code>array</code>, <code>collection</code>, <code>date</code>, <code>datetime</code>, and <code>timestamp</code>.</p>
+<p>The <code>$casts</code> property on your model provides a convenient method of converting attributes to common data types. The <code>$casts</code> property should be an array where the key is the name of the attribute being cast, while the value is the type you wish to cast the column to. The supported cast types are: <code>integer</code>, <code>real</code>, <code>float</code>, <code>double</code>, <code>string</code>, <code>boolean</code>, <code>object</code>, <code>array</code>, <code>collection</code>, <code>date</code>, <code>datetime</code>, and <code>timestamp</code>.</p>
 <p>For example, let's cast the <code>is_admin</code> attribute, which is stored in our database as an integer (<code>0</code> or <code>1</code>) to a boolean value:</p>
 <pre><code>&lt;?php
 
@@ -234,9 +212,8 @@ class User extends Model
 if ($user-&gt;is_admin) {
     //
 }</code></pre>
-<p><a name="array-and-json-casting"></a></p>
-<h3 id="array-json-casting">Array &amp; JSON Casting</h3>
-<p>The <code>array</code> cast type is particularly useful when working with columns that are stored as serialized JSON. For example, if your database has a <code>JSON</code> or <code>TEXT</code> field type that contains serialized JSON, adding the <code>array</code> cast to that attribute will automatically deserialize the attribute to a PHP array when you access it on your Eloquent model:</p>
+<h4 id="array-casting">Array Casting</h4>
+<p>The <code>array</code> cast type is particularly useful when working with columns that are stored as serialized JSON. For example, if your database has a <code>TEXT</code> field type that contains serialized JSON, adding the <code>array</code> cast to that attribute will automatically deserialize the attribute to a PHP array when you access it on your Eloquent model:</p>
 <pre><code>&lt;?php
 
 namespace App;

@@ -13,14 +13,12 @@
   <script src="../../laravel-docs/site.js"></script>
 </head>
 <body>
-<aside><h1>Laravel 5.3 offline docs</h1><ul id="navigation">
-<li><a href="application-testing.html">Application Testing</a>
-<li><a href="artisan.html">Console Commands</a>
+<aside><h1>Laravel 5.2 offline docs</h1><ul id="navigation">
+<li><a href="artisan.html">Artisan Console</a>
 <li><a href="authentication.html">Authentication</a>
 <li><a href="authorization.html">Authorization</a>
 <li><a href="billing.html">Laravel Cashier</a>
 <li><a href="blade.html">Blade Templates</a>
-<li><a href="broadcasting.html">Event Broadcasting</a>
 <li><a href="cache.html">Cache</a>
 <li><a href="collections.html">Collections</a>
 <li><a href="configuration.html">Configuration</a>
@@ -28,12 +26,10 @@
 <li><a href="contracts.html">Contracts</a>
 <li><a href="contributing.html">Contribution Guidelines</a>
 <li><a href="contributions.html">Contribution Guide</a>
-<li><a href="controllers.html">Controllers</a>
-<li><a href="csrf.html">CSRF Protection</a>
-<li><a href="database-testing.html">Database Testing</a>
+<li><a href="controllers.html">HTTP Controllers</a>
 <li><a href="database.html">Database: Getting Started</a>
 <li><a href="documentation.html">Prologue</a>
-<li><a href="elixir.html">Compiling Assets (Laravel Elixir)</a>
+<li><a href="elixir.html">Laravel Elixir</a>
 <li><a href="eloquent-collections.html">Eloquent: Collections</a>
 <li><a href="eloquent-mutators.html">Eloquent: Mutators</a>
 <li><a href="eloquent-relationships.html">Eloquent: Relationships</a>
@@ -46,7 +42,6 @@
 </a>
 <li><a href="facades.html">Facades</a>
 <li><a href="filesystem.html">Filesystem / Cloud Storage</a>
-<li><a href="frontend.html">JavaScript & CSS</a>
 <li><a href="hashing.html">Hashing</a>
 <li><a href="helpers.html">Helper Functions</a>
 <li><a href="homestead.html">Laravel Homestead</a>
@@ -55,29 +50,25 @@
 <li><a href="localization.html">Localization</a>
 <li><a href="mail.html">Mail
 </a>
-<li><a href="middleware.html">Middleware</a>
+<li><a href="middleware.html">HTTP Middleware</a>
 <li><a href="migrations.html">Database: Migrations</a>
-<li><a href="mocking.html">Mocking</a>
-<li><a href="notifications.html">Notifications</a>
 <li><a href="packages.html">Package Development</a>
 <li><a href="pagination.html">Pagination</a>
-<li><a href="passport.html">API Authentication (Passport)</a>
-<li><a href="passwords.html">Resetting Passwords</a>
 <li><a href="providers.html">Service Providers</a>
 <li><a href="queries.html">Database: Query Builder</a>
 <li><a href="queues.html">Queues</a>
+<li><a href="quickstart-intermediate.html">Intermediate Task List</a>
+<li><a href="quickstart.html">Basic Task List</a>
 <li><a href="readme.html">Laravel Documentation</a>
-<li><a href="redirects.html">HTTP Redirects</a>
 <li><a href="redis.html">Redis</a>
 <li><a href="releases.html">Release Notes</a>
 <li><a href="requests.html">HTTP Requests</a>
 <li><a href="responses.html">HTTP Responses</a>
-<li><a href="routing.html">Routing</a>
+<li><a href="routing.html">HTTP Routing</a>
 <li><a href="scheduling.html">Task Scheduling</a>
-<li><a href="scout.html">Laravel Scout</a>
 <li><a href="seeding.html">Database: Seeding</a>
-<li><a href="session.html">HTTP Session</a>
-<li><a href="structure.html">Directory Structure</a>
+<li><a href="session.html">Session</a>
+<li><a href="structure.html">Application Structure</a>
 <li><a href="testing.html">Testing</a>
 <li><a href="upgrade.html">Upgrade Guide</a>
 <li><a href="valet.html">Laravel Valet</a>
@@ -88,113 +79,83 @@
 <ul>
 <li>Prologue
 <ul>
-<li><a href="/docs/%7B%7Bversion%7D%7D/releases">Release Notes</a></li>
-<li><a href="/docs/%7B%7Bversion%7D%7D/upgrade">Upgrade Guide</a></li>
-<li><a href="/docs/%7B%7Bversion%7D%7D/contributions">Contribution Guide</a></li>
+<li><a href="releases.html">Release Notes</a></li>
+<li><a href="upgrade.html">Upgrade Guide</a></li>
+<li><a href="contributions.html">Contribution Guide</a></li>
 <li><a href="/api/%7B%7Bversion%7D%7D">API Documentation</a></li>
 </ul></li>
-<li>Getting Started
+<li>Setup
 <ul>
-<li><a href="/docs/%7B%7Bversion%7D%7D/installation">Installation</a></li>
-<li><a href="/docs/%7B%7Bversion%7D%7D/configuration">Configuration</a></li>
-<li><a href="/docs/%7B%7Bversion%7D%7D/structure">Directory Structure</a></li>
-<li><a href="/docs/%7B%7Bversion%7D%7D/errors">Errors &amp; Logging</a></li>
+<li><a href="installation.html">Installation</a></li>
+<li><a href="configuration.html">Configuration</a></li>
+<li><a href="homestead.html">Homestead</a></li>
+<li><a href="valet.html">Valet</a></li>
 </ul></li>
-<li>Dev Environments
+<li>Tutorials
 <ul>
-<li><a href="/docs/%7B%7Bversion%7D%7D/homestead">Homestead</a></li>
-<li><a href="/docs/%7B%7Bversion%7D%7D/valet">Valet</a></li>
+<li><a href="quickstart.html">Basic Task List</a></li>
+<li><a href="quickstart-intermediate.html">Intermediate Task List</a></li>
 </ul></li>
-<li>Core Concepts
+<li>The Basics
 <ul>
-<li><a href="/docs/%7B%7Bversion%7D%7D/container">Service Container</a></li>
-<li><a href="/docs/%7B%7Bversion%7D%7D/providers">Service Providers</a></li>
-<li><a href="/docs/%7B%7Bversion%7D%7D/facades">Facades</a></li>
-<li><a href="/docs/%7B%7Bversion%7D%7D/contracts">Contracts</a></li>
+<li><a href="routing.html">Routing</a></li>
+<li><a href="middleware.html">Middleware</a></li>
+<li><a href="controllers.html">Controllers</a></li>
+<li><a href="requests.html">Requests</a></li>
+<li><a href="responses.html">Responses</a></li>
+<li><a href="views.html">Views</a></li>
+<li><a href="blade.html">Blade Templates</a></li>
 </ul></li>
-<li>The HTTP Layer
+<li>Architecture Foundations
 <ul>
-<li><a href="/docs/%7B%7Bversion%7D%7D/routing">Routing</a></li>
-<li><a href="/docs/%7B%7Bversion%7D%7D/middleware">Middleware</a></li>
-<li><a href="/docs/%7B%7Bversion%7D%7D/csrf">CSRF Protection</a></li>
-<li><a href="/docs/%7B%7Bversion%7D%7D/controllers">Controllers</a></li>
-<li><a href="/docs/%7B%7Bversion%7D%7D/requests">Requests</a></li>
-<li><a href="/docs/%7B%7Bversion%7D%7D/responses">Responses</a></li>
-<li><a href="/docs/%7B%7Bversion%7D%7D/session">Session</a></li>
-<li><a href="/docs/%7B%7Bversion%7D%7D/validation">Validation</a></li>
+<li><a href="lifecycle.html">Request Lifecycle</a></li>
+<li><a href="structure.html">Application Structure</a></li>
+<li><a href="providers.html">Service Providers</a></li>
+<li><a href="container.html">Service Container</a></li>
+<li><a href="contracts.html">Contracts</a></li>
+<li><a href="facades.html">Facades</a></li>
 </ul></li>
-<li>Views &amp; Templates
+<li>Services
 <ul>
-<li><a href="/docs/%7B%7Bversion%7D%7D/views">Views</a></li>
-<li><a href="/docs/%7B%7Bversion%7D%7D/blade">Blade Templates</a></li>
-<li><a href="/docs/%7B%7Bversion%7D%7D/localization">Localization</a></li>
-</ul></li>
-<li>JavaScript &amp; CSS
-<ul>
-<li><a href="/docs/%7B%7Bversion%7D%7D/frontend">Getting Started</a></li>
-<li><a href="/docs/%7B%7Bversion%7D%7D/elixir">Compiling Assets</a></li>
-</ul></li>
-<li>Security
-<ul>
-<li><a href="/docs/%7B%7Bversion%7D%7D/authentication">Authentication</a></li>
-<li><a href="/docs/%7B%7Bversion%7D%7D/authorization">Authorization</a></li>
-<li><a href="/docs/%7B%7Bversion%7D%7D/passwords">Password Reset</a></li>
-<li><a href="/docs/%7B%7Bversion%7D%7D/passport">API Authentication</a></li>
-<li><a href="/docs/%7B%7Bversion%7D%7D/encryption">Encryption</a></li>
-<li><a href="/docs/%7B%7Bversion%7D%7D/hashing">Hashing</a></li>
-</ul></li>
-<li>General Topics
-<ul>
-<li><a href="/docs/%7B%7Bversion%7D%7D/broadcasting">Broadcasting</a></li>
-<li><a href="/docs/%7B%7Bversion%7D%7D/cache">Cache</a></li>
-<li><a href="/docs/%7B%7Bversion%7D%7D/events">Events</a></li>
-<li><a href="/docs/%7B%7Bversion%7D%7D/filesystem">File Storage</a></li>
-<li><a href="/docs/%7B%7Bversion%7D%7D/mail">Mail</a></li>
-<li><a href="/docs/%7B%7Bversion%7D%7D/notifications">Notifications</a></li>
-<li><a href="/docs/%7B%7Bversion%7D%7D/queues">Queues</a></li>
+<li><a href="authentication.html">Authentication</a></li>
+<li><a href="authorization.html">Authorization</a></li>
+<li><a href="artisan.html">Artisan Console</a></li>
+<li><a href="billing.html">Billing</a></li>
+<li><a href="cache.html">Cache</a></li>
+<li><a href="collections.html">Collections</a></li>
+<li><a href="elixir.html">Elixir</a></li>
+<li><a href="encryption.html">Encryption</a></li>
+<li><a href="errors.html">Errors &amp; Logging</a></li>
+<li><a href="events.html">Events</a></li>
+<li><a href="filesystem.html">Filesystem / Cloud Storage</a></li>
+<li><a href="hashing.html">Hashing</a></li>
+<li><a href="helpers.html">Helpers</a></li>
+<li><a href="localization.html">Localization</a></li>
+<li><a href="mail.html">Mail</a></li>
+<li><a href="packages.html">Package Development</a></li>
+<li><a href="pagination.html">Pagination</a></li>
+<li><a href="queues.html">Queues</a></li>
+<li><a href="redis.html">Redis</a></li>
+<li><a href="session.html">Session</a></li>
+<li><a href="envoy.html">SSH Tasks</a></li>
+<li><a href="scheduling.html">Task Scheduling</a></li>
+<li><a href="testing.html">Testing</a></li>
+<li><a href="validation.html">Validation</a></li>
 </ul></li>
 <li>Database
 <ul>
-<li><a href="/docs/%7B%7Bversion%7D%7D/database">Getting Started</a></li>
-<li><a href="/docs/%7B%7Bversion%7D%7D/queries">Query Builder</a></li>
-<li><a href="/docs/%7B%7Bversion%7D%7D/pagination">Pagination</a></li>
-<li><a href="/docs/%7B%7Bversion%7D%7D/migrations">Migrations</a></li>
-<li><a href="/docs/%7B%7Bversion%7D%7D/seeding">Seeding</a></li>
-<li><a href="/docs/%7B%7Bversion%7D%7D/redis">Redis</a></li>
+<li><a href="database.html">Getting Started</a></li>
+<li><a href="queries.html">Query Builder</a></li>
+<li><a href="migrations.html">Migrations</a></li>
+<li><a href="seeding.html">Seeding</a></li>
 </ul></li>
 <li>Eloquent ORM
 <ul>
-<li><a href="/docs/%7B%7Bversion%7D%7D/eloquent">Getting Started</a></li>
-<li><a href="/docs/%7B%7Bversion%7D%7D/eloquent-relationships">Relationships</a></li>
-<li><a href="/docs/%7B%7Bversion%7D%7D/eloquent-collections">Collections</a></li>
-<li><a href="/docs/%7B%7Bversion%7D%7D/eloquent-mutators">Mutators</a></li>
-<li><a href="/docs/%7B%7Bversion%7D%7D/eloquent-serialization">Serialization</a></li>
-</ul></li>
-<li>Artisan Console
-<ul>
-<li><a href="/docs/%7B%7Bversion%7D%7D/artisan">Commands</a></li>
-<li><a href="/docs/%7B%7Bversion%7D%7D/scheduling">Task Scheduling</a></li>
-</ul></li>
-<li>Testing
-<ul>
-<li><a href="/docs/%7B%7Bversion%7D%7D/testing">Getting Started</a></li>
-<li><a href="/docs/%7B%7Bversion%7D%7D/application-testing">Application Testing</a></li>
-<li><a href="/docs/%7B%7Bversion%7D%7D/database-testing">Database</a></li>
-<li><a href="/docs/%7B%7Bversion%7D%7D/mocking">Mocking</a></li>
-</ul></li>
-<li>Official Packages
-<ul>
-<li><a href="/docs/%7B%7Bversion%7D%7D/billing">Cashier</a></li>
-<li><a href="/docs/%7B%7Bversion%7D%7D/envoy">Envoy</a></li>
-<li><a href="/docs/%7B%7Bversion%7D%7D/passport">Passport</a></li>
-<li><a href="/docs/%7B%7Bversion%7D%7D/scout">Scout</a></li>
-<li><a href="https://github.com/laravel/socialite">Socialite</a></li>
-</ul></li>
-<li>Appendix
-<ul>
-<li><a href="/docs/%7B%7Bversion%7D%7D/collections">Collections</a></li>
-<li><a href="/docs/%7B%7Bversion%7D%7D/helpers">Helpers</a></li>
-<li><a href="/docs/%7B%7Bversion%7D%7D/packages">Packages</a></li>
+<li><a href="eloquent.html">Getting Started</a></li>
+<li><a href="eloquent-relationships.html">Relationships</a></li>
+<li><a href="eloquent-collections.html">Collections</a></li>
+<li><a href="eloquent-mutators.html">Mutators</a></li>
+<li><a href="eloquent-serialization.html">Serialization</a></li>
 </ul></li>
 </ul>
 </article>

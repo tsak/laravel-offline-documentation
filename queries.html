@@ -13,14 +13,12 @@
   <script src="../../laravel-docs/site.js"></script>
 </head>
 <body>
-<aside><h1>Laravel 5.3 offline docs</h1><ul id="navigation">
-<li><a href="application-testing.html">Application Testing</a>
-<li><a href="artisan.html">Console Commands</a>
+<aside><h1>Laravel 5.2 offline docs</h1><ul id="navigation">
+<li><a href="artisan.html">Artisan Console</a>
 <li><a href="authentication.html">Authentication</a>
 <li><a href="authorization.html">Authorization</a>
 <li><a href="billing.html">Laravel Cashier</a>
 <li><a href="blade.html">Blade Templates</a>
-<li><a href="broadcasting.html">Event Broadcasting</a>
 <li><a href="cache.html">Cache</a>
 <li><a href="collections.html">Collections</a>
 <li><a href="configuration.html">Configuration</a>
@@ -28,12 +26,10 @@
 <li><a href="contracts.html">Contracts</a>
 <li><a href="contributing.html">Contribution Guidelines</a>
 <li><a href="contributions.html">Contribution Guide</a>
-<li><a href="controllers.html">Controllers</a>
-<li><a href="csrf.html">CSRF Protection</a>
-<li><a href="database-testing.html">Database Testing</a>
+<li><a href="controllers.html">HTTP Controllers</a>
 <li><a href="database.html">Database: Getting Started</a>
 <li><a href="documentation.html">Prologue</a>
-<li><a href="elixir.html">Compiling Assets (Laravel Elixir)</a>
+<li><a href="elixir.html">Laravel Elixir</a>
 <li><a href="eloquent-collections.html">Eloquent: Collections</a>
 <li><a href="eloquent-mutators.html">Eloquent: Mutators</a>
 <li><a href="eloquent-relationships.html">Eloquent: Relationships</a>
@@ -46,7 +42,6 @@
 </a>
 <li><a href="facades.html">Facades</a>
 <li><a href="filesystem.html">Filesystem / Cloud Storage</a>
-<li><a href="frontend.html">JavaScript & CSS</a>
 <li><a href="hashing.html">Hashing</a>
 <li><a href="helpers.html">Helper Functions</a>
 <li><a href="homestead.html">Laravel Homestead</a>
@@ -55,29 +50,25 @@
 <li><a href="localization.html">Localization</a>
 <li><a href="mail.html">Mail
 </a>
-<li><a href="middleware.html">Middleware</a>
+<li><a href="middleware.html">HTTP Middleware</a>
 <li><a href="migrations.html">Database: Migrations</a>
-<li><a href="mocking.html">Mocking</a>
-<li><a href="notifications.html">Notifications</a>
 <li><a href="packages.html">Package Development</a>
 <li><a href="pagination.html">Pagination</a>
-<li><a href="passport.html">API Authentication (Passport)</a>
-<li><a href="passwords.html">Resetting Passwords</a>
 <li><a href="providers.html">Service Providers</a>
 <li><a href="queries.html">Database: Query Builder</a>
 <li><a href="queues.html">Queues</a>
+<li><a href="quickstart-intermediate.html">Intermediate Task List</a>
+<li><a href="quickstart.html">Basic Task List</a>
 <li><a href="readme.html">Laravel Documentation</a>
-<li><a href="redirects.html">HTTP Redirects</a>
 <li><a href="redis.html">Redis</a>
 <li><a href="releases.html">Release Notes</a>
 <li><a href="requests.html">HTTP Requests</a>
 <li><a href="responses.html">HTTP Responses</a>
-<li><a href="routing.html">Routing</a>
+<li><a href="routing.html">HTTP Routing</a>
 <li><a href="scheduling.html">Task Scheduling</a>
-<li><a href="scout.html">Laravel Scout</a>
 <li><a href="seeding.html">Database: Seeding</a>
-<li><a href="session.html">HTTP Session</a>
-<li><a href="structure.html">Directory Structure</a>
+<li><a href="session.html">Session</a>
+<li><a href="structure.html">Application Structure</a>
 <li><a href="testing.html">Testing</a>
 <li><a href="upgrade.html">Upgrade Guide</a>
 <li><a href="valet.html">Laravel Valet</a>
@@ -90,43 +81,38 @@
 <li><a href="#introduction">Introduction</a></li>
 <li><a href="#retrieving-results">Retrieving Results</a>
 <ul>
-<li><a href="#chunking-results">Chunking Results</a></li>
 <li><a href="#aggregates">Aggregates</a></li>
 </ul></li>
 <li><a href="#selects">Selects</a></li>
-<li><a href="#raw-expressions">Raw Expressions</a></li>
 <li><a href="#joins">Joins</a></li>
 <li><a href="#unions">Unions</a></li>
 <li><a href="#where-clauses">Where Clauses</a>
 <ul>
-<li><a href="#parameter-grouping">Parameter Grouping</a></li>
-<li><a href="#where-exists-clauses">Where Exists Clauses</a></li>
+<li><a href="#advanced-where-clauses">Advanced Where Clauses</a></li>
 <li><a href="#json-where-clauses">JSON Where Clauses</a></li>
 </ul></li>
 <li><a href="#ordering-grouping-limit-and-offset">Ordering, Grouping, Limit, &amp; Offset</a></li>
-<li><a href="#conditional-clauses">Conditional Clauses</a></li>
+<li><a href="#conditional-statements">Conditional Statements</a></li>
 <li><a href="#inserts">Inserts</a></li>
-<li><a href="#updates">Updates</a>
-<ul>
-<li><a href="#updating-json-columns">Updating JSON Columns</a></li>
-<li><a href="#increment-and-decrement">Increment &amp; Decrement</a></li>
-</ul></li>
+<li><a href="#updates">Updates</a></li>
 <li><a href="#deletes">Deletes</a></li>
 <li><a href="#pessimistic-locking">Pessimistic Locking</a></li>
 </ul>
 <p><a name="introduction"></a></p>
 <h2 id="introduction">Introduction</h2>
-<p>Laravel's database query builder provides a convenient, fluent interface to creating and running database queries. It can be used to perform most database operations in your application and works on all supported database systems.</p>
-<p>The Laravel query builder uses PDO parameter binding to protect your application against SQL injection attacks. There is no need to clean strings being passed as bindings.</p>
+<p>The database query builder provides a convenient, fluent interface to creating and running database queries. It can be used to perform most database operations in your application, and works on all supported database systems.</p>
+<blockquote>
+<p><strong>Note:</strong> The Laravel query builder uses PDO parameter binding to protect your application against SQL injection attacks. There is no need to clean strings being passed as bindings.</p>
+</blockquote>
 <p><a name="retrieving-results"></a></p>
 <h2 id="retrieving-results">Retrieving Results</h2>
 <h4 id="retrieving-all-rows-from-a-table">Retrieving All Rows From A Table</h4>
-<p>You may use the <code>table</code> method on the <code>DB</code> facade to begin a query. The <code>table</code> method returns a fluent query builder instance for the given table, allowing you to chain more constraints onto the query and then finally get the results using the <code>get</code> method:</p>
+<p>To begin a fluent query, use the <code>table</code> method on the <code>DB</code> facade. The <code>table</code> method returns a fluent query builder instance for the given table, allowing you to chain more constraints onto the query and then finally get the results. In this example, let's just <code>get</code> all records from a table:</p>
 <pre><code>&lt;?php
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\DB;
+use DB;
 use App\Http\Controllers\Controller;
 
 class UserController extends Controller
@@ -143,7 +129,7 @@ class UserController extends Controller
         return view(&#39;user.index&#39;, [&#39;users&#39; =&gt; $users]);
     }
 }</code></pre>
-<p>The <code>get</code> method returns an <code>Illuminate\Support\Collection</code> containing the results where each result is an instance of the PHP <code>StdClass</code> object. You may access each column's value by accessing the column as a property of the object:</p>
+<p>Like <a href="database.html">raw queries</a>, the <code>get</code> method returns an <code>array</code> of results where each result is an instance of the PHP <code>StdClass</code> object. You may access each column's value by accessing the column as a property of the object:</p>
 <pre><code>foreach ($users as $user) {
     echo $user-&gt;name;
 }</code></pre>
@@ -154,6 +140,19 @@ class UserController extends Controller
 echo $user-&gt;name;</code></pre>
 <p>If you don't even need an entire row, you may extract a single value from a record using the <code>value</code> method. This method will return the value of the column directly:</p>
 <pre><code>$email = DB::table(&#39;users&#39;)-&gt;where(&#39;name&#39;, &#39;John&#39;)-&gt;value(&#39;email&#39;);</code></pre>
+<h4 id="chunking-results-from-a-table">Chunking Results From A Table</h4>
+<p>If you need to work with thousands of database records, consider using the <code>chunk</code> method. This method retrieves a small &quot;chunk&quot; of the results at a time, and feeds each chunk into a <code>Closure</code> for processing. This method is very useful for writing <a href="artisan.html">Artisan commands</a> that process thousands of records. For example, let's work with the entire <code>users</code> table in chunks of 100 records at a time:</p>
+<pre><code>DB::table(&#39;users&#39;)-&gt;orderBy(&#39;id&#39;)-&gt;chunk(100, function($users) {
+    foreach ($users as $user) {
+        //
+    }
+});</code></pre>
+<p>You may stop further chunks from being processed by returning <code>false</code> from the <code>Closure</code>:</p>
+<pre><code>DB::table(&#39;users&#39;)-&gt;orderBy(&#39;id&#39;)-&gt;chunk(100, function($users) {
+    // Process the records...
+
+    return false;
+});</code></pre>
 <h4 id="retrieving-a-list-of-column-values">Retrieving A List Of Column Values</h4>
 <p>If you would like to retrieve an array containing the values of a single column, you may use the <code>pluck</code> method. In this example, we'll retrieve an array of role titles:</p>
 <pre><code>$titles = DB::table(&#39;roles&#39;)-&gt;pluck(&#39;title&#39;);
@@ -167,27 +166,13 @@ foreach ($titles as $title) {
 foreach ($roles as $name =&gt; $title) {
     echo $title;
 }</code></pre>
-<p><a name="chunking-results"></a></p>
-<h3 id="chunking-results">Chunking Results</h3>
-<p>If you need to work with thousands of database records, consider using the <code>chunk</code> method. This method retrieves a small chunk of the results at a time and feeds each chunk into a <code>Closure</code> for processing. This method is very useful for writing <a href="/docs/%7B%7Bversion%7D%7D/artisan">Artisan commands</a> that process thousands of records. For example, let's work with the entire <code>users</code> table in chunks of 100 records at a time:</p>
-<pre><code>DB::table(&#39;users&#39;)-&gt;orderBy(&#39;id&#39;)-&gt;chunk(100, function($users) {
-    foreach ($users as $user) {
-        //
-    }
-});</code></pre>
-<p>You may stop further chunks from being processed by returning <code>false</code> from the <code>Closure</code>:</p>
-<pre><code>DB::table(&#39;users&#39;)-&gt;orderBy(&#39;id&#39;)-&gt;chunk(100, function($users) {
-    // Process the records...
-
-    return false;
-});</code></pre>
 <p><a name="aggregates"></a></p>
 <h3 id="aggregates">Aggregates</h3>
-<p>The query builder also provides a variety of aggregate methods such as <code>count</code>, <code>max</code>, <code>min</code>, <code>avg</code>, and <code>sum</code>. You may call any of these methods after constructing your query:</p>
+<p>The query builder also provides a variety of aggregate methods, such as <code>count</code>, <code>max</code>, <code>min</code>, <code>avg</code>, and <code>sum</code>. You may call any of these methods after constructing your query:</p>
 <pre><code>$users = DB::table(&#39;users&#39;)-&gt;count();
 
 $price = DB::table(&#39;orders&#39;)-&gt;max(&#39;price&#39;);</code></pre>
-<p>Of course, you may combine these methods with other clauses:</p>
+<p>Of course, you may combine these methods with other clauses to build your query:</p>
 <pre><code>$price = DB::table(&#39;orders&#39;)
                 -&gt;where(&#39;finalized&#39;, 1)
                 -&gt;avg(&#39;price&#39;);</code></pre>
@@ -202,8 +187,7 @@ $price = DB::table(&#39;orders&#39;)-&gt;max(&#39;price&#39;);</code></pre>
 <pre><code>$query = DB::table(&#39;users&#39;)-&gt;select(&#39;name&#39;);
 
 $users = $query-&gt;addSelect(&#39;age&#39;)-&gt;get();</code></pre>
-<p><a name="raw-expressions"></a></p>
-<h2 id="raw-expressions">Raw Expressions</h2>
+<h4 id="raw-expressions">Raw Expressions</h4>
 <p>Sometimes you may need to use a raw expression in a query. These expressions will be injected into the query as strings, so be careful not to create any SQL injection points! To create a raw expression, you may use the <code>DB::raw</code> method:</p>
 <pre><code>$users = DB::table(&#39;users&#39;)
                      -&gt;select(DB::raw(&#39;count(*) as user_count, status&#39;))
@@ -212,24 +196,24 @@ $users = $query-&gt;addSelect(&#39;age&#39;)-&gt;get();</code></pre>
                      -&gt;get();</code></pre>
 <p><a name="joins"></a></p>
 <h2 id="joins">Joins</h2>
-<h4 id="inner-join-clause">Inner Join Clause</h4>
-<p>The query builder may also be used to write join statements. To perform a basic &quot;inner join&quot;, you may use the <code>join</code> method on a query builder instance. The first argument passed to the <code>join</code> method is the name of the table you need to join to, while the remaining arguments specify the column constraints for the join. Of course, as you can see, you can join to multiple tables in a single query:</p>
+<h4 id="inner-join-statement">Inner Join Statement</h4>
+<p>The query builder may also be used to write join statements. To perform a basic SQL &quot;inner join&quot;, you may use the <code>join</code> method on a query builder instance. The first argument passed to the <code>join</code> method is the name of the table you need to join to, while the remaining arguments specify the column constraints for the join. Of course, as you can see, you can join to multiple tables in a single query:</p>
 <pre><code>$users = DB::table(&#39;users&#39;)
             -&gt;join(&#39;contacts&#39;, &#39;users.id&#39;, &#39;=&#39;, &#39;contacts.user_id&#39;)
             -&gt;join(&#39;orders&#39;, &#39;users.id&#39;, &#39;=&#39;, &#39;orders.user_id&#39;)
             -&gt;select(&#39;users.*&#39;, &#39;contacts.phone&#39;, &#39;orders.price&#39;)
             -&gt;get();</code></pre>
-<h4 id="left-join-clause">Left Join Clause</h4>
+<h4 id="left-join-statement">Left Join Statement</h4>
 <p>If you would like to perform a &quot;left join&quot; instead of an &quot;inner join&quot;, use the <code>leftJoin</code> method. The <code>leftJoin</code> method has the same signature as the <code>join</code> method:</p>
 <pre><code>$users = DB::table(&#39;users&#39;)
             -&gt;leftJoin(&#39;posts&#39;, &#39;users.id&#39;, &#39;=&#39;, &#39;posts.user_id&#39;)
             -&gt;get();</code></pre>
-<h4 id="cross-join-clause">Cross Join Clause</h4>
+<h4 id="cross-join-statement">Cross Join Statement</h4>
 <p>To perform a &quot;cross join&quot; use the <code>crossJoin</code> method with the name of the table you wish to cross join to. Cross joins generate a cartesian product between the first table and the joined table:</p>
 <pre><code>$users = DB::table(&#39;sizes&#39;)
             -&gt;crossJoin(&#39;colours&#39;)
             -&gt;get();</code></pre>
-<h4 id="advanced-join-clauses">Advanced Join Clauses</h4>
+<h4 id="advanced-join-statements">Advanced Join Statements</h4>
 <p>You may also specify more advanced join clauses. To get started, pass a <code>Closure</code> as the second argument into the <code>join</code> method. The <code>Closure</code> will receive a <code>JoinClause</code> object which allows you to specify constraints on the <code>join</code> clause:</p>
 <pre><code>DB::table(&#39;users&#39;)
         -&gt;join(&#39;contacts&#39;, function ($join) {
@@ -245,7 +229,7 @@ $users = $query-&gt;addSelect(&#39;age&#39;)-&gt;get();</code></pre>
         -&gt;get();</code></pre>
 <p><a name="unions"></a></p>
 <h2 id="unions">Unions</h2>
-<p>The query builder also provides a quick way to &quot;union&quot; two queries together. For example, you may create an initial query and use the <code>union</code> method to union it with a second query:</p>
+<p>The query builder also provides a quick way to &quot;union&quot; two queries together. For example, you may create an initial query, and then use the <code>union</code> method to union it with a second query:</p>
 <pre><code>$first = DB::table(&#39;users&#39;)
             -&gt;whereNull(&#39;first_name&#39;);
 
@@ -253,13 +237,11 @@ $users = DB::table(&#39;users&#39;)
             -&gt;whereNull(&#39;last_name&#39;)
             -&gt;union($first)
             -&gt;get();</code></pre>
-<blockquote>
-<p>{tip} The <code>unionAll</code> method is also available and has the same method signature as <code>union</code>.</p>
-</blockquote>
+<p>The <code>unionAll</code> method is also available and has the same method signature as <code>union</code>.</p>
 <p><a name="where-clauses"></a></p>
 <h2 id="where-clauses">Where Clauses</h2>
 <h4 id="simple-where-clauses">Simple Where Clauses</h4>
-<p>You may use the <code>where</code> method on a query builder instance to add <code>where</code> clauses to the query. The most basic call to <code>where</code> requires three arguments. The first argument is the name of the column. The second argument is an operator, which can be any of the database's supported operators. Finally, the third argument is the value to evaluate against the column.</p>
+<p>To add <code>where</code> clauses to the query, use the <code>where</code> method on a query builder instance. The most basic call to <code>where</code> requires three arguments. The first argument is the name of the column. The second argument is an operator, which can be any of the database's supported operators. The third argument is the value to evaluate against the column.</p>
 <p>For example, here is a query that verifies the value of the &quot;votes&quot; column is equal to 100:</p>
 <pre><code>$users = DB::table(&#39;users&#39;)-&gt;where(&#39;votes&#39;, &#39;=&#39;, 100)-&gt;get();</code></pre>
 <p>For convenience, if you simply want to verify that a column is equal to a given value, you may pass the value directly as the second argument to the <code>where</code> method:</p>
@@ -282,7 +264,7 @@ $users = DB::table(&#39;users&#39;)
     [&#39;subscribed&#39;, &#39;&lt;&gt;&#39;, &#39;1&#39;],
 ])-&gt;get();</code></pre>
 <h4 id="or-statements">Or Statements</h4>
-<p>You may chain where constraints together as well as add <code>or</code> clauses to the query. The <code>orWhere</code> method accepts the same arguments as the <code>where</code> method:</p>
+<p>You may chain where constraints together, as well as add <code>or</code> clauses to the query. The <code>orWhere</code> method accepts the same arguments as the <code>where</code> method:</p>
 <pre><code>$users = DB::table(&#39;users&#39;)
                     -&gt;where(&#39;votes&#39;, &#39;&gt;&#39;, 100)
                     -&gt;orWhere(&#39;name&#39;, &#39;John&#39;)
@@ -311,45 +293,27 @@ $users = DB::table(&#39;users&#39;)
 <pre><code>$users = DB::table(&#39;users&#39;)
                     -&gt;whereNull(&#39;updated_at&#39;)
                     -&gt;get();</code></pre>
-<p>The <code>whereNotNull</code> method verifies that the column's value is not <code>NULL</code>:</p>
+<p>The <code>whereNotNull</code> method verifies that the column's value is <strong>not</strong> <code>NULL</code>:</p>
 <pre><code>$users = DB::table(&#39;users&#39;)
                     -&gt;whereNotNull(&#39;updated_at&#39;)
                     -&gt;get();</code></pre>
-<p><strong>whereDate / whereMonth / whereDay / whereYear</strong></p>
-<p>The <code>whereDate</code> method may be used compare a column's value against a date:</p>
-<pre><code>$users = DB::table(&#39;users&#39;)
-                -&gt;whereDate(&#39;created_at&#39;, &#39;2016-12-31&#39;)
-                -&gt;get();</code></pre>
-<p>The <code>whereMonth</code> method may be used compare a column's value against a specific month of a year:</p>
-<pre><code>$users = DB::table(&#39;users&#39;)
-                -&gt;whereMonth(&#39;created_at&#39;, &#39;12&#39;)
-                -&gt;get();</code></pre>
-<p>The <code>whereDay</code> method may be used compare a column's value against a specific day of a month:</p>
-<pre><code>$users = DB::table(&#39;users&#39;)
-                -&gt;whereDay(&#39;created_at&#39;, &#39;31&#39;)
-                -&gt;get();</code></pre>
-<p>The <code>whereYear</code> method may be used compare a column's value against a specific year:</p>
-<pre><code>$users = DB::table(&#39;users&#39;)
-                -&gt;whereYear(&#39;created_at&#39;, &#39;2016&#39;)
-                -&gt;get();</code></pre>
 <p><strong>whereColumn</strong></p>
 <p>The <code>whereColumn</code> method may be used to verify that two columns are equal:</p>
 <pre><code>$users = DB::table(&#39;users&#39;)
-                -&gt;whereColumn(&#39;first_name&#39;, &#39;last_name&#39;)
-                -&gt;get();</code></pre>
+                -&gt;whereColumn(&#39;first_name&#39;, &#39;last_name&#39;);</code></pre>
 <p>You may also pass a comparison operator to the method:</p>
 <pre><code>$users = DB::table(&#39;users&#39;)
-                -&gt;whereColumn(&#39;updated_at&#39;, &#39;&gt;&#39;, &#39;created_at&#39;)
-                -&gt;get();</code></pre>
+                -&gt;whereColumn(&#39;updated_at&#39;, &#39;&gt;&#39;, &#39;created_at&#39;);</code></pre>
 <p>The <code>whereColumn</code> method can also be passed an array of multiple conditions. These conditions will be joined using the <code>and</code> operator:</p>
 <pre><code>$users = DB::table(&#39;users&#39;)
                 -&gt;whereColumn([
-                    [&#39;first_name&#39;, &#39;=&#39;, &#39;last_name&#39;],
+                    [&#39;first_name&#39;, &#39;last_name&#39;],
                     [&#39;updated_at&#39;, &#39;&gt;&#39;, &#39;created_at&#39;]
-                ])-&gt;get();</code></pre>
-<p><a name="parameter-grouping"></a></p>
-<h3 id="parameter-grouping">Parameter Grouping</h3>
-<p>Sometimes you may need to create more advanced where clauses such as &quot;where exists&quot; clauses or nested parameter groupings. The Laravel query builder can handle these as well. To get started, let's look at an example of grouping constraints within parenthesis:</p>
+                ]);</code></pre>
+<p><a name="advanced-where-clauses"></a></p>
+<h2 id="advanced-where-clauses">Advanced Where Clauses</h2>
+<h4 id="parameter-grouping">Parameter Grouping</h4>
+<p>Sometimes you may need to create more advanced where clauses such as &quot;where exists&quot; or nested parameter groupings. The Laravel query builder can handle these as well. To get started, let's look at an example of grouping constraints within parenthesis:</p>
 <pre><code>DB::table(&#39;users&#39;)
             -&gt;where(&#39;name&#39;, &#39;=&#39;, &#39;John&#39;)
             -&gt;orWhere(function ($query) {
@@ -359,8 +323,7 @@ $users = DB::table(&#39;users&#39;)
             -&gt;get();</code></pre>
 <p>As you can see, passing a <code>Closure</code> into the <code>orWhere</code> method instructs the query builder to begin a constraint group. The <code>Closure</code> will receive a query builder instance which you can use to set the constraints that should be contained within the parenthesis group. The example above will produce the following SQL:</p>
 <pre><code>select * from users where name = &#39;John&#39; or (votes &gt; 100 and title &lt;&gt; &#39;Admin&#39;)</code></pre>
-<p><a name="where-exists-clauses"></a></p>
-<h3 id="where-exists-clauses">Where Exists Clauses</h3>
+<h4 id="exists-statements">Exists Statements</h4>
 <p>The <code>whereExists</code> method allows you to write <code>where exists</code> SQL clauses. The <code>whereExists</code> method accepts a <code>Closure</code> argument, which will receive a query builder instance allowing you to define the query that should be placed inside of the &quot;exists&quot; clause:</p>
 <pre><code>DB::table(&#39;users&#39;)
             -&gt;whereExists(function ($query) {
@@ -375,8 +338,8 @@ where exists (
     select 1 from orders where orders.user_id = users.id
 )</code></pre>
 <p><a name="json-where-clauses"></a></p>
-<h3 id="json-where-clauses">JSON Where Clauses</h3>
-<p>Laravel also supports querying JSON column types on databases that provide support for JSON column types. Currently, this includes MySQL 5.7 and Postgres. To query a JSON column, use the <code>-&gt;</code> operator:</p>
+<h2 id="json-where-clauses">JSON Where Clauses</h2>
+<p>Laravel supports querying JSON column types on databases that provide support for JSON column types. Currently, this includes MySQL 5.7 and Postgres. To query a JSON column, use the <code>-&gt;</code> operator:</p>
 <pre><code>$users = DB::table(&#39;users&#39;)
                 -&gt;where(&#39;options-&gt;language&#39;, &#39;en&#39;)
                 -&gt;get();
@@ -391,11 +354,6 @@ $users = DB::table(&#39;users&#39;)
 <pre><code>$users = DB::table(&#39;users&#39;)
                 -&gt;orderBy(&#39;name&#39;, &#39;desc&#39;)
                 -&gt;get();</code></pre>
-<h4 id="latest-oldest">latest / oldest</h4>
-<p>The <code>latest</code> and <code>oldest</code> methods allow you to easily order results by date. By default, result will be ordered by the <code>created_at</code> column. Or, you may pass the column name that you wish to sort by:</p>
-<pre><code>$user = DB::table(&#39;users&#39;)
-                -&gt;latest()
-                -&gt;first();</code></pre>
 <h4 id="inrandomorder">inRandomOrder</h4>
 <p>The <code>inRandomOrder</code> method may be used to sort the query results randomly. For example, you may use this method to fetch a random user:</p>
 <pre><code>$randomUser = DB::table(&#39;users&#39;)
@@ -414,16 +372,11 @@ $users = DB::table(&#39;users&#39;)
                 -&gt;havingRaw(&#39;SUM(price) &gt; 2500&#39;)
                 -&gt;get();</code></pre>
 <h4 id="skip-take">skip / take</h4>
-<p>To limit the number of results returned from the query, or to skip a given number of results in the query, you may use the <code>skip</code> and <code>take</code> methods:</p>
+<p>To limit the number of results returned from the query, or to skip a given number of results in the query (<code>OFFSET</code>), you may use the <code>skip</code> and <code>take</code> methods:</p>
 <pre><code>$users = DB::table(&#39;users&#39;)-&gt;skip(10)-&gt;take(5)-&gt;get();</code></pre>
-<p>Alternatively, you may use the <code>limit</code> and <code>offset</code> methods:</p>
-<pre><code>$users = DB::table(&#39;users&#39;)
-                -&gt;offset(10)
-                -&gt;limit(5)
-                -&gt;get();</code></pre>
-<p><a name="conditional-clauses"></a></p>
-<h2 id="conditional-clauses">Conditional Clauses</h2>
-<p>Sometimes you may want clauses to apply to a query only when something else is true. For instance you may only want to apply a <code>where</code> statement if a given input value is present on the incoming request. You may accomplish this using the <code>when</code> method:</p>
+<p><a name="conditional-statements"></a></p>
+<h2 id="conditional-statements">Conditional Statements</h2>
+<p>Sometimes you may want statements to apply to a query only when something else is true. For instance you may only want to apply a <code>where</code> statement if a given input value is present on the incoming request. You may accomplish this using the <code>when</code> method:</p>
 <pre><code>$role = $request-&gt;input(&#39;role&#39;);
 
 $users = DB::table(&#39;users&#39;)
@@ -432,19 +385,9 @@ $users = DB::table(&#39;users&#39;)
                 })
                 -&gt;get();</code></pre>
 <p>The <code>when</code> method only executes the given Closure when the first parameter is <code>true</code>. If the first parameter is <code>false</code>, the Closure will not be executed.</p>
-<p>You may pass another Closure as the third parameter to the <code>when</code> method. This Closure will execute if the first parameter evaluates as <code>false</code>. To illustrate how this feature may be used, we will use it to configure the default sorting of a query:</p>
-<pre><code>$sortBy = null;
-
-$users = DB::table(&#39;users&#39;)
-                -&gt;when($sortBy, function ($query) use ($sortBy) {
-                    return $query-&gt;orderBy($sortBy);
-                }, function ($query) {
-                    return $query-&gt;orderBy(&#39;name&#39;);
-                })
-                -&gt;get();</code></pre>
 <p><a name="inserts"></a></p>
 <h2 id="inserts">Inserts</h2>
-<p>The query builder also provides an <code>insert</code> method for inserting records into the database table. The <code>insert</code> method accepts an array of column names and values:</p>
+<p>The query builder also provides an <code>insert</code> method for inserting records into the database table. The <code>insert</code> method accepts an array of column names and values to insert:</p>
 <pre><code>DB::table(&#39;users&#39;)-&gt;insert(
     [&#39;email&#39; =&gt; &#39;john@example.com&#39;, &#39;votes&#39; =&gt; 0]
 );</code></pre>
@@ -459,7 +402,7 @@ $users = DB::table(&#39;users&#39;)
     [&#39;email&#39; =&gt; &#39;john@example.com&#39;, &#39;votes&#39; =&gt; 0]
 );</code></pre>
 <blockquote>
-<p>{note} When using PostgreSQL the insertGetId method expects the auto-incrementing column to be named <code>id</code>. If you would like to retrieve the ID from a different &quot;sequence&quot;, you may pass the sequence name as the second parameter to the <code>insertGetId</code> method.</p>
+<p><strong>Note:</strong> When using PostgreSQL the insertGetId method expects the auto-incrementing column to be named <code>id</code>. If you would like to retrieve the ID from a different &quot;sequence&quot;, you may pass the sequence name as the second parameter to the <code>insertGetId</code> method.</p>
 </blockquote>
 <p><a name="updates"></a></p>
 <h2 id="updates">Updates</h2>
@@ -467,16 +410,9 @@ $users = DB::table(&#39;users&#39;)
 <pre><code>DB::table(&#39;users&#39;)
             -&gt;where(&#39;id&#39;, 1)
             -&gt;update([&#39;votes&#39; =&gt; 1]);</code></pre>
-<p><a name="updating-json-columns"></a></p>
-<h3 id="updating-json-columns">Updating JSON Columns</h3>
-<p>When updating a JSON column, you should use <code>-&gt;</code> syntax to access the appropriate key in the JSON object. This operation is only supported on databases that support JSON columns:</p>
-<pre><code>DB::table(&#39;users&#39;)
-            -&gt;where(&#39;id&#39;, 1)
-            -&gt;update([&#39;options-&gt;enabled&#39; =&gt; true]);</code></pre>
-<p><a name="increment-and-decrement"></a></p>
-<h3 id="increment-decrement">Increment &amp; Decrement</h3>
+<h4 id="increment-decrement">Increment / Decrement</h4>
 <p>The query builder also provides convenient methods for incrementing or decrementing the value of a given column. This is simply a short-cut, providing a more expressive and terse interface compared to manually writing the <code>update</code> statement.</p>
-<p>Both of these methods accept at least one argument: the column to modify. A second argument may optionally be passed to control the amount by which the column should be incremented or decremented:</p>
+<p>Both of these methods accept at least one argument: the column to modify. A second argument may optionally be passed to control the amount by which the column should be incremented / decremented.</p>
 <pre><code>DB::table(&#39;users&#39;)-&gt;increment(&#39;votes&#39;);
 
 DB::table(&#39;users&#39;)-&gt;increment(&#39;votes&#39;, 5);
@@ -488,10 +424,10 @@ DB::table(&#39;users&#39;)-&gt;decrement(&#39;votes&#39;, 5);</code></pre>
 <pre><code>DB::table(&#39;users&#39;)-&gt;increment(&#39;votes&#39;, 1, [&#39;name&#39; =&gt; &#39;John&#39;]);</code></pre>
 <p><a name="deletes"></a></p>
 <h2 id="deletes">Deletes</h2>
-<p>The query builder may also be used to delete records from the table via the <code>delete</code> method. You may constrain <code>delete</code> statements by adding <code>where</code> clauses before calling the <code>delete</code> method:</p>
-<pre><code>DB::table(&#39;users&#39;)-&gt;delete();
-
-DB::table(&#39;users&#39;)-&gt;where(&#39;votes&#39;, &#39;&gt;&#39;, 100)-&gt;delete();</code></pre>
+<p>Of course, the query builder may also be used to delete records from the table via the <code>delete</code> method:</p>
+<pre><code>DB::table(&#39;users&#39;)-&gt;delete();</code></pre>
+<p>You may constrain <code>delete</code> statements by adding <code>where</code> clauses before calling the <code>delete</code> method:</p>
+<pre><code>DB::table(&#39;users&#39;)-&gt;where(&#39;votes&#39;, &#39;&gt;&#39;, 100)-&gt;delete();</code></pre>
 <p>If you wish to truncate the entire table, which will remove all rows and reset the auto-incrementing ID to zero, you may use the <code>truncate</code> method:</p>
 <pre><code>DB::table(&#39;users&#39;)-&gt;truncate();</code></pre>
 <p><a name="pessimistic-locking"></a></p>

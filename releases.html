@@ -13,14 +13,12 @@
   <script src="../../laravel-docs/site.js"></script>
 </head>
 <body>
-<aside><h1>Laravel 5.3 offline docs</h1><ul id="navigation">
-<li><a href="application-testing.html">Application Testing</a>
-<li><a href="artisan.html">Console Commands</a>
+<aside><h1>Laravel 5.2 offline docs</h1><ul id="navigation">
+<li><a href="artisan.html">Artisan Console</a>
 <li><a href="authentication.html">Authentication</a>
 <li><a href="authorization.html">Authorization</a>
 <li><a href="billing.html">Laravel Cashier</a>
 <li><a href="blade.html">Blade Templates</a>
-<li><a href="broadcasting.html">Event Broadcasting</a>
 <li><a href="cache.html">Cache</a>
 <li><a href="collections.html">Collections</a>
 <li><a href="configuration.html">Configuration</a>
@@ -28,12 +26,10 @@
 <li><a href="contracts.html">Contracts</a>
 <li><a href="contributing.html">Contribution Guidelines</a>
 <li><a href="contributions.html">Contribution Guide</a>
-<li><a href="controllers.html">Controllers</a>
-<li><a href="csrf.html">CSRF Protection</a>
-<li><a href="database-testing.html">Database Testing</a>
+<li><a href="controllers.html">HTTP Controllers</a>
 <li><a href="database.html">Database: Getting Started</a>
 <li><a href="documentation.html">Prologue</a>
-<li><a href="elixir.html">Compiling Assets (Laravel Elixir)</a>
+<li><a href="elixir.html">Laravel Elixir</a>
 <li><a href="eloquent-collections.html">Eloquent: Collections</a>
 <li><a href="eloquent-mutators.html">Eloquent: Mutators</a>
 <li><a href="eloquent-relationships.html">Eloquent: Relationships</a>
@@ -46,7 +42,6 @@
 </a>
 <li><a href="facades.html">Facades</a>
 <li><a href="filesystem.html">Filesystem / Cloud Storage</a>
-<li><a href="frontend.html">JavaScript & CSS</a>
 <li><a href="hashing.html">Hashing</a>
 <li><a href="helpers.html">Helper Functions</a>
 <li><a href="homestead.html">Laravel Homestead</a>
@@ -55,29 +50,25 @@
 <li><a href="localization.html">Localization</a>
 <li><a href="mail.html">Mail
 </a>
-<li><a href="middleware.html">Middleware</a>
+<li><a href="middleware.html">HTTP Middleware</a>
 <li><a href="migrations.html">Database: Migrations</a>
-<li><a href="mocking.html">Mocking</a>
-<li><a href="notifications.html">Notifications</a>
 <li><a href="packages.html">Package Development</a>
 <li><a href="pagination.html">Pagination</a>
-<li><a href="passport.html">API Authentication (Passport)</a>
-<li><a href="passwords.html">Resetting Passwords</a>
 <li><a href="providers.html">Service Providers</a>
 <li><a href="queries.html">Database: Query Builder</a>
 <li><a href="queues.html">Queues</a>
+<li><a href="quickstart-intermediate.html">Intermediate Task List</a>
+<li><a href="quickstart.html">Basic Task List</a>
 <li><a href="readme.html">Laravel Documentation</a>
-<li><a href="redirects.html">HTTP Redirects</a>
 <li><a href="redis.html">Redis</a>
 <li><a href="releases.html">Release Notes</a>
 <li><a href="requests.html">HTTP Requests</a>
 <li><a href="responses.html">HTTP Responses</a>
-<li><a href="routing.html">Routing</a>
+<li><a href="routing.html">HTTP Routing</a>
 <li><a href="scheduling.html">Task Scheduling</a>
-<li><a href="scout.html">Laravel Scout</a>
 <li><a href="seeding.html">Database: Seeding</a>
-<li><a href="session.html">HTTP Session</a>
-<li><a href="structure.html">Directory Structure</a>
+<li><a href="session.html">Session</a>
+<li><a href="structure.html">Application Structure</a>
 <li><a href="testing.html">Testing</a>
 <li><a href="upgrade.html">Upgrade Guide</a>
 <li><a href="valet.html">Laravel Valet</a>
@@ -88,7 +79,6 @@
 <h1 id="release-notes">Release Notes</h1>
 <ul>
 <li><a href="#support-policy">Support Policy</a></li>
-<li><a href="#laravel-5.3">Laravel 5.3</a></li>
 <li><a href="#laravel-5.2">Laravel 5.2</a></li>
 <li><a href="#laravel-5.1.11">Laravel 5.1.11</a></li>
 <li><a href="#laravel-5.1.4">Laravel 5.1.4</a></li>
@@ -99,170 +89,8 @@
 </ul>
 <p><a name="support-policy"></a></p>
 <h2 id="support-policy">Support Policy</h2>
-<p>For LTS releases, such as Laravel 5.1, bug fixes are provided for 2 years and security fixes are provided for 3 years. These releases provide the longest window of support and maintenance. For general releases, bug fixes are provided for 6 months and security fixes are provided for 1 year.</p>
-<p><a name="laravel-5.3"></a></p>
-<h2 id="laravel-5.3">Laravel 5.3</h2>
-<p>Laravel 5.3 continues the improvements made in Laravel 5.2 by adding a driver based <a href="/docs/5.3/notifications">notification system</a>, robust realtime support via <a href="/docs/5.3/broadcasting">Laravel Echo</a>, painless OAuth2 servers via <a href="/docs/5.3/passport">Laravel Passport</a>, full-text model searching via <a href="/docs/5.3/scout">Laravel Scout</a>, Webpack support in Laravel Elixir, &quot;mailable&quot; objects, explicit separation of <code>web</code> and <code>api</code> routes, Closure based console commands, convenient helpers for storing uploaded files, support for POPO and single-action controllers, improved default frontend scaffolding, and more.</p>
-<h3 id="notifications">Notifications</h3>
-<blockquote>
-<p>{video} There is a free <a href="https://laracasts.com/series/whats-new-in-laravel-5-3/episodes/9">video tutorial</a> for this feature available on Laracasts.</p>
-</blockquote>
-<p>Laravel Notifications provide a simple, expressive API for sending notifications across a variety of delivery channels such as email, Slack, SMS, and more. For example, you may define a notification that an invoice has been paid and deliver that notification via email and SMS. Then, you may send the notification using a single, simple method:</p>
-<pre><code>$user-&gt;notify(new InvoicePaid($invoice));</code></pre>
-<p>There is already a wide variety of <a href="http://laravel-notification-channels.com">community written drivers</a> for notifications, including support for iOS and Android notifications. To learn more about notifications, be sure to check out the <a href="/docs/5.3/notifications">full notification documentation</a>.</p>
-<h3 id="websockets-event-broadcasting">WebSockets / Event Broadcasting</h3>
-<p>While event broadcasting existed in previous versions of Laravel, the Laravel 5.3 release greatly improves this feature of the framework by adding channel-level authentication for private and presence WebSocket channels:</p>
-<pre><code>/*
- * Authenticate the channel subscription...
- */
-Broadcast::channel(&#39;orders.*&#39;, function ($user, $orderId) {
-    return $user-&gt;placedOrder($orderId);
-});</code></pre>
-<p>Laravel Echo, a new JavaScript package installable via NPM, has also been released to provide a simple, beautiful API for subscribing to channels and listening for your server-side events in your client-side JavaScript application. Echo includes support for <a href="https://pusher.com">Pusher</a> and <a href="http://socket.io">Socket.io</a>:</p>
-<pre><code>Echo.channel(&#39;orders.&#39; + orderId)
-    .listen(&#39;ShippingStatusUpdated&#39;, (e) =&gt; {
-        console.log(e.description);
-    });</code></pre>
-<p>In addition to subscribing to traditional channels, Laravel Echo also makes it a breeze to subscribe to presence channels which provide information about who is listening on a given channel:</p>
-<pre><code>Echo.join(&#39;chat.&#39; + roomId)
-    .here((users) =&gt; {
-        //
-    })
-    .joining((user) =&gt; {
-        console.log(user.name);
-    })
-    .leaving((user) =&gt; {
-        console.log(user.name);
-    });</code></pre>
-<p>To learn more about Echo and event broadcasting, check out the <a href="/docs/5.3/broadcasting">full documentation</a>.</p>
-<h3 id="laravel-passport-oauth2-server">Laravel Passport (OAuth2 Server)</h3>
-<blockquote>
-<p>{video} There is a free <a href="https://laracasts.com/series/whats-new-in-laravel-5-3/episodes/13">video tutorial</a> for this feature available on Laracasts.</p>
-</blockquote>
-<p>Laravel 5.3 makes API authentication a breeze using <a href="/docs/%7B%7Bversion%7D%7D/passport">Laravel Passport</a>, which provides a full OAuth2 server implementation for your Laravel application in a matter of minutes. Passport is built on top of the <a href="https://github.com/thephpleague/oauth2-server">League OAuth2 server</a> that is maintained by Alex Bilbie.</p>
-<p>Passport makes it painless to issue access tokens via OAuth2 authorization codes. You may also allow your users to create &quot;personal access tokens&quot; via your web UI. To get you started quickly, Passport includes <a href="https://vuejs.org">Vue components</a> that can serve as a starting point for your OAuth2 dashboard, allowing users to create clients, revoke access tokens, and more:</p>
-<pre><code>&lt;passport-clients&gt;&lt;/passport-clients&gt;
-&lt;passport-authorized-clients&gt;&lt;/passport-authorized-clients&gt;
-&lt;passport-personal-access-tokens&gt;&lt;/passport-personal-access-tokens&gt;</code></pre>
-<p>If you do not want to use the Vue components, you are welcome to provide your own frontend dashboard for managing clients and access tokens. Passport exposes a simple JSON API that you may use with any JavaScript framework you choose.</p>
-<p>Of course, Passport also makes it simple to define access token scopes that may be requested by application's consuming your API:</p>
-<pre><code>Passport::tokensCan([
-    &#39;place-orders&#39; =&gt; &#39;Place new orders&#39;,
-    &#39;check-status&#39; =&gt; &#39;Check order status&#39;,
-]);</code></pre>
-<p>In addition, Passport includes helpful middleware for verifying that an access token authenticated request contains the necessary token scopes:</p>
-<pre><code>Route::get(&#39;/orders/{order}/status&#39;, function (Order $order) {
-    // Access token has &quot;check-status&quot; scope...
-})-&gt;middleware(&#39;scope:check-status&#39;);</code></pre>
-<p>Lastly, Passport includes support for consuming your own API from your JavaScript application without worrying about passing access tokens. Passport achieves this through encrypted JWT cookies and synchronized CSRF tokens, allowing you to focus on what matters: your application. For more information on Passport, be sure to check out its <a href="/docs/5.3/passport">full documentation</a>.</p>
-<h3 id="search-laravel-scout">Search (Laravel Scout)</h3>
-<p>Laravel Scout provides a simple, driver based solution for adding full-text search to your <a href="/docs/5.3/eloquent">Eloquent models</a>. Using model observers, Scout will automatically keep your search indexes in sync with your Eloquent records. Currently, Scout ships with an <a href="https://www.algolia.com/">Algolia</a> driver; however, writing custom drivers is simple and you are free to extend Scout with your own search implementations.</p>
-<p>Making models searchable is as simple as adding a <code>Searchable</code> trait to the model:</p>
-<pre><code>&lt;?php
-
-namespace App;
-
-use Laravel\Scout\Searchable;
-use Illuminate\Database\Eloquent\Model;
-
-class Post extends Model
-{
-    use Searchable;
-}</code></pre>
-<p>Once the trait has been added to your model, its information will be kept in sync with your search indexes by simply saving the model:</p>
-<pre><code>$order = new Order;
-
-// ...
-
-$order-&gt;save();</code></pre>
-<p>Once your models have been indexed, its a breeze to perform full-text searches across all of your models. You may even paginate your search results:</p>
-<pre><code>return Order::search(&#39;Star Trek&#39;)-&gt;get();
-
-return Order::search(&#39;Star Trek&#39;)-&gt;where(&#39;user_id&#39;, 1)-&gt;paginate();</code></pre>
-<p>Of course, Scout has many more features which are covered in the <a href="/docs/5.3/scout">full documentation</a>.</p>
-<h3 id="mailable-objects">Mailable Objects</h3>
-<blockquote>
-<p>{video} There is a free <a href="https://laracasts.com/series/whats-new-in-laravel-5-3/episodes/6">video tutorial</a> for this feature available on Laracasts.</p>
-</blockquote>
-<p>Laravel 5.3 ships with support for mailable objects. These objects allow you to represent your email messages as a simple objects instead of customizing mail messages within Closures. For example, you may define a simple mailable object for a &quot;welcome&quot; email:</p>
-<pre><code>class WelcomeMessage extends Mailable
-{
-    use Queueable, SerializesModels;
-
-    /**
-     * Build the message.
-     *
-     * @return $this
-     */
-    public function build()
-    {
-        return $this-&gt;view(&#39;emails.welcome&#39;);
-    }
-}</code></pre>
-<p>Once the mailable object has been defined, you can send it to a user using a simple, expressive API. Mailable objects are great for discovering the intent of your messages while scanning your code:</p>
-<pre><code>Mail::to($user)-&gt;send(new WelcomeMessage);</code></pre>
-<p>Of course, you may also mark mailable objects as &quot;queueable&quot; so that they will be sent in the background by your queue workers:</p>
-<pre><code>class WelcomeMessage extends Mailable implements ShouldQueue
-{
-    //
-}</code></pre>
-<p>For more information on mailable objects, be sure to check out the <a href="/docs/5.3/mail">mail documentation</a>.</p>
-<h3 id="storing-uploaded-files">Storing Uploaded Files</h3>
-<blockquote>
-<p>{video} There is a free <a href="https://laracasts.com/series/whats-new-in-laravel-5-3/episodes/12">video tutorial</a> for this feature available on Laracasts.</p>
-</blockquote>
-<p>In web applications, one of the most common use-cases for storing files is storing user uploaded files such as profile pictures, photos, and documents. Laravel 5.3 makes it very easy to store uploaded files using the new <code>store</code> method on an uploaded file instance. Simply call the <code>store</code> method with the path at which you wish to store the uploaded file:</p>
-<pre><code>/**
- * Update the avatar for the user.
- *
- * @param  Request  $request
- * @return Response
- */
-public function update(Request $request)
-{
-    $path = $request-&gt;file(&#39;avatar&#39;)-&gt;store(&#39;avatars&#39;, &#39;s3&#39;);
-
-    return $path;
-}</code></pre>
-<p>For more information on storing uploaded files, check out the <a href="/docs/%7B%7Bversion%7D%7D/filesystem#file-uploads">full documentation</a>.</p>
-<h3 id="webpack-laravel-elixir">Webpack &amp; Laravel Elixir</h3>
-<p>Along with Laravel 5.3, Laravel Elixir 6.0 has been released with baked-in support for the Webpack and Rollup JavaScript module bundlers. By default, the Laravel 5.3 <code>gulpfile.js</code> file now uses Webpack to compile your JavaScript. The <a href="/docs/5.3/elixir">full Laravel Elixir documentation</a> contains more information on both of these bundlers:</p>
-<pre><code>elixir(mix =&gt; {
-    mix.sass(&#39;app.scss&#39;)
-       .webpack(&#39;app.js&#39;);
-});</code></pre>
-<h3 id="frontend-structure">Frontend Structure</h3>
-<blockquote>
-<p>{video} There is a free <a href="https://laracasts.com/series/whats-new-in-laravel-5-3/episodes/4">video tutorial</a> for this feature available on Laracasts.</p>
-</blockquote>
-<p>Laravel 5.3 ships with a more modern frontend structure. This primarily affects the <code>make:auth</code> authentication scaffolding. Instead of loading frontend assets from a CDN, dependencies are specified in the default <code>package.json</code> file.</p>
-<p>In addition, support for single file <a href="https://vuejs.org">Vue components</a> is now included out of the box. A sample <code>Example.vue</code> component is included in the <code>resources/assets/js/components</code> directory. In addition, the new <code>resources/assets/js/app.js</code> file bootstraps and configures your JavaScript libraries and, if applicable, Vue components.</p>
-<p>This structure provides more guidance on how to begin developing modern, robust JavaScript applications, without requiring your application to use any given JavaScript or CSS framework. For more information on getting started with modern Laravel frontend development, check out the new <a href="/docs/5.3/frontend">introductory frontend documentation</a>.</p>
-<h3 id="routes-files">Routes Files</h3>
-<p>By default, fresh Laravel 5.3 applications contain two HTTP route files in a new top-level <code>routes</code> directory. The <code>web</code> and <code>api</code> route files provide more explicit guidance in how to split the routes for your web interface and your API. The routes in the <code>api</code> route file are automatically assigned the <code>api</code> prefix by the <code>RouteServiceProvider</code>.</p>
-<h3 id="closure-console-commands">Closure Console Commands</h3>
-<p>In addition to being defined as command classes, Artisan commands may now be defined as simple Closures in the <code>commands</code> method of your <code>app/Console/Kernel.php</code> file. In fresh Laravel 5.3 applications, the <code>commands</code> method loads a <code>routes/console.php</code> file which allows you to define your Console commands as route-like, Closure based entry points into your application:</p>
-<pre><code>Artisan::command(&#39;build {project}&#39;, function ($project) {
-    $this-&gt;info(&#39;Building project...&#39;);
-});</code></pre>
-<p>For more information on Closure commands, check out the <a href="/docs/5.3/artisan#closure-commands">full Artisan documentation</a>.</p>
-<h3 id="the-loop-variable">The <code>$loop</code> Variable</h3>
-<blockquote>
-<p>{video} There is a free <a href="https://laracasts.com/series/whats-new-in-laravel-5-3/episodes/7">video tutorial</a> for this feature available on Laracasts.</p>
-</blockquote>
-<p>When looping within a Blade template, a <code>$loop</code> variable will be available inside of your loop. This variable provides access to some useful bits of information such as the current loop index and whether this is the first or last iteration through the loop:</p>
-<pre><code>@foreach ($users as $user)
-    @if ($loop-&gt;first)
-        This is the first iteration.
-    @endif
-
-    @if ($loop-&gt;last)
-        This is the last iteration.
-    @endif
-
-    &lt;p&gt;This is user {{ $user-&gt;id }}&lt;/p&gt;
-@endforeach</code></pre>
-<p>For more information, consult the <a href="/docs/5.3/blade#the-loop-variable">full Blade documentation</a>.</p>
+<p>For LTS releases, such as Laravel 5.1, bug fixes are provided for 2 years and security fixes are provided for 3 years. These releases provide the longest window of support and maintenance.</p>
+<p>For general releases, bug fixes are provided for 6 months and security fixes are provided for 1 year.</p>
 <p><a name="laravel-5.2"></a></p>
 <h2 id="laravel-5.2">Laravel 5.2</h2>
 <p>Laravel 5.2 continues the improvements made in Laravel 5.1 by adding multiple authentication driver support, implicit model binding, simplified Eloquent global scopes, opt-in authentication scaffolding, middleware groups, rate limiting middleware, array validation improvements, and more.</p>
@@ -274,7 +102,7 @@ public function update(Request $request)
 <pre><code>php artisan make:auth</code></pre>
 <p>This command will generate plain, Bootstrap compatible views for user login, registration, and password reset. The command will also update your routes file with the appropriate routes.</p>
 <blockquote>
-<p>{note} This feature is only meant to be used on new applications, not during application upgrades.</p>
+<p><strong>Note:</strong> This feature is only meant to be used on new applications, not during application upgrades.</p>
 </blockquote>
 <h3 id="implicit-model-binding">Implicit Model Binding</h3>
 <p>Implicit model binding makes it painless to inject relevant models directly into your routes and controllers. For example, assume you have a route defined like the following:</p>
@@ -334,14 +162,14 @@ protected $middlewareGroups = [
 ]);</code></pre>
 <h3 id="eloquent-global-scope-improvements">Eloquent Global Scope Improvements</h3>
 <p>In previous versions of Laravel, global Eloquent scopes were complicated and error-prone to implement; however, in Laravel 5.2, global query scopes only require you to implement a single, simple method: <code>apply</code>.</p>
-<p>For more information on writing global scopes, check out the full <a href="/docs/%7B%7Bversion%7D%7D/eloquent#global-scopes">Eloquent documentation</a>.</p>
+<p>For more information on writing global scopes, check out the full <a href="eloquent.html#global-scopes">Eloquent documentation</a>.</p>
 <p><a name="laravel-5.1.11"></a></p>
 <h2 id="laravel-5.1.11">Laravel 5.1.11</h2>
-<p>Laravel 5.1.11 introduces <a href="/docs/%7B%7Bversion%7D%7D/authorization">authorization</a> support out of the box! Conveniently organize your application's authorization logic using simple callbacks or policy classes, and authorize actions using simple, expressive methods.</p>
-<p>For more information, please refer to the <a href="/docs/%7B%7Bversion%7D%7D/authorization">authorization documentation</a>.</p>
+<p>Laravel 5.1.11 introduces <a href="authorization.html">authorization</a> support out of the box! Conveniently organize your application's authorization logic using simple callbacks or policy classes, and authorize actions using simple, expressive methods.</p>
+<p>For more information, please refer to the <a href="authorization.html">authorization documentation</a>.</p>
 <p><a name="laravel-5.1.4"></a></p>
 <h2 id="laravel-5.1.4">Laravel 5.1.4</h2>
-<p>Laravel 5.1.4 introduces simple login throttling to the framework. Consult the <a href="/docs/%7B%7Bversion%7D%7D/authentication#authentication-throttling">authentication documentation</a> for more information.</p>
+<p>Laravel 5.1.4 introduces simple login throttling to the framework. Consult the <a href="authentication.html#authentication-throttling">authentication documentation</a> for more information.</p>
 <p><a name="laravel-5.1"></a></p>
 <h2 id="laravel-5.1">Laravel 5.1</h2>
 <p>Laravel 5.1 continues the improvements made in Laravel 5.0 by adopting PSR-2 and adding event broadcasting, middleware parameters, Artisan improvements, and more.</p>
@@ -354,9 +182,9 @@ protected $middlewareGroups = [
 <h3 id="documentation">Documentation</h3>
 <p>Every page of the Laravel documentation has been meticulously reviewed and dramatically improved. All code examples have also been reviewed and expanded to provide more relevance and context.</p>
 <h3 id="event-broadcasting">Event Broadcasting</h3>
-<p>In many modern web applications, web sockets are used to implement realtime, live-updating user interfaces. When some data is updated on the server, a message is typically sent over a websocket connection to be handled by the client.</p>
+<p>In many modern web applications, web sockets are used to implement real-time, live-updating user interfaces. When some data is updated on the server, a message is typically sent over a websocket connection to be handled by the client.</p>
 <p>To assist you in building these types of applications, Laravel makes it easy to &quot;broadcast&quot; your events over a websocket connection. Broadcasting your Laravel events allows you to share the same event names between your server-side code and your client-side JavaScript framework.</p>
-<p>To learn more about event broadcasting, check out the <a href="/docs/%7B%7Bversion%7D%7D/events#broadcasting-events">event documentation</a>.</p>
+<p>To learn more about event broadcasting, check out the <a href="events.html#broadcasting-events">event documentation</a>.</p>
 <h3 id="middleware-parameters">Middleware Parameters</h3>
 <p>Middleware can now receive additional custom parameters. For example, if your application needs to verify that the authenticated user has a given &quot;role&quot; before performing a given action, you could create a <code>RoleMiddleware</code> that receives a role name as an additional argument:</p>
 <pre><code>&lt;?php
@@ -389,7 +217,7 @@ class RoleMiddleware
 <pre><code>Route::put(&#39;post/{id}&#39;, [&#39;middleware&#39; =&gt; &#39;role:editor&#39;, function ($id) {
     //
 }]);</code></pre>
-<p>For more information on middleware, check out the <a href="/docs/%7B%7Bversion%7D%7D/middleware">middleware documentation</a>.</p>
+<p>For more information on middleware, check out the <a href="middleware.html">middleware documentation</a>.</p>
 <h3 id="testing-overhaul">Testing Overhaul</h3>
 <p>The built-in testing capabilities of Laravel have been dramatically improved. A variety of new methods provide a fluent, expressive interface for interacting with your application and examining its responses. For example, check out the following test:</p>
 <pre><code>public function testNewUserRegistration()
@@ -400,9 +228,9 @@ class RoleMiddleware
          -&gt;press(&#39;Register&#39;)
          -&gt;seePageIs(&#39;/dashboard&#39;);
 }</code></pre>
-<p>For more information on testing, check out the <a href="/docs/%7B%7Bversion%7D%7D/testing">testing documentation</a>.</p>
+<p>For more information on testing, check out the <a href="testing.html">testing documentation</a>.</p>
 <h3 id="model-factories">Model Factories</h3>
-<p>Laravel now ships with an easy way to create stub Eloquent models using <a href="/docs/%7B%7Bversion%7D%7D/database-testing#writing-factories">model factories</a>. Model factories allow you to easily define a set of &quot;default&quot; attributes for your Eloquent model, and then generate test model instances for your tests or database seeds. Model factories also take advantage of the powerful <a href="https://github.com/fzaninotto/Faker">Faker</a> PHP library for generating random attribute data:</p>
+<p>Laravel now ships with an easy way to create stub Eloquent models using <a href="testing.html#model-factories">model factories</a>. Model factories allow you to easily define a set of &quot;default&quot; attributes for your Eloquent model, and then generate test model instances for your tests or database seeds. Model factories also take advantage of the powerful <a href="https://github.com/fzaninotto/Faker">Faker</a> PHP library for generating random attribute data:</p>
 <pre><code>$factory-&gt;define(App\User::class, function ($faker) {
     return [
         &#39;name&#39; =&gt; $faker-&gt;name,
@@ -411,7 +239,7 @@ class RoleMiddleware
         &#39;remember_token&#39; =&gt; str_random(10),
     ];
 });</code></pre>
-<p>For more information on model factories, check out <a href="/docs/%7B%7Bversion%7D%7D/database-testing#writing-factories">the documentation</a>.</p>
+<p>For more information on model factories, check out <a href="testing.html#model-factories">the documentation</a>.</p>
 <h3 id="artisan-improvements">Artisan Improvements</h3>
 <p>Artisan commands may now be defined using a simple, route-like &quot;signature&quot;, which provides an extremely simple interface for defining command line arguments and options. For example, you may define a simple command and its options like so:</p>
 <pre><code>/**
@@ -420,7 +248,7 @@ class RoleMiddleware
  * @var string
  */
 protected $signature = &#39;email:send {user} {--force}&#39;;</code></pre>
-<p>For more information on defining Artisan commands, consult the <a href="/docs/%7B%7Bversion%7D%7D/artisan">Artisan documentation</a>.</p>
+<p>For more information on defining Artisan commands, consult the <a href="artisan.html">Artisan documentation</a>.</p>
 <h3 id="folder-structure">Folder Structure</h3>
 <p>To better express intent, the <code>app/Commands</code> directory has been renamed to <code>app/Jobs</code>. Additionally, the <code>app/Handlers</code> directory has been consolidated into a single <code>app/Listeners</code> directory which simply contains event listeners. However, this is not a breaking change and you are not required to update to the new folder structure to use Laravel 5.1.</p>
 <h3 id="encryption">Encryption</h3>
@@ -435,14 +263,14 @@ protected $signature = &#39;email:send {user} {--force}&#39;;</code></pre>
 <p>Application language files and views have been moved to the <code>resources</code> directory.</p>
 <h3 id="contracts">Contracts</h3>
 <p>All major Laravel components implement interfaces which are located in the <code>illuminate/contracts</code> repository. This repository has no external dependencies. Having a convenient, centrally located set of interfaces you may use for decoupling and dependency injection will serve as an easy alternative option to Laravel Facades.</p>
-<p>For more information on contracts, consult the <a href="/docs/%7B%7Bversion%7D%7D/contracts">full documentation</a>.</p>
+<p>For more information on contracts, consult the <a href="contracts.html">full documentation</a>.</p>
 <h3 id="route-cache">Route Cache</h3>
 <p>If your application is made up entirely of controller routes, you may utilize the new <code>route:cache</code> Artisan command to drastically speed up the registration of your routes. This is primarily useful on applications with 100+ routes and will <strong>drastically</strong> speed up this portion of your application.</p>
 <h3 id="route-middleware">Route Middleware</h3>
 <p>In addition to Laravel 4 style route &quot;filters&quot;, Laravel 5 now supports HTTP middleware, and the included authentication and CSRF &quot;filters&quot; have been converted to middleware. Middleware provides a single, consistent interface to replace all types of filters, allowing you to easily inspect, and even reject, requests before they enter your application.</p>
-<p>For more information on middleware, check out <a href="/docs/%7B%7Bversion%7D%7D/middleware">the documentation</a>.</p>
+<p>For more information on middleware, check out <a href="middleware.html">the documentation</a>.</p>
 <h3 id="controller-method-injection">Controller Method Injection</h3>
-<p>In addition to the existing constructor injection, you may now type-hint dependencies on controller methods. The <a href="/docs/%7B%7Bversion%7D%7D/container">service container</a> will automatically inject the dependencies, even if the route contains other parameters:</p>
+<p>In addition to the existing constructor injection, you may now type-hint dependencies on controller methods. The <a href="container.html">service container</a> will automatically inject the dependencies, even if the route contains other parameters:</p>
 <pre><code>public function createPost(Request $request, PostRepository $posts)
 {
     //
@@ -474,7 +302,7 @@ class ReportPodcastPurchase
         //
     }
 }</code></pre>
-<p>For more information on working with events, check out the <a href="/docs/%7B%7Bversion%7D%7D/events">full documentation</a>.</p>
+<p>For more information on working with events, check out the <a href="events.html">full documentation</a>.</p>
 <h3 id="commands-queueing">Commands / Queueing</h3>
 <p>In addition to the queue job format supported in Laravel 4, Laravel 5 allows you to represent your queued jobs as simple command objects. These commands live in the <code>app/Commands</code> directory. Here's a sample command:</p>
 <pre><code>&lt;?php
@@ -510,22 +338,22 @@ class PurchasePodcast extends Command implements SelfHandling, ShouldBeQueued
 }</code></pre>
 <p>The base Laravel controller utilizes the new <code>DispatchesCommands</code> trait, allowing you to easily dispatch your commands for execution:</p>
 <pre><code>$this-&gt;dispatch(new PurchasePodcastCommand($user, $podcast));</code></pre>
-<p>Of course, you may also use commands for tasks that are executed synchronously (are not queued). In fact, using commands is a great way to encapsulate complex tasks your application needs to perform. For more information, check out the <a href="/docs/%7B%7Bversion%7D%7D/bus">command bus</a> documentation.</p>
+<p>Of course, you may also use commands for tasks that are executed synchronously (are not queued). In fact, using commands is a great way to encapsulate complex tasks your application needs to perform. For more information, check out the <a href="bus.html">command bus</a> documentation.</p>
 <h3 id="database-queue">Database Queue</h3>
 <p>A <code>database</code> queue driver is now included in Laravel, providing a simple, local queue driver that requires no extra package installation beyond your database software.</p>
 <h3 id="laravel-scheduler">Laravel Scheduler</h3>
 <p>In the past, developers have generated a Cron entry for each console command they wished to schedule. However, this is a headache. Your console schedule is no longer in source control, and you must SSH into your server to add the Cron entries. Let's make our lives easier. The Laravel command scheduler allows you to fluently and expressively define your command schedule within Laravel itself, and only a single Cron entry is needed on your server.</p>
 <p>It looks like this:</p>
 <pre><code>$schedule-&gt;command(&#39;artisan:command&#39;)-&gt;dailyAt(&#39;15:00&#39;);</code></pre>
-<p>Of course, check out the <a href="/docs/%7B%7Bversion%7D%7D/scheduling">full documentation</a> to learn all about the scheduler!</p>
+<p>Of course, check out the <a href="scheduling.html">full documentation</a> to learn all about the scheduler!</p>
 <h3 id="tinker-psysh">Tinker / Psysh</h3>
 <p>The <code>php artisan tinker</code> command now utilizes <a href="https://github.com/bobthecow/psysh">Psysh</a> by Justin Hileman, a more robust REPL for PHP. If you liked Boris in Laravel 4, you're going to love Psysh. Even better, it works on Windows! To get started, just try:</p>
 <pre><code>php artisan tinker</code></pre>
 <h3 id="dotenv">DotEnv</h3>
-<p>Instead of a variety of confusing, nested environment configuration directories, Laravel 5 now utilizes <a href="https://github.com/vlucas/phpdotenv">DotEnv</a> by Vance Lucas. This library provides a super simple way to manage your environment configuration, and makes environment detection in Laravel 5 a breeze. For more details, check out the full <a href="/docs/%7B%7Bversion%7D%7D/installation#environment-configuration">configuration documentation</a>.</p>
+<p>Instead of a variety of confusing, nested environment configuration directories, Laravel 5 now utilizes <a href="https://github.com/vlucas/phpdotenv">DotEnv</a> by Vance Lucas. This library provides a super simple way to manage your environment configuration, and makes environment detection in Laravel 5 a breeze. For more details, check out the full <a href="installation.html#environment-configuration">configuration documentation</a>.</p>
 <h3 id="laravel-elixir">Laravel Elixir</h3>
 <p>Laravel Elixir, by Jeffrey Way, provides a fluent, expressive interface to compiling and concatenating your assets. If you've ever been intimidated by learning Grunt or Gulp, fear no more. Elixir makes it a cinch to get started using Gulp to compile your Less, Sass, and CoffeeScript. It can even run your tests for you!</p>
-<p>For more information on Elixir, check out the <a href="/docs/%7B%7Bversion%7D%7D/elixir">full documentation</a>.</p>
+<p>For more information on Elixir, check out the <a href="elixir.html">full documentation</a>.</p>
 <h3 id="laravel-socialite">Laravel Socialite</h3>
 <p>Laravel Socialite is an optional, Laravel 5.0+ compatible package that provides totally painless authentication with OAuth providers. Currently, Socialite supports Facebook, Twitter, Google, and GitHub. Here's what it looks like:</p>
 <pre><code>public function redirectForAuth()
@@ -537,11 +365,11 @@ public function getUserFromProvider()
 {
     $user = Socialize::with(&#39;twitter&#39;)-&gt;user();
 }</code></pre>
-<p>No more spending hours writing OAuth authentication flows. Get started in minutes! The <a href="/docs/%7B%7Bversion%7D%7D/authentication#social-authentication">full documentation</a> has all the details.</p>
+<p>No more spending hours writing OAuth authentication flows. Get started in minutes! The <a href="authentication.html#social-authentication">full documentation</a> has all the details.</p>
 <h3 id="flysystem-integration">Flysystem Integration</h3>
 <p>Laravel now includes the powerful <a href="https://github.com/thephpleague/flysystem">Flysystem</a> filesystem abstraction library, providing pain free integration with local, Amazon S3, and Rackspace cloud storage - all with one, unified and elegant API! Storing a file in Amazon S3 is now as simple as:</p>
 <pre><code>Storage::put(&#39;file.txt&#39;, &#39;contents&#39;);</code></pre>
-<p>For more information on the Laravel Flysystem integration, consult the <a href="/docs/%7B%7Bversion%7D%7D/filesystem">full documentation</a>.</p>
+<p>For more information on the Laravel Flysystem integration, consult the <a href="filesystem.html">full documentation</a>.</p>
 <h3 id="form-requests">Form Requests</h3>
 <p>Laravel 5.0 introduces <strong>form requests</strong>, which extend the <code>Illuminate\Foundation\Http\FormRequest</code> class. These request objects can be combined with controller method injection to provide a boiler-plate free method of validating user input. Let's dig in and look at a sample <code>FormRequest</code>:</p>
 <pre><code>&lt;?php
@@ -568,7 +396,7 @@ class RegisterRequest extends FormRequest
 {
     var_dump($request-&gt;input());
 }</code></pre>
-<p>When the Laravel service container identifies that the class it is injecting is a <code>FormRequest</code> instance, the request will <strong>automatically be validated</strong>. This means that if your controller action is called, you can safely assume the HTTP request input has been validated according to the rules you specified in your form request class. Even more, if the request is invalid, an HTTP redirect, which you may customize, will automatically be issued, and the error messages will be either flashed to the session or converted to JSON. <strong>Form validation has never been more simple.</strong> For more information on <code>FormRequest</code> validation, check out the <a href="/docs/%7B%7Bversion%7D%7D/validation#form-request-validation">documentation</a>.</p>
+<p>When the Laravel service container identifies that the class it is injecting is a <code>FormRequest</code> instance, the request will <strong>automatically be validated</strong>. This means that if your controller action is called, you can safely assume the HTTP request input has been validated according to the rules you specified in your form request class. Even more, if the request is invalid, an HTTP redirect, which you may customize, will automatically be issued, and the error messages will be either flashed to the session or converted to JSON. <strong>Form validation has never been more simple.</strong> For more information on <code>FormRequest</code> validation, check out the <a href="validation.html#form-request-validation">documentation</a>.</p>
 <h3 id="simple-controller-request-validation">Simple Controller Request Validation</h3>
 <p>The Laravel 5 base controller now includes a <code>ValidatesRequests</code> trait. This trait provides a simple <code>validate</code> method to validate incoming requests. If <code>FormRequests</code> are a little too much for your application, check this out:</p>
 <pre><code>public function createPost(Request $request)
@@ -579,7 +407,7 @@ class RegisterRequest extends FormRequest
     ]);
 }</code></pre>
 <p>If the validation fails, an exception will be thrown and the proper HTTP response will automatically be sent back to the browser. The validation errors will even be flashed to the session! If the request was an AJAX request, Laravel even takes care of sending a JSON representation of the validation errors back to you.</p>
-<p>For more information on this new method, check out <a href="/docs/%7B%7Bversion%7D%7D/validation#validation-quickstart">the documentation</a>.</p>
+<p>For more information on this new method, check out <a href="validation.html#validation-quickstart">the documentation</a>.</p>
 <h3 id="new-generators">New Generators</h3>
 <p>To complement the new default application structure, new Artisan generator commands have been added to the framework. See <code>php artisan list</code> for more details.</p>
 <h3 id="configuration-cache">Configuration Cache</h3>
@@ -591,7 +419,7 @@ class RegisterRequest extends FormRequest
 <h2 id="laravel-4.2">Laravel 4.2</h2>
 <p>The full change list for this release by running the <code>php artisan changes</code> command from a 4.2 installation, or by <a href="https://github.com/laravel/framework/blob/4.2/src/Illuminate/Foundation/changes.json">viewing the change file on Github</a>. These notes only cover the major enhancements and changes for the release.</p>
 <blockquote>
-<p>{note} During the 4.2 release cycle, many small bug fixes and enhancements were incorporated into the various Laravel 4.1 point releases. So, be sure to check the change list for Laravel 4.1 as well!</p>
+<p><strong>Note:</strong> During the 4.2 release cycle, many small bug fixes and enhancements were incorporated into the various Laravel 4.1 point releases. So, be sure to check the change list for Laravel 4.1 as well!</p>
 </blockquote>
 <h3 id="php-5.4-requirement">PHP 5.4 Requirement</h3>
 <p>Laravel 4.2 requires PHP 5.4 or greater. This upgraded PHP requirement allows us to use new PHP features such as traits to provide more expressive interfaces for tools like <a href="/docs/billing">Laravel Cashier</a>. PHP 5.4 also brings significant speed and performance improvements over PHP 5.3.</p>

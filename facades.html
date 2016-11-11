@@ -13,14 +13,12 @@
   <script src="../../laravel-docs/site.js"></script>
 </head>
 <body>
-<aside><h1>Laravel 5.3 offline docs</h1><ul id="navigation">
-<li><a href="application-testing.html">Application Testing</a>
-<li><a href="artisan.html">Console Commands</a>
+<aside><h1>Laravel 5.2 offline docs</h1><ul id="navigation">
+<li><a href="artisan.html">Artisan Console</a>
 <li><a href="authentication.html">Authentication</a>
 <li><a href="authorization.html">Authorization</a>
 <li><a href="billing.html">Laravel Cashier</a>
 <li><a href="blade.html">Blade Templates</a>
-<li><a href="broadcasting.html">Event Broadcasting</a>
 <li><a href="cache.html">Cache</a>
 <li><a href="collections.html">Collections</a>
 <li><a href="configuration.html">Configuration</a>
@@ -28,12 +26,10 @@
 <li><a href="contracts.html">Contracts</a>
 <li><a href="contributing.html">Contribution Guidelines</a>
 <li><a href="contributions.html">Contribution Guide</a>
-<li><a href="controllers.html">Controllers</a>
-<li><a href="csrf.html">CSRF Protection</a>
-<li><a href="database-testing.html">Database Testing</a>
+<li><a href="controllers.html">HTTP Controllers</a>
 <li><a href="database.html">Database: Getting Started</a>
 <li><a href="documentation.html">Prologue</a>
-<li><a href="elixir.html">Compiling Assets (Laravel Elixir)</a>
+<li><a href="elixir.html">Laravel Elixir</a>
 <li><a href="eloquent-collections.html">Eloquent: Collections</a>
 <li><a href="eloquent-mutators.html">Eloquent: Mutators</a>
 <li><a href="eloquent-relationships.html">Eloquent: Relationships</a>
@@ -46,7 +42,6 @@
 </a>
 <li><a href="facades.html">Facades</a>
 <li><a href="filesystem.html">Filesystem / Cloud Storage</a>
-<li><a href="frontend.html">JavaScript & CSS</a>
 <li><a href="hashing.html">Hashing</a>
 <li><a href="helpers.html">Helper Functions</a>
 <li><a href="homestead.html">Laravel Homestead</a>
@@ -55,29 +50,25 @@
 <li><a href="localization.html">Localization</a>
 <li><a href="mail.html">Mail
 </a>
-<li><a href="middleware.html">Middleware</a>
+<li><a href="middleware.html">HTTP Middleware</a>
 <li><a href="migrations.html">Database: Migrations</a>
-<li><a href="mocking.html">Mocking</a>
-<li><a href="notifications.html">Notifications</a>
 <li><a href="packages.html">Package Development</a>
 <li><a href="pagination.html">Pagination</a>
-<li><a href="passport.html">API Authentication (Passport)</a>
-<li><a href="passwords.html">Resetting Passwords</a>
 <li><a href="providers.html">Service Providers</a>
 <li><a href="queries.html">Database: Query Builder</a>
 <li><a href="queues.html">Queues</a>
+<li><a href="quickstart-intermediate.html">Intermediate Task List</a>
+<li><a href="quickstart.html">Basic Task List</a>
 <li><a href="readme.html">Laravel Documentation</a>
-<li><a href="redirects.html">HTTP Redirects</a>
 <li><a href="redis.html">Redis</a>
 <li><a href="releases.html">Release Notes</a>
 <li><a href="requests.html">HTTP Requests</a>
 <li><a href="responses.html">HTTP Responses</a>
-<li><a href="routing.html">Routing</a>
+<li><a href="routing.html">HTTP Routing</a>
 <li><a href="scheduling.html">Task Scheduling</a>
-<li><a href="scout.html">Laravel Scout</a>
 <li><a href="seeding.html">Database: Seeding</a>
-<li><a href="session.html">HTTP Session</a>
-<li><a href="structure.html">Directory Structure</a>
+<li><a href="session.html">Session</a>
+<li><a href="structure.html">Application Structure</a>
 <li><a href="testing.html">Testing</a>
 <li><a href="upgrade.html">Upgrade Guide</a>
 <li><a href="valet.html">Laravel Valet</a>
@@ -88,88 +79,17 @@
 <h1 id="facades">Facades</h1>
 <ul>
 <li><a href="#introduction">Introduction</a></li>
-<li><a href="#when-to-use-facades">When To Use Facades</a>
-<ul>
-<li><a href="#facades-vs-dependency-injection">Facades Vs. Dependency Injection</a></li>
-<li><a href="#facades-vs-helper-functions">Facades Vs. Helper Functions</a></li>
-</ul></li>
-<li><a href="#how-facades-work">How Facades Work</a></li>
+<li><a href="#using-facades">Using Facades</a></li>
 <li><a href="#facade-class-reference">Facade Class Reference</a></li>
 </ul>
 <p><a name="introduction"></a></p>
 <h2 id="introduction">Introduction</h2>
-<p>Facades provide a &quot;static&quot; interface to classes that are available in the application's <a href="/docs/%7B%7Bversion%7D%7D/container">service container</a>. Laravel ships with many facades which provide access to almost all of Laravel's features. Laravel facades serve as &quot;static proxies&quot; to underlying classes in the service container, providing the benefit of a terse, expressive syntax while maintaining more testability and flexibility than traditional static methods.</p>
-<p>All of Laravel's facades are defined in the <code>Illuminate\Support\Facades</code> namespace. So, we can easily access a facade like so:</p>
-<pre><code>use Illuminate\Support\Facades\Cache;
-
-Route::get(&#39;/cache&#39;, function () {
-    return Cache::get(&#39;key&#39;);
-});</code></pre>
-<p>Throughout the Laravel documentation, many of the examples will use facades to demonstrate various features of the framework.</p>
-<p><a name="when-to-use-facades"></a></p>
-<h2 id="when-to-use-facades">When To Use Facades</h2>
-<p>Facades have many benefits. They provide a terse, memorable syntax that allows you to use Laravel's features without remembering long class names that must be injected or configured manually. Furthermore, because of their unique usage of PHP's dynamic methods, they are easy to test.</p>
-<p>However, some care must be taken when using facades. The primary danger of facades is class scope creep. Since facades are so easy to use and do not require injection, it can be easy to let your classes continue to grow and use many facades in a single class. Using dependency injection, this potential is mitigated by the visual feedback a large constructor gives you that your class is growing too large. So, when using facades, pay special attention to the size of your class so that its scope of responsibility stays narrow.</p>
-<blockquote>
-<p>{tip} When building a third-party package that interacts with Laravel, it's better to inject <a href="/docs/%7B%7Bversion%7D%7D/contracts">Laravel contracts</a> instead of using facades. Since packages are built outside of Laravel itself, you will not have access to Laravel's facade testing helpers.</p>
-</blockquote>
-<p><a name="facades-vs-dependency-injection"></a></p>
-<h3 id="facades-vs.-dependency-injection">Facades Vs. Dependency Injection</h3>
-<p>One of the primary benefits of dependency injection is the ability to swap implementations of the injected class. This is useful during testing since you can inject a mock or stub and assert that various methods were called on the stub.</p>
-<p>Typically, it would not be possible to mock or stub a truly static class method. However, since facades use dynamic methods to proxy method calls to objects resolved from the service container, we actually can test facades just as we would test an injected class instance. For example, given the following route:</p>
-<pre><code>use Illuminate\Support\Facades\Cache;
-
-Route::get(&#39;/cache&#39;, function () {
-    return Cache::get(&#39;key&#39;);
-});</code></pre>
-<p>We can write the following test to verify that the <code>Cache::get</code> method was called with the argument we expected:</p>
-<pre><code>use Illuminate\Support\Facades\Cache;
-
-/**
- * A basic functional test example.
- *
- * @return void
- */
-public function testBasicExample()
-{
-    Cache::shouldReceive(&#39;get&#39;)
-         -&gt;with(&#39;key&#39;)
-         -&gt;andReturn(&#39;value&#39;);
-
-    $this-&gt;visit(&#39;/cache&#39;)
-         -&gt;see(&#39;value&#39;);
-}</code></pre>
-<p><a name="facades-vs-helper-functions"></a></p>
-<h3 id="facades-vs.-helper-functions">Facades Vs. Helper Functions</h3>
-<p>In addition to facades, Laravel includes a variety of &quot;helper&quot; functions which can perform common tasks like generating views, firing events, dispatching jobs, or sending HTTP responses. Many of these helper functions perform the same function as a corresponding facade. For example, this facade call and helper call are equivalent:</p>
-<pre><code>return View::make(&#39;profile&#39;);
-
-return view(&#39;profile&#39;);</code></pre>
-<p>There is absolutely no practical difference between facades and helper functions. When using helper functions, you may still test them exactly as you would the corresponding facade. For example, given the following route:</p>
-<pre><code>Route::get(&#39;/cache&#39;, function () {
-    return cache(&#39;key&#39;);
-});</code></pre>
-<p>Under the hood, the <code>cache</code> helper is going to call the <code>get</code> method on the class underlying the <code>Cache</code> facade. So, even though we are using the helper function, we can write the following test to verify that the method was called with the argument we expected:</p>
-<pre><code>use Illuminate\Support\Facades\Cache;
-
-/**
- * A basic functional test example.
- *
- * @return void
- */
-public function testBasicExample()
-{
-    Cache::shouldReceive(&#39;get&#39;)
-         -&gt;with(&#39;key&#39;)
-         -&gt;andReturn(&#39;value&#39;);
-
-    $this-&gt;visit(&#39;/cache&#39;)
-         -&gt;see(&#39;value&#39;);
-}</code></pre>
-<p><a name="how-facades-work"></a></p>
-<h2 id="how-facades-work">How Facades Work</h2>
-<p>In a Laravel application, a facade is a class that provides access to an object from the container. The machinery that makes this work is in the <code>Facade</code> class. Laravel's facades, and any custom facades you create, will extend the base <code>Illuminate\Support\Facades\Facade</code> class.</p>
-<p>The <code>Facade</code> base class makes use of the <code>__callStatic()</code> magic-method to defer calls from your facade to an object resolved from the container. In the example below, a call is made to the Laravel cache system. By glancing at this code, one might assume that the static method <code>get</code> is being called on the <code>Cache</code> class:</p>
+<p>Facades provide a &quot;static&quot; interface to classes that are available in the application's <a href="container.html">service container</a>. Laravel ships with many facades, and you have probably been using them without even knowing it! Laravel &quot;facades&quot; serve as &quot;static proxies&quot; to underlying classes in the service container, providing the benefit of a terse, expressive syntax while maintaining more testability and flexibility than traditional static methods.</p>
+<p><a name="using-facades"></a></p>
+<h2 id="using-facades">Using Facades</h2>
+<p>In the context of a Laravel application, a facade is a class that provides access to an object from the container. The machinery that makes this work is in the <code>Facade</code> class. Laravel's facades, and any custom facades you create, will extend the base <code>Illuminate\Support\Facades\Facade</code> class.</p>
+<p>A facade class only needs to implement a single method: <code>getFacadeAccessor</code>. It's the <code>getFacadeAccessor</code> method's job to define what to resolve from the container. The <code>Facade</code> base class makes use of the <code>__callStatic()</code> magic-method to defer calls from your facade to the resolved object.</p>
+<p>In the example below, a call is made to the Laravel cache system. By glancing at this code, one might assume that the static method <code>get</code> is being called on the <code>Cache</code> class:</p>
 <pre><code>&lt;?php
 
 namespace App\Http\Controllers;
@@ -203,10 +123,10 @@ class UserController extends Controller
      */
     protected static function getFacadeAccessor() { return &#39;cache&#39;; }
 }</code></pre>
-<p>Instead, the <code>Cache</code> facade extends the base <code>Facade</code> class and defines the method <code>getFacadeAccessor()</code>. This method's job is to return the name of a service container binding. When a user references any static method on the <code>Cache</code> facade, Laravel resolves the <code>cache</code> binding from the <a href="/docs/%7B%7Bversion%7D%7D/container">service container</a> and runs the requested method (in this case, <code>get</code>) against that object.</p>
+<p>Instead, the <code>Cache</code> facade extends the base <code>Facade</code> class and defines the method <code>getFacadeAccessor()</code>. Remember, this method's job is to return the name of a service container binding. When a user references any static method on the <code>Cache</code> facade, Laravel resolves the <code>cache</code> binding from the <a href="container.html">service container</a> and runs the requested method (in this case, <code>get</code>) against that object.</p>
 <p><a name="facade-class-reference"></a></p>
 <h2 id="facade-class-reference">Facade Class Reference</h2>
-<p>Below you will find every facade and its underlying class. This is a useful tool for quickly digging into the API documentation for a given facade root. The <a href="/docs/%7B%7Bversion%7D%7D/container">service container binding</a> key is also included where applicable.</p>
+<p>Below you will find every facade and its underlying class. This is a useful tool for quickly digging into the API documentation for a given facade root. The <a href="container.html">service container binding</a> key is also included where applicable.</p>
 <table>
 <thead>
 <tr class="header">
@@ -218,188 +138,183 @@ class UserController extends Controller
 <tbody>
 <tr class="odd">
 <td>App</td>
-<td><a href="https://laravel.com/api/%7B%7Bversion%7D%7D/Illuminate/Foundation/Application.html">Illuminate\Foundation\Application</a></td>
+<td><a href="http://laravel.com/api/%7B%7Bversion%7D%7D/Illuminate/Foundation/Application.html">Illuminate\Foundation\Application</a></td>
 <td><code>app</code></td>
 </tr>
 <tr class="even">
 <td>Artisan</td>
-<td><a href="https://laravel.com/api/%7B%7Bversion%7D%7D/Illuminate/Contracts/Console/Kernel.html">Illuminate\Contracts\Console\Kernel</a></td>
+<td><a href="http://laravel.com/api/%7B%7Bversion%7D%7D/Illuminate/Contracts/Console/Kernel.html">Illuminate\Contracts\Console\Kernel</a></td>
 <td><code>artisan</code></td>
 </tr>
 <tr class="odd">
 <td>Auth</td>
-<td><a href="https://laravel.com/api/%7B%7Bversion%7D%7D/Illuminate/Auth/AuthManager.html">Illuminate\Auth\AuthManager</a></td>
+<td><a href="http://laravel.com/api/%7B%7Bversion%7D%7D/Illuminate/Auth/AuthManager.html">Illuminate\Auth\AuthManager</a></td>
 <td><code>auth</code></td>
 </tr>
 <tr class="even">
 <td>Blade</td>
-<td><a href="https://laravel.com/api/%7B%7Bversion%7D%7D/Illuminate/View/Compilers/BladeCompiler.html">Illuminate\View\Compilers\BladeCompiler</a></td>
+<td><a href="http://laravel.com/api/%7B%7Bversion%7D%7D/Illuminate/View/Compilers/BladeCompiler.html">Illuminate\View\Compilers\BladeCompiler</a></td>
 <td><code>blade.compiler</code></td>
 </tr>
 <tr class="odd">
 <td>Bus</td>
-<td><a href="https://laravel.com/api/%7B%7Bversion%7D%7D/Illuminate/Contracts/Bus/Dispatcher.html">Illuminate\Contracts\Bus\Dispatcher</a></td>
-<td> </td>
+<td><a href="http://laravel.com/api/%7B%7Bversion%7D%7D/Illuminate/Contracts/Bus/Dispatcher.html">Illuminate\Contracts\Bus\Dispatcher</a></td>
+<td></td>
 </tr>
 <tr class="even">
 <td>Cache</td>
-<td><a href="https://laravel.com/api/%7B%7Bversion%7D%7D/Illuminate/Cache/Repository.html">Illuminate\Cache\Repository</a></td>
+<td><a href="http://laravel.com/api/%7B%7Bversion%7D%7D/Illuminate/Cache/Repository.html">Illuminate\Cache\Repository</a></td>
 <td><code>cache</code></td>
 </tr>
 <tr class="odd">
 <td>Config</td>
-<td><a href="https://laravel.com/api/%7B%7Bversion%7D%7D/Illuminate/Config/Repository.html">Illuminate\Config\Repository</a></td>
+<td><a href="http://laravel.com/api/%7B%7Bversion%7D%7D/Illuminate/Config/Repository.html">Illuminate\Config\Repository</a></td>
 <td><code>config</code></td>
 </tr>
 <tr class="even">
 <td>Cookie</td>
-<td><a href="https://laravel.com/api/%7B%7Bversion%7D%7D/Illuminate/Cookie/CookieJar.html">Illuminate\Cookie\CookieJar</a></td>
+<td><a href="http://laravel.com/api/%7B%7Bversion%7D%7D/Illuminate/Cookie/CookieJar.html">Illuminate\Cookie\CookieJar</a></td>
 <td><code>cookie</code></td>
 </tr>
 <tr class="odd">
 <td>Crypt</td>
-<td><a href="https://laravel.com/api/%7B%7Bversion%7D%7D/Illuminate/Encryption/Encrypter.html">Illuminate\Encryption\Encrypter</a></td>
+<td><a href="http://laravel.com/api/%7B%7Bversion%7D%7D/Illuminate/Encryption/Encrypter.html">Illuminate\Encryption\Encrypter</a></td>
 <td><code>encrypter</code></td>
 </tr>
 <tr class="even">
 <td>DB</td>
-<td><a href="https://laravel.com/api/%7B%7Bversion%7D%7D/Illuminate/Database/DatabaseManager.html">Illuminate\Database\DatabaseManager</a></td>
+<td><a href="http://laravel.com/api/%7B%7Bversion%7D%7D/Illuminate/Database/DatabaseManager.html">Illuminate\Database\DatabaseManager</a></td>
 <td><code>db</code></td>
 </tr>
 <tr class="odd">
 <td>DB (Instance)</td>
-<td><a href="https://laravel.com/api/%7B%7Bversion%7D%7D/Illuminate/Database/Connection.html">Illuminate\Database\Connection</a></td>
-<td> </td>
+<td><a href="http://laravel.com/api/%7B%7Bversion%7D%7D/Illuminate/Database/Connection.html">Illuminate\Database\Connection</a></td>
+<td></td>
 </tr>
 <tr class="even">
 <td>Event</td>
-<td><a href="https://laravel.com/api/%7B%7Bversion%7D%7D/Illuminate/Events/Dispatcher.html">Illuminate\Events\Dispatcher</a></td>
+<td><a href="http://laravel.com/api/%7B%7Bversion%7D%7D/Illuminate/Events/Dispatcher.html">Illuminate\Events\Dispatcher</a></td>
 <td><code>events</code></td>
 </tr>
 <tr class="odd">
 <td>File</td>
-<td><a href="https://laravel.com/api/%7B%7Bversion%7D%7D/Illuminate/Filesystem/Filesystem.html">Illuminate\Filesystem\Filesystem</a></td>
+<td><a href="http://laravel.com/api/%7B%7Bversion%7D%7D/Illuminate/Filesystem/Filesystem.html">Illuminate\Filesystem\Filesystem</a></td>
 <td><code>files</code></td>
 </tr>
 <tr class="even">
 <td>Gate</td>
-<td><a href="https://laravel.com/api/%7B%7Bversion%7D%7D/Illuminate/Contracts/Auth/Access/Gate.html">Illuminate\Contracts\Auth\Access\Gate</a></td>
-<td> </td>
+<td><a href="http://laravel.com/api/5.1/Illuminate/Contracts/Auth/Access/Gate.html">Illuminate\Contracts\Auth\Access\Gate</a></td>
+<td></td>
 </tr>
 <tr class="odd">
 <td>Hash</td>
-<td><a href="https://laravel.com/api/%7B%7Bversion%7D%7D/Illuminate/Contracts/Hashing/Hasher.html">Illuminate\Contracts\Hashing\Hasher</a></td>
+<td><a href="http://laravel.com/api/%7B%7Bversion%7D%7D/Illuminate/Contracts/Hashing/Hasher.html">Illuminate\Contracts\Hashing\Hasher</a></td>
 <td><code>hash</code></td>
 </tr>
 <tr class="even">
 <td>Lang</td>
-<td><a href="https://laravel.com/api/%7B%7Bversion%7D%7D/Illuminate/Translation/Translator.html">Illuminate\Translation\Translator</a></td>
+<td><a href="http://laravel.com/api/%7B%7Bversion%7D%7D/Illuminate/Translation/Translator.html">Illuminate\Translation\Translator</a></td>
 <td><code>translator</code></td>
 </tr>
 <tr class="odd">
 <td>Log</td>
-<td><a href="https://laravel.com/api/%7B%7Bversion%7D%7D/Illuminate/Log/Writer.html">Illuminate\Log\Writer</a></td>
+<td><a href="http://laravel.com/api/%7B%7Bversion%7D%7D/Illuminate/Log/Writer.html">Illuminate\Log\Writer</a></td>
 <td><code>log</code></td>
 </tr>
 <tr class="even">
 <td>Mail</td>
-<td><a href="https://laravel.com/api/%7B%7Bversion%7D%7D/Illuminate/Mail/Mailer.html">Illuminate\Mail\Mailer</a></td>
+<td><a href="http://laravel.com/api/%7B%7Bversion%7D%7D/Illuminate/Mail/Mailer.html">Illuminate\Mail\Mailer</a></td>
 <td><code>mailer</code></td>
 </tr>
 <tr class="odd">
-<td>Notification</td>
-<td><a href="https://laravel.com/api/%7B%7Bversion%7D%7D/Illuminate/Notifications/ChannelManager.html">Illuminate\Notifications\ChannelManager</a></td>
-<td> </td>
-</tr>
-<tr class="even">
 <td>Password</td>
-<td><a href="https://laravel.com/api/%7B%7Bversion%7D%7D/Illuminate/Auth/Passwords/PasswordBrokerManager.html">Illuminate\Auth\Passwords\PasswordBrokerManager</a></td>
+<td><a href="http://laravel.com/api/%7B%7Bversion%7D%7D/Illuminate/Auth/Passwords/PasswordBroker.html">Illuminate\Auth\Passwords\PasswordBroker</a></td>
 <td><code>auth.password</code></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>Queue</td>
-<td><a href="https://laravel.com/api/%7B%7Bversion%7D%7D/Illuminate/Queue/QueueManager.html">Illuminate\Queue\QueueManager</a></td>
-<td><code>queue</code></td>
-</tr>
-<tr class="even">
-<td>Queue (Instance)</td>
-<td><a href="https://laravel.com/api/%7B%7Bversion%7D%7D/Illuminate/Contracts/Queue/Queue.html">Illuminate\Contracts\Queue\Queue</a></td>
+<td><a href="http://laravel.com/api/%7B%7Bversion%7D%7D/Illuminate/Queue/QueueManager.html">Illuminate\Queue\QueueManager</a></td>
 <td><code>queue</code></td>
 </tr>
 <tr class="odd">
-<td>Queue (Base Class)</td>
-<td><a href="https://laravel.com/api/%7B%7Bversion%7D%7D/Illuminate/Queue/Queue.html">Illuminate\Queue\Queue</a></td>
-<td> </td>
+<td>Queue (Instance)</td>
+<td><a href="http://laravel.com/api/%7B%7Bversion%7D%7D/Illuminate/Contracts/Queue/Queue.html">Illuminate\Contracts\Queue\Queue</a></td>
+<td><code>queue</code></td>
 </tr>
 <tr class="even">
+<td>Queue (Base Class)</td>
+<td><a href="http://laravel.com/api/%7B%7Bversion%7D%7D/Illuminate/Queue/Queue.html">Illuminate\Queue\Queue</a></td>
+<td></td>
+</tr>
+<tr class="odd">
 <td>Redirect</td>
-<td><a href="https://laravel.com/api/%7B%7Bversion%7D%7D/Illuminate/Routing/Redirector.html">Illuminate\Routing\Redirector</a></td>
+<td><a href="http://laravel.com/api/%7B%7Bversion%7D%7D/Illuminate/Routing/Redirector.html">Illuminate\Routing\Redirector</a></td>
 <td><code>redirect</code></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>Redis</td>
-<td><a href="https://laravel.com/api/%7B%7Bversion%7D%7D/Illuminate/Redis/Database.html">Illuminate\Redis\Database</a></td>
+<td><a href="http://laravel.com/api/%7B%7Bversion%7D%7D/Illuminate/Redis/Database.html">Illuminate\Redis\Database</a></td>
 <td><code>redis</code></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>Request</td>
-<td><a href="https://laravel.com/api/%7B%7Bversion%7D%7D/Illuminate/Http/Request.html">Illuminate\Http\Request</a></td>
+<td><a href="http://laravel.com/api/%7B%7Bversion%7D%7D/Illuminate/Http/Request.html">Illuminate\Http\Request</a></td>
 <td><code>request</code></td>
 </tr>
-<tr class="odd">
-<td>Response</td>
-<td><a href="https://laravel.com/api/%7B%7Bversion%7D%7D/Illuminate/Contracts/Routing/ResponseFactory.html">Illuminate\Contracts\Routing\ResponseFactory</a></td>
-<td> </td>
-</tr>
 <tr class="even">
+<td>Response</td>
+<td><a href="http://laravel.com/api/%7B%7Bversion%7D%7D/Illuminate/Contracts/Routing/ResponseFactory.html">Illuminate\Contracts\Routing\ResponseFactory</a></td>
+<td></td>
+</tr>
+<tr class="odd">
 <td>Route</td>
-<td><a href="https://laravel.com/api/%7B%7Bversion%7D%7D/Illuminate/Routing/Router.html">Illuminate\Routing\Router</a></td>
+<td><a href="http://laravel.com/api/%7B%7Bversion%7D%7D/Illuminate/Routing/Router.html">Illuminate\Routing\Router</a></td>
 <td><code>router</code></td>
 </tr>
-<tr class="odd">
-<td>Schema</td>
-<td><a href="https://laravel.com/api/%7B%7Bversion%7D%7D/Illuminate/Database/Schema/Blueprint.html">Illuminate\Database\Schema\Blueprint</a></td>
-<td> </td>
-</tr>
 <tr class="even">
+<td>Schema</td>
+<td><a href="http://laravel.com/api/%7B%7Bversion%7D%7D/Illuminate/Database/Schema/Blueprint.html">Illuminate\Database\Schema\Blueprint</a></td>
+<td></td>
+</tr>
+<tr class="odd">
 <td>Session</td>
-<td><a href="https://laravel.com/api/%7B%7Bversion%7D%7D/Illuminate/Session/SessionManager.html">Illuminate\Session\SessionManager</a></td>
+<td><a href="http://laravel.com/api/%7B%7Bversion%7D%7D/Illuminate/Session/SessionManager.html">Illuminate\Session\SessionManager</a></td>
 <td><code>session</code></td>
 </tr>
-<tr class="odd">
-<td>Session (Instance)</td>
-<td><a href="https://laravel.com/api/%7B%7Bversion%7D%7D/Illuminate/Session/Store.html">Illuminate\Session\Store</a></td>
-<td> </td>
-</tr>
 <tr class="even">
+<td>Session (Instance)</td>
+<td><a href="http://laravel.com/api/%7B%7Bversion%7D%7D/Illuminate/Session/Store.html">Illuminate\Session\Store</a></td>
+<td></td>
+</tr>
+<tr class="odd">
 <td>Storage</td>
-<td><a href="https://laravel.com/api/%7B%7Bversion%7D%7D/Illuminate/Contracts/Filesystem/Factory.html">Illuminate\Contracts\Filesystem\Factory</a></td>
+<td><a href="http://laravel.com/api/%7B%7Bversion%7D%7D/Illuminate/Contracts/Filesystem/Factory.html">Illuminate\Contracts\Filesystem\Factory</a></td>
 <td><code>filesystem</code></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>URL</td>
-<td><a href="https://laravel.com/api/%7B%7Bversion%7D%7D/Illuminate/Routing/UrlGenerator.html">Illuminate\Routing\UrlGenerator</a></td>
+<td><a href="http://laravel.com/api/%7B%7Bversion%7D%7D/Illuminate/Routing/UrlGenerator.html">Illuminate\Routing\UrlGenerator</a></td>
 <td><code>url</code></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>Validator</td>
-<td><a href="https://laravel.com/api/%7B%7Bversion%7D%7D/Illuminate/Validation/Factory.html">Illuminate\Validation\Factory</a></td>
+<td><a href="http://laravel.com/api/%7B%7Bversion%7D%7D/Illuminate/Validation/Factory.html">Illuminate\Validation\Factory</a></td>
 <td><code>validator</code></td>
 </tr>
-<tr class="odd">
-<td>Validator (Instance)</td>
-<td><a href="https://laravel.com/api/%7B%7Bversion%7D%7D/Illuminate/Validation/Validator.html">Illuminate\Validation\Validator</a></td>
-<td> </td>
-</tr>
 <tr class="even">
+<td>Validator (Instance)</td>
+<td><a href="http://laravel.com/api/%7B%7Bversion%7D%7D/Illuminate/Validation/Validator.html">Illuminate\Validation\Validator</a></td>
+<td></td>
+</tr>
+<tr class="odd">
 <td>View</td>
-<td><a href="https://laravel.com/api/%7B%7Bversion%7D%7D/Illuminate/View/Factory.html">Illuminate\View\Factory</a></td>
+<td><a href="http://laravel.com/api/%7B%7Bversion%7D%7D/Illuminate/View/Factory.html">Illuminate\View\Factory</a></td>
 <td><code>view</code></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>View (Instance)</td>
-<td><a href="https://laravel.com/api/%7B%7Bversion%7D%7D/Illuminate/View/View.html">Illuminate\View\View</a></td>
-<td> </td>
+<td><a href="http://laravel.com/api/%7B%7Bversion%7D%7D/Illuminate/View/View.html">Illuminate\View\View</a></td>
+<td></td>
 </tr>
 </tbody>
 </table>

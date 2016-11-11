@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="generator" content="pandoc">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-  <title>Compiling Assets (Laravel Elixir) – </title>
+  <title>Laravel Elixir – </title>
   <style type="text/css">code{white-space: pre;}</style>
   <style type="text/css">
 div.sourceCode { overflow-x: auto; }
@@ -50,14 +50,12 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
   <script src="../../laravel-docs/site.js"></script>
 </head>
 <body>
-<aside><h1>Laravel 5.3 offline docs</h1><ul id="navigation">
-<li><a href="application-testing.html">Application Testing</a>
-<li><a href="artisan.html">Console Commands</a>
+<aside><h1>Laravel 5.2 offline docs</h1><ul id="navigation">
+<li><a href="artisan.html">Artisan Console</a>
 <li><a href="authentication.html">Authentication</a>
 <li><a href="authorization.html">Authorization</a>
 <li><a href="billing.html">Laravel Cashier</a>
 <li><a href="blade.html">Blade Templates</a>
-<li><a href="broadcasting.html">Event Broadcasting</a>
 <li><a href="cache.html">Cache</a>
 <li><a href="collections.html">Collections</a>
 <li><a href="configuration.html">Configuration</a>
@@ -65,12 +63,10 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li><a href="contracts.html">Contracts</a>
 <li><a href="contributing.html">Contribution Guidelines</a>
 <li><a href="contributions.html">Contribution Guide</a>
-<li><a href="controllers.html">Controllers</a>
-<li><a href="csrf.html">CSRF Protection</a>
-<li><a href="database-testing.html">Database Testing</a>
+<li><a href="controllers.html">HTTP Controllers</a>
 <li><a href="database.html">Database: Getting Started</a>
 <li><a href="documentation.html">Prologue</a>
-<li><a href="elixir.html">Compiling Assets (Laravel Elixir)</a>
+<li><a href="elixir.html">Laravel Elixir</a>
 <li><a href="eloquent-collections.html">Eloquent: Collections</a>
 <li><a href="eloquent-mutators.html">Eloquent: Mutators</a>
 <li><a href="eloquent-relationships.html">Eloquent: Relationships</a>
@@ -83,7 +79,6 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </a>
 <li><a href="facades.html">Facades</a>
 <li><a href="filesystem.html">Filesystem / Cloud Storage</a>
-<li><a href="frontend.html">JavaScript & CSS</a>
 <li><a href="hashing.html">Hashing</a>
 <li><a href="helpers.html">Helper Functions</a>
 <li><a href="homestead.html">Laravel Homestead</a>
@@ -92,29 +87,25 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li><a href="localization.html">Localization</a>
 <li><a href="mail.html">Mail
 </a>
-<li><a href="middleware.html">Middleware</a>
+<li><a href="middleware.html">HTTP Middleware</a>
 <li><a href="migrations.html">Database: Migrations</a>
-<li><a href="mocking.html">Mocking</a>
-<li><a href="notifications.html">Notifications</a>
 <li><a href="packages.html">Package Development</a>
 <li><a href="pagination.html">Pagination</a>
-<li><a href="passport.html">API Authentication (Passport)</a>
-<li><a href="passwords.html">Resetting Passwords</a>
 <li><a href="providers.html">Service Providers</a>
 <li><a href="queries.html">Database: Query Builder</a>
 <li><a href="queues.html">Queues</a>
+<li><a href="quickstart-intermediate.html">Intermediate Task List</a>
+<li><a href="quickstart.html">Basic Task List</a>
 <li><a href="readme.html">Laravel Documentation</a>
-<li><a href="redirects.html">HTTP Redirects</a>
 <li><a href="redis.html">Redis</a>
 <li><a href="releases.html">Release Notes</a>
 <li><a href="requests.html">HTTP Requests</a>
 <li><a href="responses.html">HTTP Responses</a>
-<li><a href="routing.html">Routing</a>
+<li><a href="routing.html">HTTP Routing</a>
 <li><a href="scheduling.html">Task Scheduling</a>
-<li><a href="scout.html">Laravel Scout</a>
 <li><a href="seeding.html">Database: Seeding</a>
-<li><a href="session.html">HTTP Session</a>
-<li><a href="structure.html">Directory Structure</a>
+<li><a href="session.html">Session</a>
+<li><a href="structure.html">Application Structure</a>
 <li><a href="testing.html">Testing</a>
 <li><a href="upgrade.html">Upgrade Guide</a>
 <li><a href="valet.html">Laravel Valet</a>
@@ -122,7 +113,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </a>
 <li><a href="views.html">Views</a>
 </ul></aside><article>
-<h1 id="compiling-assets-laravel-elixir">Compiling Assets (Laravel Elixir)</h1>
+<h1 id="laravel-elixir">Laravel Elixir</h1>
 <ul>
 <li><a href="#introduction">Introduction</a></li>
 <li><a href="#installation">Installation &amp; Setup</a></li>
@@ -131,40 +122,44 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <ul>
 <li><a href="#less">Less</a></li>
 <li><a href="#sass">Sass</a></li>
-<li><a href="#stylus">Stylus</a></li>
 <li><a href="#plain-css">Plain CSS</a></li>
 <li><a href="#css-source-maps">Source Maps</a></li>
 </ul></li>
 <li><a href="#working-with-scripts">Working With Scripts</a>
 <ul>
-<li><a href="#webpack">Webpack</a></li>
-<li><a href="#rollup">Rollup</a></li>
+<li><a href="#coffeescript">CoffeeScript</a></li>
+<li><a href="#browserify">Browserify</a></li>
+<li><a href="#babel">Babel</a></li>
 <li><a href="#javascript">Scripts</a></li>
 </ul></li>
 <li><a href="#copying-files-and-directories">Copying Files &amp; Directories</a></li>
 <li><a href="#versioning-and-cache-busting">Versioning / Cache Busting</a></li>
 <li><a href="#browser-sync">BrowserSync</a></li>
+<li><a href="#calling-existing-gulp-tasks">Calling Existing Gulp Tasks</a></li>
+<li><a href="#writing-elixir-extensions">Writing Elixir Extensions</a></li>
 </ul>
 <p><a name="introduction"></a></p>
 <h2 id="introduction">Introduction</h2>
-<p>Laravel Elixir provides a clean, fluent API for defining basic <a href="http://gulpjs.com">Gulp</a> tasks for your Laravel application. Elixir supports common CSS and JavaScript pre-processors like <a href="http://sass-lang.com">Sass</a> and <a href="https://webpack.github.io/">Webpack</a>. Using method chaining, Elixir allows you to fluently define your asset pipeline. For example:</p>
+<p>Laravel Elixir provides a clean, fluent API for defining basic <a href="http://gulpjs.com">Gulp</a> tasks for your Laravel application. Elixir supports several common CSS and JavaScript pre-processors, and even testing tools. Using method chaining, Elixir allows you to fluently define your asset pipeline. For example:</p>
 <div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="at">elixir</span>(<span class="kw">function</span>(mix) <span class="op">{</span>
     <span class="va">mix</span>.<span class="at">sass</span>(<span class="st">&#39;app.scss&#39;</span>)
-       .<span class="at">webpack</span>(<span class="st">&#39;app.js&#39;</span>)<span class="op">;</span>
+       .<span class="at">coffee</span>(<span class="st">&#39;app.coffee&#39;</span>)<span class="op">;</span>
 <span class="op">}</span>)<span class="op">;</span></code></pre></div>
-<p>If you've ever been confused and overwhelmed about getting started with Gulp and asset compilation, you will love Laravel Elixir. However, you are not required to use it while developing your application. You are free to use any asset pipeline tool you wish, or even none at all.</p>
+<p>If you've ever been confused about how to get started with Gulp and asset compilation, you will love Laravel Elixir. However, you are not required to use it while developing your application. You are free to use any asset pipeline tool you wish, or even none at all.</p>
 <p><a name="installation"></a></p>
 <h2 id="installation-setup">Installation &amp; Setup</h2>
-<h4 id="installing-node">Installing Node</h4>
-<p>Before triggering Elixir, you must first ensure that Node.js and NPM are installed on your machine.</p>
-<pre><code>node -v
-npm -v</code></pre>
-<p>By default, Laravel Homestead includes everything you need; however, if you aren't using Vagrant, then you can easily install the latest version of Node and NPM using simple graphical installers from <a href="https://nodejs.org/en/download/">their download page</a>.</p>
-<h4 id="gulp">Gulp</h4>
-<p>Next, you'll need to pull in <a href="http://gulpjs.com">Gulp</a> as a global NPM package:</p>
+<h3 id="installing-node">Installing Node</h3>
+<p>Before triggering Elixir, you must first ensure that Node.js is installed on your machine.</p>
+<pre><code>node -v</code></pre>
+<p>By default, Laravel Homestead includes everything you need; however, if you aren't using Vagrant, then you can easily install Node by visiting <a href="http://nodejs.org/en/download/">their download page</a>.</p>
+<h3 id="gulp">Gulp</h3>
+<p>Next, you'll want to pull in <a href="http://gulpjs.com">Gulp</a> as a global NPM package:</p>
 <pre><code>npm install --global gulp-cli</code></pre>
-<h4 id="laravel-elixir">Laravel Elixir</h4>
-<p>The only remaining step is to install Laravel Elixir. Within a fresh installation of Laravel, you'll find a <code>package.json</code> file in the root of your directory structure. The default <code>package.json</code> file includes Elixir and the Webpack JavaScript module bundler. Think of this like your <code>composer.json</code> file, except it defines Node dependencies instead of PHP. You may install the dependencies it references by running:</p>
+<p>If you use a version control system, you may wish to run the <code>npm shrinkwrap</code> to lock your NPM requirements:</p>
+<pre><code> npm shrinkwrap</code></pre>
+<p>Once you have run this command, feel free to commit the <a href="https://docs.npmjs.com/cli/shrinkwrap">npm-shrinkwrap.json</a> into source control.</p>
+<h3 id="laravel-elixir-1">Laravel Elixir</h3>
+<p>The only remaining step is to install Elixir! Within a fresh installation of Laravel, you'll find a <code>package.json</code> file in the root. Think of this like your <code>composer.json</code> file, except it defines Node dependencies instead of PHP. You may install the dependencies it references by running:</p>
 <pre><code>npm install</code></pre>
 <p>If you are developing on a Windows system or you are running your VM on a Windows host system, you may need to run the <code>npm install</code> command with the <code>--no-bin-links</code> switch enabled:</p>
 <pre><code>npm install --no-bin-links</code></pre>
@@ -176,16 +171,15 @@ gulp
 
 // Run all tasks and minify all CSS and JavaScript...
 gulp --production</code></pre>
-<p>Upon running this command, you'll see a nicely formatted table that displays a summary of the events that just took place.</p>
 <h4 id="watching-assets-for-changes">Watching Assets For Changes</h4>
-<p>The <code>gulp watch</code> command will continue running in your terminal and watch your assets for any changes. Gulp will automatically recompile your assets if you modify them while the <code>watch</code> command is running:</p>
+<p>Since it is inconvenient to run the <code>gulp</code> command on your terminal after every change to your assets, you may use the <code>gulp watch</code> command. This command will continue running in your terminal and watch your assets for any changes. When changes occur, new files will automatically be compiled:</p>
 <pre><code>gulp watch</code></pre>
 <p><a name="working-with-stylesheets"></a></p>
 <h2 id="working-with-stylesheets">Working With Stylesheets</h2>
 <p>The <code>gulpfile.js</code> file in your project's root directory contains all of your Elixir tasks. Elixir tasks can be chained together to define exactly how your assets should be compiled.</p>
 <p><a name="less"></a></p>
 <h3 id="less">Less</h3>
-<p>The <code>less</code> method may be used to compile <a href="http://lesscss.org/">Less</a> into CSS. The <code>less</code> method assumes that your Less files are stored in <code>resources/assets/less</code>. By default, the task will place the compiled CSS for this example in <code>public/css/app.css</code>:</p>
+<p>To compile <a href="http://lesscss.org/">Less</a> into CSS, you may use the <code>less</code> method. The <code>less</code> method assumes that your Less files are stored in <code>resources/assets/less</code>. By default, the task will place the compiled CSS for this example in <code>public/css/app.css</code>:</p>
 <div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="at">elixir</span>(<span class="kw">function</span>(mix) <span class="op">{</span>
     <span class="va">mix</span>.<span class="at">less</span>(<span class="st">&#39;app.less&#39;</span>)<span class="op">;</span>
 <span class="op">}</span>)<span class="op">;</span></code></pre></div>
@@ -218,21 +212,6 @@ gulp --production</code></pre>
         <span class="st">&#39;controllers.scss&#39;</span>
     ]<span class="op">,</span> <span class="st">&#39;public/assets/css&#39;</span>)<span class="op">;</span>
 <span class="op">}</span>)<span class="op">;</span></code></pre></div>
-<h4 id="custom-paths">Custom Paths</h4>
-<p>While it's recommended that you use Laravel's default asset directories, if you require a different base directory, you may begin any file path with <code>./</code>. This instructs Elixir to begin at the project root, rather than using the default base directory.</p>
-<p>For example, to compile a file located at <code>app/assets/sass/app.scss</code> and output the results to <code>public/css/app.css</code>, you would make the following call to the <code>sass</code> method:</p>
-<div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="at">elixir</span>(<span class="kw">function</span>(mix) <span class="op">{</span>
-    <span class="va">mix</span>.<span class="at">sass</span>(<span class="st">&#39;./app/assets/sass/app.scss&#39;</span>)<span class="op">;</span>
-<span class="op">}</span>)<span class="op">;</span></code></pre></div>
-<p><a name="stylus"></a></p>
-<h3 id="stylus">Stylus</h3>
-<p>The <code>stylus</code> method may be used to compile <a href="http://stylus-lang.com/">Stylus</a> into CSS. Assuming that your Stylus files are stored in <code>resources/assets/stylus</code>, you may call the method like so:</p>
-<div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="at">elixir</span>(<span class="kw">function</span>(mix) <span class="op">{</span>
-    <span class="va">mix</span>.<span class="at">stylus</span>(<span class="st">&#39;app.styl&#39;</span>)<span class="op">;</span>
-<span class="op">}</span>)<span class="op">;</span></code></pre></div>
-<blockquote>
-<p>{tip} This method's signature is identical to both <code>mix.less()</code> and <code>mix.sass()</code>.</p>
-</blockquote>
 <p><a name="plain-css"></a></p>
 <h3 id="plain-css">Plain CSS</h3>
 <p>If you would just like to combine some plain CSS stylesheets into a single file, you may use the <code>styles</code> method. Paths passed to this method are relative to the <code>resources/assets/css</code> directory and the resulting CSS will be placed in <code>public/css/all.css</code>:</p>
@@ -242,17 +221,17 @@ gulp --production</code></pre>
         <span class="st">&#39;main.css&#39;</span>
     ])<span class="op">;</span>
 <span class="op">}</span>)<span class="op">;</span></code></pre></div>
-<p>You may also instruct Elixir to write the resulting file to a custom directory or file by passing a second argument to the <code>styles</code> method:</p>
+<p>Of course, you may also output the resulting file to a custom location by passing a second argument to the <code>styles</code> method:</p>
 <div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="at">elixir</span>(<span class="kw">function</span>(mix) <span class="op">{</span>
     <span class="va">mix</span>.<span class="at">styles</span>([
         <span class="st">&#39;normalize.css&#39;</span><span class="op">,</span>
         <span class="st">&#39;main.css&#39;</span>
-    ]<span class="op">,</span> <span class="st">&#39;public/assets/css/site.css&#39;</span>)<span class="op">;</span>
+    ]<span class="op">,</span> <span class="st">&#39;public/assets/css&#39;</span>)<span class="op">;</span>
 <span class="op">}</span>)<span class="op">;</span></code></pre></div>
 <p><a name="css-source-maps"></a></p>
 <h3 id="source-maps">Source Maps</h3>
-<p>In Elixir, source maps are enabled by default and provide better debugging information to your browser's developer tools when using compiled assets. For each relevant file that is compiled, you will find a companion <code>*.css.map</code> or <code>*.js.map</code> file in the same directory.</p>
-<p>If you do not want source maps generated for your application, you may disable them using the <code>sourcemaps</code> configuration option:</p>
+<p>Source maps are enabled out of the box. So, for each file that is compiled you will find a companion <code>*.css.map</code> file in the same directory. This mapping allows you to trace your compiled stylesheet selectors back to your original Sass or Less while debugging in your browser.</p>
+<p>If you do not want source maps generated for your CSS, you may disable them using a simple configuration option:</p>
 <div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="va">elixir</span>.<span class="va">config</span>.<span class="at">sourcemaps</span> <span class="op">=</span> <span class="kw">false</span><span class="op">;</span>
 
 <span class="at">elixir</span>(<span class="kw">function</span>(mix) <span class="op">{</span>
@@ -260,46 +239,57 @@ gulp --production</code></pre>
 <span class="op">}</span>)<span class="op">;</span></code></pre></div>
 <p><a name="working-with-scripts"></a></p>
 <h2 id="working-with-scripts">Working With Scripts</h2>
-<p>Elixir provides several features to help you work with your JavaScript files, such as compiling ECMAScript 2015, module bundling, minification, and simply concatenating plain JavaScript files.</p>
-<p>When writing ES2015 with modules, you have your choice between <a href="https://webpack.github.io">Webpack</a> and <a href="http://rollupjs.org/">Rollup</a>. If these tools are foreign to you, don't worry, Elixir will handle all of the hard work behind the scenes. By default, the Laravel <code>gulpfile</code> uses <code>webpack</code> to compile Javascript, but you are free to use any module bundler you like.</p>
-<p><a name="webpack"></a></p>
-<h3 id="webpack">Webpack</h3>
-<p>The <code>webpack</code> method may be used to compile and bundle <a href="https://babeljs.io/docs/learn-es2015/">ECMAScript 2015</a> into plain JavaScript. This function accepts a file path relative to the <code>resources/assets/js</code> directory and generates a single bundled file in the <code>public/js</code> directory:</p>
+<p>Elixir also provides several functions to help you work with your JavaScript files, such as compiling ECMAScript 6, compiling CoffeeScript, Browserify, minification, and simply concatenating plain JavaScript files.</p>
+<p><a name="coffeescript"></a></p>
+<h3 id="coffeescript">CoffeeScript</h3>
+<p>The <code>coffee</code> method may be used to compile <a href="http://coffeescript.org/">CoffeeScript</a> into plain JavaScript. The <code>coffee</code> function accepts a string or array of CoffeeScript files relative to the <code>resources/assets/coffee</code> directory and generates a single <code>app.js</code> file in the <code>public/js</code> directory:</p>
 <div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="at">elixir</span>(<span class="kw">function</span>(mix) <span class="op">{</span>
-    <span class="va">mix</span>.<span class="at">webpack</span>(<span class="st">&#39;app.js&#39;</span>)<span class="op">;</span>
+    <span class="va">mix</span>.<span class="at">coffee</span>([<span class="st">&#39;app.coffee&#39;</span><span class="op">,</span> <span class="st">&#39;controllers.coffee&#39;</span>])<span class="op">;</span>
 <span class="op">}</span>)<span class="op">;</span></code></pre></div>
-<p>To choose a different output or base directory, simply specify your desired paths with a leading <code>.</code>. Then you may specify the paths relative to the root of your application. For example, to compile <code>app/assets/js/app.js</code> to <code>public/dist/app.js</code>:</p>
+<p><a name="browserify"></a></p>
+<h3 id="browserify">Browserify</h3>
+<p>Elixir also ships with a <code>browserify</code> method, which gives you all the benefits of requiring modules in the browser and using ECMAScript 6 and JSX.</p>
+<p>This task assumes that your scripts are stored in <code>resources/assets/js</code> and will place the resulting file in <code>public/js/main.js</code>. You may pass a custom output location as an optional second argument:</p>
 <div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="at">elixir</span>(<span class="kw">function</span>(mix) <span class="op">{</span>
-    <span class="va">mix</span>.<span class="at">webpack</span>(
-        <span class="st">&#39;./app/assets/js/app.js&#39;</span><span class="op">,</span>
-        <span class="st">&#39;./public/dist&#39;</span>
-    )<span class="op">;</span>
+    <span class="va">mix</span>.<span class="at">browserify</span>(<span class="st">&#39;main.js&#39;</span>)<span class="op">;</span>
+<span class="op">}</span>)<span class="op">;</span>
+
+<span class="co">// Specifying a specific output filename...</span>
+<span class="at">elixir</span>(<span class="kw">function</span>(mix) <span class="op">{</span>
+    <span class="va">mix</span>.<span class="at">browserify</span>(<span class="st">&#39;main.js&#39;</span><span class="op">,</span> <span class="st">&#39;public/javascripts/main.js&#39;</span>)<span class="op">;</span>
 <span class="op">}</span>)<span class="op">;</span></code></pre></div>
-<p>If you'd like to leverage more of Webpack's functionality, Elixir will read any <code>webpack.config.js</code> file that is in your project root and <a href="https://webpack.github.io/docs/configuration.html">factor its configuration</a> into the build process.</p>
-<p><a name="rollup"></a></p>
-<h3 id="rollup">Rollup</h3>
-<p>Similar to Webpack, Rollup is a next-generation bundler for ES2015. This function accepts an array of files relative to the <code>resources/assets/js</code> directory, and generates a single file in the <code>public/js</code> directory:</p>
+<p>While Browserify ships with the Partialify and Babelify transformers, you're free to install and add more if you wish:</p>
+<pre><code>npm install aliasify --save-dev</code></pre>
+<div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="va">elixir</span>.<span class="va">config</span>.<span class="va">js</span>.<span class="va">browserify</span>.<span class="va">transformers</span>.<span class="at">push</span>(<span class="op">{</span>
+    <span class="dt">name</span><span class="op">:</span> <span class="st">&#39;aliasify&#39;</span><span class="op">,</span>
+    <span class="dt">options</span><span class="op">:</span> <span class="op">{}</span>
+<span class="op">}</span>)<span class="op">;</span>
+
+<span class="at">elixir</span>(<span class="kw">function</span>(mix) <span class="op">{</span>
+    <span class="va">mix</span>.<span class="at">browserify</span>(<span class="st">&#39;main.js&#39;</span>)<span class="op">;</span>
+<span class="op">}</span>)<span class="op">;</span></code></pre></div>
+<p><a name="babel"></a></p>
+<h3 id="babel">Babel</h3>
+<p>The <code>babel</code> method may be used to compile <a href="https://babeljs.io/docs/learn-es2015/">ECMAScript 6 and 7</a> and <a href="https://facebook.github.io/react/docs/jsx-in-depth.html">JSX</a> into plain JavaScript. This function accepts an array of files relative to the <code>resources/assets/js</code> directory, and generates a single <code>all.js</code> file in the <code>public/js</code> directory:</p>
 <div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="at">elixir</span>(<span class="kw">function</span>(mix) <span class="op">{</span>
-    <span class="va">mix</span>.<span class="at">rollup</span>(<span class="st">&#39;app.js&#39;</span>)<span class="op">;</span>
+    <span class="va">mix</span>.<span class="at">babel</span>([
+        <span class="st">&#39;order.js&#39;</span><span class="op">,</span>
+        <span class="st">&#39;product.js&#39;</span><span class="op">,</span>
+        <span class="st">&#39;react-component.jsx&#39;</span>
+    ])<span class="op">;</span>
 <span class="op">}</span>)<span class="op">;</span></code></pre></div>
-<p>Like the <code>webpack</code> method, you may customize the location of the input and output files given to the <code>rollup</code> method:</p>
-<pre><code>elixir(function(mix) {
-    mix.rollup(
-        &#39;./resources/assets/js/app.js&#39;,
-        &#39;./public/dist&#39;
-    );
-});</code></pre>
+<p>To choose a different output location, simply specify your desired path as the second argument. The signature and functionality of this method are identical to <code>mix.scripts()</code>, excluding the Babel compilation.</p>
 <p><a name="javascript"></a></p>
 <h3 id="scripts">Scripts</h3>
-<p>If you have multiple JavaScript files that you would like to combine into a single file, you may use the <code>scripts</code> method, which provides automatic source maps, concatenation, and minification.</p>
+<p>If you have multiple JavaScript files that you would like to combine into a single file, you may use the <code>scripts</code> method.</p>
 <p>The <code>scripts</code> method assumes all paths are relative to the <code>resources/assets/js</code> directory, and will place the resulting JavaScript in <code>public/js/all.js</code> by default:</p>
 <div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="at">elixir</span>(<span class="kw">function</span>(mix) <span class="op">{</span>
     <span class="va">mix</span>.<span class="at">scripts</span>([
-        <span class="st">&#39;order.js&#39;</span><span class="op">,</span>
-        <span class="st">&#39;forum.js&#39;</span>
+        <span class="st">&#39;jquery.js&#39;</span><span class="op">,</span>
+        <span class="st">&#39;app.js&#39;</span>
     ])<span class="op">;</span>
 <span class="op">}</span>)<span class="op">;</span></code></pre></div>
-<p>If you need to concatenate multiple sets of scripts into different files, you may make multiple calls to the <code>scripts</code> method. The second argument given to the method determines the resulting file name for each concatenation:</p>
+<p>If you need to combine multiple sets of scripts into different files, you may make multiple calls to the <code>scripts</code> method. The second argument given to the method determines the resulting file name for each concatenation:</p>
 <div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="at">elixir</span>(<span class="kw">function</span>(mix) <span class="op">{</span>
     <span class="va">mix</span>.<span class="at">scripts</span>([<span class="st">&#39;app.js&#39;</span><span class="op">,</span> <span class="st">&#39;controllers.js&#39;</span>]<span class="op">,</span> <span class="st">&#39;public/js/app.js&#39;</span>)
        .<span class="at">scripts</span>([<span class="st">&#39;forum.js&#39;</span><span class="op">,</span> <span class="st">&#39;threads.js&#39;</span>]<span class="op">,</span> <span class="st">&#39;public/js/forum.js&#39;</span>)<span class="op">;</span>
@@ -308,14 +298,15 @@ gulp --production</code></pre>
 <div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="at">elixir</span>(<span class="kw">function</span>(mix) <span class="op">{</span>
     <span class="va">mix</span>.<span class="at">scriptsIn</span>(<span class="st">&#39;public/js/some/directory&#39;</span>)<span class="op">;</span>
 <span class="op">}</span>)<span class="op">;</span></code></pre></div>
-<blockquote>
-<p>{tip} If you intend to concatenate multiple pre-minified vendor libraries, such as jQuery, instead consider using <code>mix.combine()</code>. This will combine the files, while omitting the source map and minification steps. As a result, compile times will drastically improve.</p>
-</blockquote>
 <p><a name="copying-files-and-directories"></a></p>
 <h2 id="copying-files-directories">Copying Files &amp; Directories</h2>
 <p>The <code>copy</code> method may be used to copy files and directories to new locations. All operations are relative to the project's root directory:</p>
 <div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="at">elixir</span>(<span class="kw">function</span>(mix) <span class="op">{</span>
     <span class="va">mix</span>.<span class="at">copy</span>(<span class="st">&#39;vendor/foo/bar.css&#39;</span><span class="op">,</span> <span class="st">&#39;public/css/bar.css&#39;</span>)<span class="op">;</span>
+<span class="op">}</span>)<span class="op">;</span>
+
+<span class="at">elixir</span>(<span class="kw">function</span>(mix) <span class="op">{</span>
+    <span class="va">mix</span>.<span class="at">copy</span>(<span class="st">&#39;vendor/package/views&#39;</span><span class="op">,</span> <span class="st">&#39;resources/views&#39;</span>)<span class="op">;</span>
 <span class="op">}</span>)<span class="op">;</span></code></pre></div>
 <p><a name="versioning-and-cache-busting"></a></p>
 <h2 id="versioning-cache-busting">Versioning / Cache Busting</h2>
@@ -324,7 +315,7 @@ gulp --production</code></pre>
 <div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="at">elixir</span>(<span class="kw">function</span>(mix) <span class="op">{</span>
     <span class="va">mix</span>.<span class="at">version</span>(<span class="st">&#39;css/all.css&#39;</span>)<span class="op">;</span>
 <span class="op">}</span>)<span class="op">;</span></code></pre></div>
-<p>After generating the versioned file, you may use Laravel's global <code>elixir</code> helper within your <a href="/docs/%7B%7Bversion%7D%7D/views">views</a> to load the appropriately hashed asset. The <code>elixir</code> function will automatically determine the current name of the hashed file:</p>
+<p>After generating the versioned file, you may use Laravel's global <code>elixir</code> PHP helper function within your <a href="views.html">views</a> to load the appropriately hashed asset. The <code>elixir</code> function will automatically determine the name of the hashed file:</p>
 <pre><code>&lt;link rel=&quot;stylesheet&quot; href=&quot;{{ elixir(&#39;css/all.css&#39;) }}&quot;&gt;</code></pre>
 <h4 id="versioning-multiple-files">Versioning Multiple Files</h4>
 <p>You may pass an array to the <code>version</code> method to version multiple files:</p>
@@ -337,12 +328,69 @@ gulp --production</code></pre>
 &lt;script src=&quot;{{ elixir(&#39;js/app.js&#39;) }}&quot;&gt;&lt;/script&gt;</code></pre>
 <p><a name="browser-sync"></a></p>
 <h2 id="browsersync">BrowserSync</h2>
-<p>BrowserSync automatically refreshes your web browser after you make changes to your assets. The <code>browserSync</code> method accepts a JavaScript object with a <code>proxy</code> attribute containing the local URL for your application. Then, once you run <code>gulp watch</code> you may access your web application using port 3000 (<code>http://project.dev:3000</code>) to enjoy browser syncing:</p>
+<p>BrowserSync automatically refreshes your web browser after you make changes to your front-end resources. You can use the <code>browserSync</code> method to instruct Elixir to start a BrowserSync server when you run the <code>gulp watch</code> command:</p>
+<div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="at">elixir</span>(<span class="kw">function</span>(mix) <span class="op">{</span>
+    <span class="va">mix</span>.<span class="at">browserSync</span>()<span class="op">;</span>
+<span class="op">}</span>)<span class="op">;</span></code></pre></div>
+<p>Once you run <code>gulp watch</code>, access your web application using port 3000 to enable browser syncing: <code>http://homestead.app:3000</code>. If you're using a domain other than <code>homestead.app</code> for local development, you may pass an array of <a href="http://www.browsersync.io/docs/options/">options</a> as the first argument to the <code>browserSync</code> method:</p>
 <div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="at">elixir</span>(<span class="kw">function</span>(mix) <span class="op">{</span>
     <span class="va">mix</span>.<span class="at">browserSync</span>(<span class="op">{</span>
-        <span class="dt">proxy</span><span class="op">:</span> <span class="st">&#39;project.dev&#39;</span>
+        <span class="dt">proxy</span><span class="op">:</span> <span class="st">&#39;project.app&#39;</span>
     <span class="op">}</span>)<span class="op">;</span>
 <span class="op">}</span>)<span class="op">;</span></code></pre></div>
+<p><a name="calling-existing-gulp-tasks"></a></p>
+<h2 id="calling-existing-gulp-tasks">Calling Existing Gulp Tasks</h2>
+<p>If you need to call an existing Gulp task from Elixir, you may use the <code>task</code> method. As an example, imagine that you have a Gulp task that simply speaks a bit of text when called:</p>
+<div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="va">gulp</span>.<span class="at">task</span>(<span class="st">&#39;speak&#39;</span><span class="op">,</span> <span class="kw">function</span>() <span class="op">{</span>
+    <span class="kw">var</span> message <span class="op">=</span> <span class="st">&#39;Tea...Earl Grey...Hot&#39;</span><span class="op">;</span>
+
+    <span class="va">gulp</span>.<span class="at">src</span>(<span class="st">&#39;&#39;</span>).<span class="at">pipe</span>(<span class="at">shell</span>(<span class="st">&#39;say &#39;</span> <span class="op">+</span> message))<span class="op">;</span>
+<span class="op">}</span>)<span class="op">;</span></code></pre></div>
+<p>If you wish to call this task from Elixir, use the <code>mix.task</code> method and pass the name of the task as the only argument to the method:</p>
+<div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="at">elixir</span>(<span class="kw">function</span>(mix) <span class="op">{</span>
+    <span class="va">mix</span>.<span class="at">task</span>(<span class="st">&#39;speak&#39;</span>)<span class="op">;</span>
+<span class="op">}</span>)<span class="op">;</span></code></pre></div>
+<h4 id="custom-watchers">Custom Watchers</h4>
+<p>If you need to register a watcher to run your custom task each time some files are modified, pass a regular expression as the second argument to the <code>task</code> method:</p>
+<div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="at">elixir</span>(<span class="kw">function</span>(mix) <span class="op">{</span>
+    <span class="va">mix</span>.<span class="at">task</span>(<span class="st">&#39;speak&#39;</span><span class="op">,</span> <span class="st">&#39;app/**/*.php&#39;</span>)<span class="op">;</span>
+<span class="op">}</span>)<span class="op">;</span></code></pre></div>
+<p><a name="writing-elixir-extensions"></a></p>
+<h2 id="writing-elixir-extensions">Writing Elixir Extensions</h2>
+<p>If you need more flexibility than Elixir's <code>task</code> method can provide, you may create custom Elixir extensions. Elixir extensions allow you to pass arguments to your custom tasks. For example, you could write an extension like so:</p>
+<div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="co">// File: elixir-extensions.js</span>
+
+<span class="kw">var</span> gulp <span class="op">=</span> <span class="at">require</span>(<span class="st">&#39;gulp&#39;</span>)<span class="op">;</span>
+<span class="kw">var</span> shell <span class="op">=</span> <span class="at">require</span>(<span class="st">&#39;gulp-shell&#39;</span>)<span class="op">;</span>
+<span class="kw">var</span> Elixir <span class="op">=</span> <span class="at">require</span>(<span class="st">&#39;laravel-elixir&#39;</span>)<span class="op">;</span>
+
+<span class="kw">var</span> Task <span class="op">=</span> <span class="va">Elixir</span>.<span class="at">Task</span><span class="op">;</span>
+
+<span class="va">Elixir</span>.<span class="at">extend</span>(<span class="st">&#39;speak&#39;</span><span class="op">,</span> <span class="kw">function</span>(message) <span class="op">{</span>
+
+    <span class="kw">new</span> <span class="at">Task</span>(<span class="st">&#39;speak&#39;</span><span class="op">,</span> <span class="kw">function</span>() <span class="op">{</span>
+        <span class="cf">return</span> <span class="va">gulp</span>.<span class="at">src</span>(<span class="st">&#39;&#39;</span>).<span class="at">pipe</span>(<span class="at">shell</span>(<span class="st">&#39;say &#39;</span> <span class="op">+</span> message))<span class="op">;</span>
+    <span class="op">}</span>)<span class="op">;</span>
+
+<span class="op">}</span>)<span class="op">;</span>
+
+<span class="co">// mix.speak(&#39;Hello World&#39;);</span></code></pre></div>
+<p>That's it! Notice that your Gulp-specific logic should be placed within the function passed as the second argument to the <code>Task</code> constructor. You may either place this at the top of your Gulpfile, or instead extract it to a custom tasks file. For example, if you place your extensions in <code>elixir-extensions.js</code>, you may require the file from your main <code>Gulpfile</code> like so:</p>
+<div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="co">// File: Gulpfile.js</span>
+
+<span class="kw">var</span> elixir <span class="op">=</span> <span class="at">require</span>(<span class="st">&#39;laravel-elixir&#39;</span>)<span class="op">;</span>
+
+<span class="at">require</span>(<span class="st">&#39;./elixir-extensions&#39;</span>)
+
+<span class="at">elixir</span>(<span class="kw">function</span>(mix) <span class="op">{</span>
+    <span class="va">mix</span>.<span class="at">speak</span>(<span class="st">&#39;Tea, Earl Grey, Hot&#39;</span>)<span class="op">;</span>
+<span class="op">}</span>)<span class="op">;</span></code></pre></div>
+<h4 id="custom-watchers-1">Custom Watchers</h4>
+<p>If you would like your custom task to be re-triggered while running <code>gulp watch</code>, you may register a watcher:</p>
+<div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">new</span> <span class="at">Task</span>(<span class="st">&#39;speak&#39;</span><span class="op">,</span> <span class="kw">function</span>() <span class="op">{</span>
+    <span class="cf">return</span> <span class="va">gulp</span>.<span class="at">src</span>(<span class="st">&#39;&#39;</span>).<span class="at">pipe</span>(<span class="at">shell</span>(<span class="st">&#39;say &#39;</span> <span class="op">+</span> message))<span class="op">;</span>
+<span class="op">}</span>)
+.<span class="at">watch</span>(<span class="st">&#39;./app/**&#39;</span>)<span class="op">;</span></code></pre></div>
 </article>
 </body>
 </html>

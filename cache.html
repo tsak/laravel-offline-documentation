@@ -13,14 +13,12 @@
   <script src="../../laravel-docs/site.js"></script>
 </head>
 <body>
-<aside><h1>Laravel 5.3 offline docs</h1><ul id="navigation">
-<li><a href="application-testing.html">Application Testing</a>
-<li><a href="artisan.html">Console Commands</a>
+<aside><h1>Laravel 5.2 offline docs</h1><ul id="navigation">
+<li><a href="artisan.html">Artisan Console</a>
 <li><a href="authentication.html">Authentication</a>
 <li><a href="authorization.html">Authorization</a>
 <li><a href="billing.html">Laravel Cashier</a>
 <li><a href="blade.html">Blade Templates</a>
-<li><a href="broadcasting.html">Event Broadcasting</a>
 <li><a href="cache.html">Cache</a>
 <li><a href="collections.html">Collections</a>
 <li><a href="configuration.html">Configuration</a>
@@ -28,12 +26,10 @@
 <li><a href="contracts.html">Contracts</a>
 <li><a href="contributing.html">Contribution Guidelines</a>
 <li><a href="contributions.html">Contribution Guide</a>
-<li><a href="controllers.html">Controllers</a>
-<li><a href="csrf.html">CSRF Protection</a>
-<li><a href="database-testing.html">Database Testing</a>
+<li><a href="controllers.html">HTTP Controllers</a>
 <li><a href="database.html">Database: Getting Started</a>
 <li><a href="documentation.html">Prologue</a>
-<li><a href="elixir.html">Compiling Assets (Laravel Elixir)</a>
+<li><a href="elixir.html">Laravel Elixir</a>
 <li><a href="eloquent-collections.html">Eloquent: Collections</a>
 <li><a href="eloquent-mutators.html">Eloquent: Mutators</a>
 <li><a href="eloquent-relationships.html">Eloquent: Relationships</a>
@@ -46,7 +42,6 @@
 </a>
 <li><a href="facades.html">Facades</a>
 <li><a href="filesystem.html">Filesystem / Cloud Storage</a>
-<li><a href="frontend.html">JavaScript & CSS</a>
 <li><a href="hashing.html">Hashing</a>
 <li><a href="helpers.html">Helper Functions</a>
 <li><a href="homestead.html">Laravel Homestead</a>
@@ -55,29 +50,25 @@
 <li><a href="localization.html">Localization</a>
 <li><a href="mail.html">Mail
 </a>
-<li><a href="middleware.html">Middleware</a>
+<li><a href="middleware.html">HTTP Middleware</a>
 <li><a href="migrations.html">Database: Migrations</a>
-<li><a href="mocking.html">Mocking</a>
-<li><a href="notifications.html">Notifications</a>
 <li><a href="packages.html">Package Development</a>
 <li><a href="pagination.html">Pagination</a>
-<li><a href="passport.html">API Authentication (Passport)</a>
-<li><a href="passwords.html">Resetting Passwords</a>
 <li><a href="providers.html">Service Providers</a>
 <li><a href="queries.html">Database: Query Builder</a>
 <li><a href="queues.html">Queues</a>
+<li><a href="quickstart-intermediate.html">Intermediate Task List</a>
+<li><a href="quickstart.html">Basic Task List</a>
 <li><a href="readme.html">Laravel Documentation</a>
-<li><a href="redirects.html">HTTP Redirects</a>
 <li><a href="redis.html">Redis</a>
 <li><a href="releases.html">Release Notes</a>
 <li><a href="requests.html">HTTP Requests</a>
 <li><a href="responses.html">HTTP Responses</a>
-<li><a href="routing.html">Routing</a>
+<li><a href="routing.html">HTTP Routing</a>
 <li><a href="scheduling.html">Task Scheduling</a>
-<li><a href="scout.html">Laravel Scout</a>
 <li><a href="seeding.html">Database: Seeding</a>
-<li><a href="session.html">HTTP Session</a>
-<li><a href="structure.html">Directory Structure</a>
+<li><a href="session.html">Session</a>
+<li><a href="structure.html">Application Structure</a>
 <li><a href="testing.html">Testing</a>
 <li><a href="upgrade.html">Upgrade Guide</a>
 <li><a href="valet.html">Laravel Valet</a>
@@ -87,37 +78,27 @@
 </ul></aside><article>
 <h1 id="cache">Cache</h1>
 <ul>
-<li><a href="#configuration">Configuration</a>
-<ul>
-<li><a href="#driver-prerequisites">Driver Prerequisites</a></li>
-</ul></li>
+<li><a href="#configuration">Configuration</a></li>
 <li><a href="#cache-usage">Cache Usage</a>
 <ul>
 <li><a href="#obtaining-a-cache-instance">Obtaining A Cache Instance</a></li>
 <li><a href="#retrieving-items-from-the-cache">Retrieving Items From The Cache</a></li>
 <li><a href="#storing-items-in-the-cache">Storing Items In The Cache</a></li>
 <li><a href="#removing-items-from-the-cache">Removing Items From The Cache</a></li>
-<li><a href="#the-cache-helper">The Cache Helper</a></li>
 </ul></li>
 <li><a href="#cache-tags">Cache Tags</a>
 <ul>
 <li><a href="#storing-tagged-cache-items">Storing Tagged Cache Items</a></li>
 <li><a href="#accessing-tagged-cache-items">Accessing Tagged Cache Items</a></li>
-<li><a href="#removing-tagged-cache-items">Removing Tagged Cache Items</a></li>
 </ul></li>
-<li><a href="#adding-custom-cache-drivers">Adding Custom Cache Drivers</a>
-<ul>
-<li><a href="#writing-the-driver">Writing The Driver</a></li>
-<li><a href="#registering-the-driver">Registering The Driver</a></li>
-</ul></li>
+<li><a href="#adding-custom-cache-drivers">Adding Custom Cache Drivers</a></li>
 <li><a href="#events">Events</a></li>
 </ul>
 <p><a name="configuration"></a></p>
 <h2 id="configuration">Configuration</h2>
-<p>Laravel provides an expressive, unified API for various caching backends. The cache configuration is located at <code>config/cache.php</code>. In this file you may specify which cache driver you would like used by default throughout your application. Laravel supports popular caching backends like <a href="https://memcached.org">Memcached</a> and <a href="http://redis.io">Redis</a> out of the box.</p>
-<p>The cache configuration file also contains various other options, which are documented within the file, so make sure to read over these options. By default, Laravel is configured to use the <code>file</code> cache driver, which stores the serialized, cached objects in the filesystem. For larger applications, it is recommended that you use a more robust driver such as Memcached or Redis. You may even configure multiple cache configurations for the same driver.</p>
-<p><a name="driver-prerequisites"></a></p>
-<h3 id="driver-prerequisites">Driver Prerequisites</h3>
+<p>Laravel provides a unified API for various caching systems. The cache configuration is located at <code>config/cache.php</code>. In this file you may specify which cache driver you would like used by default throughout your application. Laravel supports popular caching backends like <a href="http://memcached.org">Memcached</a> and <a href="http://redis.io">Redis</a> out of the box.</p>
+<p>The cache configuration file also contains various other options, which are documented within the file, so make sure to read over these options. By default, Laravel is configured to use the <code>file</code> cache driver, which stores the serialized, cached objects in the filesystem. For larger applications, it is recommended that you use an in-memory cache such as Memcached or APC. You may even configure multiple cache configurations for the same driver.</p>
+<h3 id="cache-prerequisites">Cache Prerequisites</h3>
 <h4 id="database">Database</h4>
 <p>When using the <code>database</code> cache driver, you will need to setup a table to contain the cache items. You'll find an example <code>Schema</code> declaration for the table below:</p>
 <pre><code>Schema::create(&#39;cache&#39;, function($table) {
@@ -125,11 +106,10 @@
     $table-&gt;text(&#39;value&#39;);
     $table-&gt;integer(&#39;expiration&#39;);
 });</code></pre>
-<blockquote>
-<p>{tip} You may also use the <code>php artisan cache:table</code> Artisan command to generate a migration with the proper schema.</p>
-</blockquote>
+<p>You may also use the <code>php artisan cache:table</code> Artisan command to generate a migration with the proper schema.</p>
 <h4 id="memcached">Memcached</h4>
-<p>Using the Memcached driver requires the <a href="https://pecl.php.net/package/memcached">Memcached PECL package</a> to be installed. You may list all of your Memcached servers in the <code>config/cache.php</code> configuration file:</p>
+<p>Using the Memcached cache requires the <a href="http://pecl.php.net/package/memcached">Memcached PECL package</a> to be installed.</p>
+<p>The default <a href="#configuration">configuration</a> uses TCP/IP based on <a href="http://php.net/manual/en/memcached.addserver.php">Memcached::addServer</a>:</p>
 <pre><code>&#39;memcached&#39; =&gt; [
     [
         &#39;host&#39; =&gt; &#39;127.0.0.1&#39;,
@@ -147,18 +127,19 @@
 ],</code></pre>
 <h4 id="redis">Redis</h4>
 <p>Before using a Redis cache with Laravel, you will need to install the <code>predis/predis</code> package (~1.0) via Composer.</p>
-<p>For more information on configuring Redis, consult its <a href="/docs/%7B%7Bversion%7D%7D/redis#configuration">Laravel documentation page</a>.</p>
+<p>For more information on configuring Redis, consult its <a href="redis.html#configuration">Laravel documentation page</a>.</p>
 <p><a name="cache-usage"></a></p>
 <h2 id="cache-usage">Cache Usage</h2>
 <p><a name="obtaining-a-cache-instance"></a></p>
 <h3 id="obtaining-a-cache-instance">Obtaining A Cache Instance</h3>
-<p>The <code>Illuminate\Contracts\Cache\Factory</code> and <code>Illuminate\Contracts\Cache\Repository</code> <a href="/docs/%7B%7Bversion%7D%7D/contracts">contracts</a> provide access to Laravel's cache services. The <code>Factory</code> contract provides access to all cache drivers defined for your application. The <code>Repository</code> contract is typically an implementation of the default cache driver for your application as specified by your <code>cache</code> configuration file.</p>
-<p>However, you may also use the <code>Cache</code> facade, which is what we will use throughout this documentation. The <code>Cache</code> facade provides convenient, terse access to the underlying implementations of the Laravel cache contracts:</p>
+<p>The <code>Illuminate\Contracts\Cache\Factory</code> and <code>Illuminate\Contracts\Cache\Repository</code> <a href="contracts.html">contracts</a> provide access to Laravel's cache services. The <code>Factory</code> contract provides access to all cache drivers defined for your application. The <code>Repository</code> contract is typically an implementation of the default cache driver for your application as specified by your <code>cache</code> configuration file.</p>
+<p>However, you may also use the <code>Cache</code> facade, which is what we will use throughout this documentation. The <code>Cache</code> facade provides convenient, terse access to the underlying implementations of the Laravel cache contracts.</p>
+<p>For example, let's import the <code>Cache</code> facade into a controller:</p>
 <pre><code>&lt;?php
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Cache;
+use Cache;
 
 class UserController extends Controller
 {
@@ -181,7 +162,7 @@ class UserController extends Controller
 Cache::store(&#39;redis&#39;)-&gt;put(&#39;bar&#39;, &#39;baz&#39;, 10);</code></pre>
 <p><a name="retrieving-items-from-the-cache"></a></p>
 <h3 id="retrieving-items-from-the-cache">Retrieving Items From The Cache</h3>
-<p>The <code>get</code> method on the <code>Cache</code> facade is used to retrieve items from the cache. If the item does not exist in the cache, <code>null</code> will be returned. If you wish, you may pass a second argument to the <code>get</code> method specifying the default value you wish to be returned if the item doesn't exist:</p>
+<p>The <code>get</code> method on the <code>Cache</code> facade is used to retrieve items from the cache. If the item does not exist in the cache, <code>null</code> will be returned. If you wish, you may pass a second argument to the <code>get</code> method specifying the custom default value you wish to be returned if the item doesn't exist:</p>
 <pre><code>$value = Cache::get(&#39;key&#39;);
 
 $value = Cache::get(&#39;key&#39;, &#39;default&#39;);</code></pre>
@@ -195,61 +176,50 @@ $value = Cache::get(&#39;key&#39;, &#39;default&#39;);</code></pre>
     //
 }</code></pre>
 <h4 id="incrementing-decrementing-values">Incrementing / Decrementing Values</h4>
-<p>The <code>increment</code> and <code>decrement</code> methods may be used to adjust the value of integer items in the cache. Both of these methods accept an optional second argument indicating the amount by which to increment or decrement the item's value:</p>
+<p>The <code>increment</code> and <code>decrement</code> methods may be used to adjust the value of integer items in the cache. Both of these methods optionally accept a second argument indicating the amount by which to increment or decrement the item's value:</p>
 <pre><code>Cache::increment(&#39;key&#39;);
+
 Cache::increment(&#39;key&#39;, $amount);
+
 Cache::decrement(&#39;key&#39;);
+
 Cache::decrement(&#39;key&#39;, $amount);</code></pre>
-<h4 id="retrieve-store">Retrieve &amp; Store</h4>
+<h4 id="retrieve-or-update">Retrieve Or Update</h4>
 <p>Sometimes you may wish to retrieve an item from the cache, but also store a default value if the requested item doesn't exist. For example, you may wish to retrieve all users from the cache or, if they don't exist, retrieve them from the database and add them to the cache. You may do this using the <code>Cache::remember</code> method:</p>
 <pre><code>$value = Cache::remember(&#39;users&#39;, $minutes, function() {
     return DB::table(&#39;users&#39;)-&gt;get();
 });</code></pre>
 <p>If the item does not exist in the cache, the <code>Closure</code> passed to the <code>remember</code> method will be executed and its result will be placed in the cache.</p>
-<h4 id="retrieve-delete">Retrieve &amp; Delete</h4>
-<p>If you need to retrieve an item from the cache and then delete the item, you may use the <code>pull</code> method. Like the <code>get</code> method, <code>null</code> will be returned if the item does not exist in the cache:</p>
+<p>You may also combine the <code>remember</code> and <code>forever</code> methods:</p>
+<pre><code>$value = Cache::rememberForever(&#39;users&#39;, function() {
+    return DB::table(&#39;users&#39;)-&gt;get();
+});</code></pre>
+<h4 id="retrieve-and-delete">Retrieve And Delete</h4>
+<p>If you need to retrieve an item from the cache and then delete it, you may use the <code>pull</code> method. Like the <code>get</code> method, <code>null</code> will be returned if the item does not exist in the cache:</p>
 <pre><code>$value = Cache::pull(&#39;key&#39;);</code></pre>
 <p><a name="storing-items-in-the-cache"></a></p>
 <h3 id="storing-items-in-the-cache">Storing Items In The Cache</h3>
-<p>You may use the <code>put</code> method on the <code>Cache</code> facade to store items in the cache. When you place an item in the cache, you need to specify the number of minutes for which the value should be cached:</p>
+<p>You may use the <code>put</code> method on the <code>Cache</code> facade to store items in the cache. When you place an item in the cache, you will need to specify the number of minutes for which the value should be cached:</p>
 <pre><code>Cache::put(&#39;key&#39;, &#39;value&#39;, $minutes);</code></pre>
-<p>Instead of passing the number of minutes as an integer, you may also pass a <code>DateTime</code> instance representing the expiration time of the cached item:</p>
+<p>Instead of passing the number of minutes until the item expires, you may also pass a PHP <code>DateTime</code> instance representing the expiration time of the cached item:</p>
 <pre><code>$expiresAt = Carbon::now()-&gt;addMinutes(10);
 
 Cache::put(&#39;key&#39;, &#39;value&#39;, $expiresAt);</code></pre>
-<h4 id="store-if-not-present">Store If Not Present</h4>
 <p>The <code>add</code> method will only add the item to the cache if it does not already exist in the cache store. The method will return <code>true</code> if the item is actually added to the cache. Otherwise, the method will return <code>false</code>:</p>
 <pre><code>Cache::add(&#39;key&#39;, &#39;value&#39;, $minutes);</code></pre>
-<h4 id="storing-items-forever">Storing Items Forever</h4>
-<p>The <code>forever</code> method may be used to store an item in the cache permanently. Since these items will not expire, they must be manually removed from the cache using the <code>forget</code> method:</p>
+<p>The <code>forever</code> method may be used to store an item in the cache permanently. These values must be manually removed from the cache using the <code>forget</code> method:</p>
 <pre><code>Cache::forever(&#39;key&#39;, &#39;value&#39;);</code></pre>
-<blockquote>
-<p>{tip} If you are using the Memcached driver, items that are stored &quot;forever&quot; may be removed when the cache reaches its size limit.</p>
-</blockquote>
 <p><a name="removing-items-from-the-cache"></a></p>
 <h3 id="removing-items-from-the-cache">Removing Items From The Cache</h3>
-<p>You may remove items from the cache using the <code>forget</code> method:</p>
+<p>You may remove items from the cache using the <code>forget</code> method on the <code>Cache</code> facade:</p>
 <pre><code>Cache::forget(&#39;key&#39;);</code></pre>
 <p>You may clear the entire cache using the <code>flush</code> method:</p>
 <pre><code>Cache::flush();</code></pre>
-<blockquote>
-<p>{note} Flushing the cache does not respect the cache prefix and will remove all entries from the cache. Consider this carefully when clearing a cache which is shared by other applications.</p>
-</blockquote>
-<p><a name="the-cache-helper"></a></p>
-<h3 id="the-cache-helper">The Cache Helper</h3>
-<p>In addition to using the <code>Cache</code> facade or <a href="/docs/%7B%7Bversion%7D%7D/contracts">cache contract</a>, you may also use the global <code>cache</code> function to retrieve and store data via the cache. When the <code>cache</code> function is called with a single, string argument, it will return the value of the given key:</p>
-<pre><code>$value = cache(&#39;key&#39;);</code></pre>
-<p>If you provide an array of key / value pairs and an expiration time to the function, it will store values in the cache for the specified duration:</p>
-<pre><code>cache([&#39;key&#39; =&gt; &#39;value&#39;], $minutes);
-
-cache([&#39;key&#39; =&gt; &#39;value&#39;], Carbon::now()-&gt;addSeconds(10));</code></pre>
-<blockquote>
-<p>{tip} When testing call to the global <code>cache</code> function, you may use the <code>Cache::shouldReceive</code> method just as if you were <a href="/docs/%7B%7Bversion%7D%7D/mocking#mocking-facades">testing a facade</a>.</p>
-</blockquote>
+<p>Flushing the cache <strong>does not</strong> respect the cache prefix and will remove all entries from the cache. Consider this carefully when clearing a cache which is shared by other applications.</p>
 <p><a name="cache-tags"></a></p>
 <h2 id="cache-tags">Cache Tags</h2>
 <blockquote>
-<p>{note} Cache tags are not supported when using the <code>file</code> or <code>database</code> cache drivers. Furthermore, when using multiple tags with caches that are stored &quot;forever&quot;, performance will be best with a driver such as <code>memcached</code>, which automatically purges stale records.</p>
+<p><strong>Note:</strong> Cache tags are not supported when using the <code>file</code> or <code>database</code> cache drivers. Furthermore, when using multiple tags with caches that are stored &quot;forever&quot;, performance will be best with a driver such as <code>memcached</code>, which automatically purges stale records.</p>
 </blockquote>
 <p><a name="storing-tagged-cache-items"></a></p>
 <h3 id="storing-tagged-cache-items">Storing Tagged Cache Items</h3>
@@ -257,58 +227,27 @@ cache([&#39;key&#39; =&gt; &#39;value&#39;], Carbon::now()-&gt;addSeconds(10));<
 <pre><code>Cache::tags([&#39;people&#39;, &#39;artists&#39;])-&gt;put(&#39;John&#39;, $john, $minutes);
 
 Cache::tags([&#39;people&#39;, &#39;authors&#39;])-&gt;put(&#39;Anne&#39;, $anne, $minutes);</code></pre>
+<p>However, you are not limited to the <code>put</code> method. You may use any cache storage method while working with tags.</p>
 <p><a name="accessing-tagged-cache-items"></a></p>
 <h3 id="accessing-tagged-cache-items">Accessing Tagged Cache Items</h3>
-<p>To retrieve a tagged cache item, pass the same ordered list of tags to the <code>tags</code> method and then call the <code>get</code> method with the key you wish to retrieve:</p>
+<p>To retrieve a tagged cache item, pass the same ordered list of tags to the <code>tags</code> method:</p>
 <pre><code>$john = Cache::tags([&#39;people&#39;, &#39;artists&#39;])-&gt;get(&#39;John&#39;);
 
 $anne = Cache::tags([&#39;people&#39;, &#39;authors&#39;])-&gt;get(&#39;Anne&#39;);</code></pre>
-<p><a name="removing-tagged-cache-items"></a></p>
-<h3 id="removing-tagged-cache-items">Removing Tagged Cache Items</h3>
 <p>You may flush all items that are assigned a tag or list of tags. For example, this statement would remove all caches tagged with either <code>people</code>, <code>authors</code>, or both. So, both <code>Anne</code> and <code>John</code> would be removed from the cache:</p>
 <pre><code>Cache::tags([&#39;people&#39;, &#39;authors&#39;])-&gt;flush();</code></pre>
-<p>In contrast, this statement would remove only caches tagged with <code>authors</code>, so <code>Anne</code> would be removed, but not <code>John</code>:</p>
+<p>In contrast, this statement would remove only caches tagged with <code>authors</code>, so <code>Anne</code> would be removed, but not <code>John</code>.</p>
 <pre><code>Cache::tags(&#39;authors&#39;)-&gt;flush();</code></pre>
 <p><a name="adding-custom-cache-drivers"></a></p>
 <h2 id="adding-custom-cache-drivers">Adding Custom Cache Drivers</h2>
-<p><a name="writing-the-driver"></a></p>
-<h3 id="writing-the-driver">Writing The Driver</h3>
-<p>To create our custom cache driver, we first need to implement the <code>Illuminate\Contracts\Cache\Store</code> <a href="/docs/%7B%7Bversion%7D%7D/contracts">contract</a> contract. So, a MongoDB cache implementation would look something like this:</p>
-<pre><code>&lt;?php
-
-namespace App\Extensions;
-
-use Illuminate\Contracts\Cache\Store;
-
-class MongoStore implements Store
-{
-    public function get($key) {}
-    public function many(array $keys);
-    public function put($key, $value, $minutes) {}
-    public function putMany(array $values, $minutes);
-    public function increment($key, $value = 1) {}
-    public function decrement($key, $value = 1) {}
-    public function forever($key, $value) {}
-    public function forget($key) {}
-    public function flush() {}
-    public function getPrefix() {}
-}</code></pre>
-<p>We just need to implement each of these methods using a MongoDB connection. For an example of how to implement each of these methods, take a look at the <code>Illuminate\Cache\MemcachedStore</code> in the framework source code. Once our implementation is complete, we can finish our custom driver registration.</p>
-<pre><code>Cache::extend(&#39;mongo&#39;, function($app) {
-    return Cache::repository(new MongoStore);
-});</code></pre>
-<blockquote>
-<p>{tip} If you're wondering where to put your custom cache driver code, you could create an <code>Extensions</code> namespace within your <code>app</code> directory. However, keep in mind that Laravel does not have a rigid application structure and you are free to organize your application according to your preferences.</p>
-</blockquote>
-<p><a name="registering-the-driver"></a></p>
-<h3 id="registering-the-driver">Registering The Driver</h3>
-<p>To register the custom cache driver with Laravel, we will use the <code>extend</code> method on the <code>Cache</code> facade. The call to <code>Cache::extend</code> could be done in the <code>boot</code> method of the default <code>App\Providers\AppServiceProvider</code> that ships with fresh Laravel applications, or you may create your own service provider to house the extension - just don't forget to register the provider in the <code>config/app.php</code> provider array:</p>
+<p>To extend the Laravel cache with a custom driver, we will use the <code>extend</code> method on the <code>Cache</code> facade, which is used to bind a custom driver resolver to the manager. Typically, this is done within a <a href="providers.html">service provider</a>.</p>
+<p>For example, to register a new cache driver named &quot;mongo&quot;:</p>
 <pre><code>&lt;?php
 
 namespace App\Providers;
 
+use Cache;
 use App\Extensions\MongoStore;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\ServiceProvider;
 
 class CacheServiceProvider extends ServiceProvider
@@ -335,11 +274,33 @@ class CacheServiceProvider extends ServiceProvider
         //
     }
 }</code></pre>
-<p>The first argument passed to the <code>extend</code> method is the name of the driver. This will correspond to your <code>driver</code> option in the <code>config/cache.php</code> configuration file. The second argument is a Closure that should return an <code>Illuminate\Cache\Repository</code> instance. The Closure will be passed an <code>$app</code> instance, which is an instance of the <a href="/docs/%7B%7Bversion%7D%7D/container">service container</a>.</p>
-<p>Once your extension is registered, simply update your <code>config/cache.php</code> configuration file's <code>driver</code> option to the name of your extension.</p>
+<p>The first argument passed to the <code>extend</code> method is the name of the driver. This will correspond to your <code>driver</code> option in the <code>config/cache.php</code> configuration file. The second argument is a Closure that should return an <code>Illuminate\Cache\Repository</code> instance. The Closure will be passed an <code>$app</code> instance, which is an instance of the <a href="container.html">service container</a>.</p>
+<p>The call to <code>Cache::extend</code> could be done in the <code>boot</code> method of the default <code>App\Providers\AppServiceProvider</code> that ships with fresh Laravel applications, or you may create your own service provider to house the extension - just don't forget to register the provider in the <code>config/app.php</code> provider array.</p>
+<p>To create our custom cache driver, we first need to implement the <code>Illuminate\Contracts\Cache\Store</code> <a href="contracts.html">contract</a> contract. So, our MongoDB cache implementation would look something like this:</p>
+<pre><code>&lt;?php
+
+namespace App\Extensions;
+
+class MongoStore implements \Illuminate\Contracts\Cache\Store
+{
+    public function get($key) {}
+    public function put($key, $value, $minutes) {}
+    public function increment($key, $value = 1) {}
+    public function decrement($key, $value = 1) {}
+    public function forever($key, $value) {}
+    public function forget($key) {}
+    public function flush() {}
+    public function getPrefix() {}
+}</code></pre>
+<p>We just need to implement each of these methods using a MongoDB connection. Once our implementation is complete, we can finish our custom driver registration:</p>
+<pre><code>Cache::extend(&#39;mongo&#39;, function($app) {
+    return Cache::repository(new MongoStore);
+});</code></pre>
+<p>Once your extension is complete, simply update your <code>config/cache.php</code> configuration file's <code>driver</code> option to the name of your extension.</p>
+<p>If you're wondering where to put your custom cache driver code, consider making it available on Packagist! Or, you could create an <code>Extensions</code> namespace within your <code>app</code> directory. However, keep in mind that Laravel does not have a rigid application structure and you are free to organize your application according to your preferences.</p>
 <p><a name="events"></a></p>
 <h2 id="events">Events</h2>
-<p>To execute code on every cache operation, you may listen for the <a href="/docs/%7B%7Bversion%7D%7D/events">events</a> fired by the cache. Typically, you should place these event listeners within your <code>EventServiceProvider</code>:</p>
+<p>To execute code on every cache operation, you may listen for the <a href="events.html">events</a> fired by the cache. Typically, you should place these event listeners within your <code>EventServiceProvider</code>:</p>
 <pre><code>/**
  * The event listener mappings for the application.
  *

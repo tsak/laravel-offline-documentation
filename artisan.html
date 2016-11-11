@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="generator" content="pandoc">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-  <title>Console Commands – </title>
+  <title>Artisan Console – </title>
   <style type="text/css">code{white-space: pre;}</style>
   <link rel="stylesheet" href="github-pandoc.css">
   <!--[if lt IE 9]>
@@ -13,14 +13,12 @@
   <script src="../../laravel-docs/site.js"></script>
 </head>
 <body>
-<aside><h1>Laravel 5.3 offline docs</h1><ul id="navigation">
-<li><a href="application-testing.html">Application Testing</a>
-<li><a href="artisan.html">Console Commands</a>
+<aside><h1>Laravel 5.2 offline docs</h1><ul id="navigation">
+<li><a href="artisan.html">Artisan Console</a>
 <li><a href="authentication.html">Authentication</a>
 <li><a href="authorization.html">Authorization</a>
 <li><a href="billing.html">Laravel Cashier</a>
 <li><a href="blade.html">Blade Templates</a>
-<li><a href="broadcasting.html">Event Broadcasting</a>
 <li><a href="cache.html">Cache</a>
 <li><a href="collections.html">Collections</a>
 <li><a href="configuration.html">Configuration</a>
@@ -28,12 +26,10 @@
 <li><a href="contracts.html">Contracts</a>
 <li><a href="contributing.html">Contribution Guidelines</a>
 <li><a href="contributions.html">Contribution Guide</a>
-<li><a href="controllers.html">Controllers</a>
-<li><a href="csrf.html">CSRF Protection</a>
-<li><a href="database-testing.html">Database Testing</a>
+<li><a href="controllers.html">HTTP Controllers</a>
 <li><a href="database.html">Database: Getting Started</a>
 <li><a href="documentation.html">Prologue</a>
-<li><a href="elixir.html">Compiling Assets (Laravel Elixir)</a>
+<li><a href="elixir.html">Laravel Elixir</a>
 <li><a href="eloquent-collections.html">Eloquent: Collections</a>
 <li><a href="eloquent-mutators.html">Eloquent: Mutators</a>
 <li><a href="eloquent-relationships.html">Eloquent: Relationships</a>
@@ -46,7 +42,6 @@
 </a>
 <li><a href="facades.html">Facades</a>
 <li><a href="filesystem.html">Filesystem / Cloud Storage</a>
-<li><a href="frontend.html">JavaScript & CSS</a>
 <li><a href="hashing.html">Hashing</a>
 <li><a href="helpers.html">Helper Functions</a>
 <li><a href="homestead.html">Laravel Homestead</a>
@@ -55,29 +50,25 @@
 <li><a href="localization.html">Localization</a>
 <li><a href="mail.html">Mail
 </a>
-<li><a href="middleware.html">Middleware</a>
+<li><a href="middleware.html">HTTP Middleware</a>
 <li><a href="migrations.html">Database: Migrations</a>
-<li><a href="mocking.html">Mocking</a>
-<li><a href="notifications.html">Notifications</a>
 <li><a href="packages.html">Package Development</a>
 <li><a href="pagination.html">Pagination</a>
-<li><a href="passport.html">API Authentication (Passport)</a>
-<li><a href="passwords.html">Resetting Passwords</a>
 <li><a href="providers.html">Service Providers</a>
 <li><a href="queries.html">Database: Query Builder</a>
 <li><a href="queues.html">Queues</a>
+<li><a href="quickstart-intermediate.html">Intermediate Task List</a>
+<li><a href="quickstart.html">Basic Task List</a>
 <li><a href="readme.html">Laravel Documentation</a>
-<li><a href="redirects.html">HTTP Redirects</a>
 <li><a href="redis.html">Redis</a>
 <li><a href="releases.html">Release Notes</a>
 <li><a href="requests.html">HTTP Requests</a>
 <li><a href="responses.html">HTTP Responses</a>
-<li><a href="routing.html">Routing</a>
+<li><a href="routing.html">HTTP Routing</a>
 <li><a href="scheduling.html">Task Scheduling</a>
-<li><a href="scout.html">Laravel Scout</a>
 <li><a href="seeding.html">Database: Seeding</a>
-<li><a href="session.html">HTTP Session</a>
-<li><a href="structure.html">Directory Structure</a>
+<li><a href="session.html">Session</a>
+<li><a href="structure.html">Application Structure</a>
 <li><a href="testing.html">Testing</a>
 <li><a href="upgrade.html">Upgrade Guide</a>
 <li><a href="valet.html">Laravel Valet</a>
@@ -85,54 +76,41 @@
 </a>
 <li><a href="views.html">Views</a>
 </ul></aside><article>
-<h1 id="console-commands">Console Commands</h1>
+<h1 id="artisan-console">Artisan Console</h1>
 <ul>
 <li><a href="#introduction">Introduction</a></li>
 <li><a href="#writing-commands">Writing Commands</a>
 <ul>
-<li><a href="#generating-commands">Generating Commands</a></li>
 <li><a href="#command-structure">Command Structure</a></li>
-<li><a href="#closure-commands">Closure Commands</a></li>
-</ul></li>
-<li><a href="#defining-input-expectations">Defining Input Expectations</a>
-<ul>
-<li><a href="#arguments">Arguments</a></li>
-<li><a href="#options">Options</a></li>
-<li><a href="#input-arrays">Input Arrays</a></li>
-<li><a href="#input-descriptions">Input Descriptions</a></li>
 </ul></li>
 <li><a href="#command-io">Command I/O</a>
 <ul>
+<li><a href="#defining-input-expectations">Defining Input Expectations</a></li>
 <li><a href="#retrieving-input">Retrieving Input</a></li>
 <li><a href="#prompting-for-input">Prompting For Input</a></li>
 <li><a href="#writing-output">Writing Output</a></li>
 </ul></li>
 <li><a href="#registering-commands">Registering Commands</a></li>
-<li><a href="#programatically-executing-commands">Programatically Executing Commands</a>
-<ul>
-<li><a href="#calling-commands-from-other-commands">Calling Commands From Other Commands</a></li>
-</ul></li>
+<li><a href="#calling-commands-via-code">Calling Commands Via Code</a></li>
 </ul>
 <p><a name="introduction"></a></p>
 <h2 id="introduction">Introduction</h2>
-<p>Artisan is the command-line interface included with Laravel. It provides a number of helpful commands that can assist you while you build your application. To view a list of all available Artisan commands, you may use the <code>list</code> command:</p>
+<p>Artisan is the name of the command-line interface included with Laravel. It provides a number of helpful commands for your use while developing your application. It is driven by the powerful Symfony Console component. To view a list of all available Artisan commands, you may use the <code>list</code> command:</p>
 <pre><code>php artisan list</code></pre>
 <p>Every command also includes a &quot;help&quot; screen which displays and describes the command's available arguments and options. To view a help screen, simply precede the name of the command with <code>help</code>:</p>
 <pre><code>php artisan help migrate</code></pre>
 <p><a name="writing-commands"></a></p>
 <h2 id="writing-commands">Writing Commands</h2>
-<p>In addition to the commands provided with Artisan, you may also build your own custom commands. Commands are typically stored in the <code>app/Console/Commands</code> directory; however, you are free to choose your own storage location as long as your commands can be loaded by Composer.</p>
-<p><a name="generating-commands"></a></p>
-<h3 id="generating-commands">Generating Commands</h3>
-<p>To create a new command, use the <code>make:command</code> Artisan command. This command will create a new command class in the <code>app/Console/Commands</code> directory. Don't worry if this directory does not exist in your application, since it will be created the first time you run the <code>make:command</code> Artisan command. The generated command will include the default set of properties and methods that are present on all commands:</p>
-<pre><code>php artisan make:command SendEmails</code></pre>
+<p>In addition to the commands provided with Artisan, you may also build your own custom commands for working with your application. You may store your custom commands in the <code>app/Console/Commands</code> directory; however, you are free to choose your own storage location as long as your commands can be autoloaded based on your <code>composer.json</code> settings.</p>
+<p>To create a new command, you may use the <code>make:console</code> Artisan command, which will generate a command stub to help you get started:</p>
+<pre><code>php artisan make:console SendEmails</code></pre>
+<p>The command above would generate a class at <code>app/Console/Commands/SendEmails.php</code>. When creating the command, the <code>--command</code> option may be used to assign the terminal command name:</p>
+<pre><code>php artisan make:console SendEmails --command=emails:send</code></pre>
 <p><a name="command-structure"></a></p>
 <h3 id="command-structure">Command Structure</h3>
-<p>After generating your command, you should fill in the <code>signature</code> and <code>description</code> properties of the class, which will be used when displaying your command on the <code>list</code> screen. The <code>handle</code> method will be called when your command is executed. You may place your command logic in this method.</p>
-<blockquote>
-<p>{tip} For greater code reuse, it is good practice to keep your console commands light and let them defer to application services to accomplish their tasks. In the example below, note that we inject a service class to do the &quot;heavy lifting&quot; of sending the e-mails.</p>
-</blockquote>
-<p>Let's take a look at an example command. Note that we are able to inject any dependencies we need into the command's constructor. The Laravel <a href="/docs/%7B%7Bversion%7D%7D/container">service container</a> will automatically inject all dependencies type-hinted in the constructor:</p>
+<p>Once your command is generated, you should fill out the <code>signature</code> and <code>description</code> properties of the class, which will be used when displaying your command on the <code>list</code> screen.</p>
+<p>The <code>handle</code> method will be called when your command is executed. You may place any command logic in this method. Let's take a look at an example command.</p>
+<p>Note that we are able to inject any dependencies we need into the command's constructor. The Laravel <a href="container.html">service container</a> will automatically inject all dependencies type-hinted in the constructor. For greater code reusability, it is good practice to keep your console commands light and let them defer to application services to accomplish their tasks.</p>
 <pre><code>&lt;?php
 
 namespace App\Console\Commands;
@@ -187,41 +165,11 @@ class SendEmails extends Command
         $this-&gt;drip-&gt;send(User::find($this-&gt;argument(&#39;user&#39;)));
     }
 }</code></pre>
-<p><a name="closure-commands"></a></p>
-<h3 id="closure-commands">Closure Commands</h3>
-<p>Closure based commands provide an alternative to defining console commands as classes. In the same way that route Closures are an alternative to controllers, think of command Closures as an alternative to command classes. Within the <code>commands</code> method of your <code>app/Console/Kernel.php</code> file, Laravel loads the <code>routes/console.php</code> file:</p>
-<pre><code>/**
- * Register the Closure based commands for the application.
- *
- * @return void
- */
-protected function commands()
-{
-    require base_path(&#39;routes/console.php&#39;);
-}</code></pre>
-<p>Even though this file does not define HTTP routes, it defines console based entry points (routes) into your application. Within this file, you may define all of your Closure based routes using the <code>Artisan::command</code> method. The <code>command</code> method accepts two arguments: the <a href="#defining-input-expectations">command signature</a> and a Closure which receives the commands arguments and options:</p>
-<pre><code>Artisan::command(&#39;build {project}&#39;, function ($project) {
-    $this-&gt;info(&quot;Building {$project}!&quot;);
-});</code></pre>
-<p>The Closure is bound to the underlying command instance, so you have full access to all of the helper methods you would typically be able to access on a full command class.</p>
-<h4 id="type-hinting-dependencies">Type-Hinting Dependencies</h4>
-<p>In addition to receiving your command's arguments and options, command Closures may also type-hint additional dependencies that you would like resolved out of the <a href="/docs/%7B%7Bversion%7D%7D/container">service container</a>:</p>
-<pre><code>use App\User;
-use App\DripEmailer;
-
-Artisan::command(&#39;email:send {user}&#39;, function (DripEmailer $drip, $user) {
-    $drip-&gt;send(User::find($user));
-});</code></pre>
-<h4 id="closure-command-descriptions">Closure Command Descriptions</h4>
-<p>When defining a Closure based command, you may use the <code>describe</code> method to add a description to the command. This description will be displayed when you run the <code>php artisan list</code> or <code>php artisan help</code> commands:</p>
-<pre><code>Artisan::command(&#39;build {project}&#39;, function ($project) {
-    $this-&gt;info(&quot;Building {$project}!&quot;);
-})-&gt;describe(&#39;Build the project&#39;);</code></pre>
+<p><a name="command-io"></a></p>
+<h2 id="command-io">Command I/O</h2>
 <p><a name="defining-input-expectations"></a></p>
-<h2 id="defining-input-expectations">Defining Input Expectations</h2>
+<h3 id="defining-input-expectations">Defining Input Expectations</h3>
 <p>When writing console commands, it is common to gather input from the user through arguments or options. Laravel makes it very convenient to define the input you expect from the user using the <code>signature</code> property on your commands. The <code>signature</code> property allows you to define the name, arguments, and options for the command in a single, expressive, route-like syntax.</p>
-<p><a name="arguments"></a></p>
-<h3 id="arguments">Arguments</h3>
 <p>All user supplied arguments and options are wrapped in curly braces. In the following example, the command defines one <strong>required</strong> argument: <code>user</code>:</p>
 <pre><code>/**
  * The name and signature of the console command.
@@ -229,15 +177,13 @@ Artisan::command(&#39;email:send {user}&#39;, function (DripEmailer $drip, $user
  * @var string
  */
 protected $signature = &#39;email:send {user}&#39;;</code></pre>
-<p>You may also make arguments optional and define default values for arguments:</p>
+<p>You may also make arguments optional and define default values for optional arguments:</p>
 <pre><code>// Optional argument...
 email:send {user?}
 
 // Optional argument with default value...
 email:send {user=foo}</code></pre>
-<p><a name="options"></a></p>
-<h3 id="options">Options</h3>
-<p>Options, like arguments, are another form of user input. Options are prefixed by two hyphens (<code>--</code>) when they are specified on the command line. There are two types of options: those that receive a value and those that don't. Options that don't receive a value serve as a boolean &quot;switch&quot;. Let's take a look at an example of this type of option:</p>
+<p>Options, like arguments, are also a form of user input. However, they are prefixed by two hyphens (<code>--</code>) when they are specified on the command line. We can define options in the signature like so:</p>
 <pre><code>/**
  * The name and signature of the console command.
  *
@@ -246,9 +192,7 @@ email:send {user=foo}</code></pre>
 protected $signature = &#39;email:send {user} {--queue}&#39;;</code></pre>
 <p>In this example, the <code>--queue</code> switch may be specified when calling the Artisan command. If the <code>--queue</code> switch is passed, the value of the option will be <code>true</code>. Otherwise, the value will be <code>false</code>:</p>
 <pre><code>php artisan email:send 1 --queue</code></pre>
-<p><a name="options-with-values"></a></p>
-<h4 id="options-with-values">Options With Values</h4>
-<p>Next, let's take a look at an option that expects a value. If the user must specify a value for an option, suffix the option name with a <code>=</code> sign:</p>
+<p>You may also specify that the option should be assigned a value by the user by suffixing the option name with a <code>=</code> sign, indicating that a value should be provided:</p>
 <pre><code>/**
  * The name and signature of the console command.
  *
@@ -257,25 +201,16 @@ protected $signature = &#39;email:send {user} {--queue}&#39;;</code></pre>
 protected $signature = &#39;email:send {user} {--queue=}&#39;;</code></pre>
 <p>In this example, the user may pass a value for the option like so:</p>
 <pre><code>php artisan email:send 1 --queue=default</code></pre>
-<p>You may assign default values to options by specifying the default value after the option name. If no option value is passed by the user, the default value will be used:</p>
+<p>You may also assign default values to options:</p>
 <pre><code>email:send {user} {--queue=default}</code></pre>
-<p><a name="option-shortcuts"></a></p>
-<h4 id="option-shortcuts">Option Shortcuts</h4>
 <p>To assign a shortcut when defining an option, you may specify it before the option name and use a | delimiter to separate the shortcut from the full option name:</p>
 <pre><code>email:send {user} {--Q|queue}</code></pre>
-<p><a name="input-arrays"></a></p>
-<h3 id="input-arrays">Input Arrays</h3>
-<p>If you would like to define arguments or options to expect array inputs, you may use the <code>*</code> character. First, let's take a look at an example that specifies an array argument:</p>
-<pre><code>email:send {user*}</code></pre>
-<p>When calling this method, the <code>user</code> arguments may be passed in order to the command line. For example, the following command will set the value of <code>user</code> to <code>['foo', 'bar']</code>:</p>
-<pre><code>php artisan email:send foo bar</code></pre>
-<p>When defining an option that expects an array input, each option value passed to the command should be prefixed with the option name:</p>
-<pre><code>email:send {user} {--id=*}
+<p>If you would like to define arguments or options to expect array inputs, you may use the <code>*</code> character:</p>
+<pre><code>email:send {user*}
 
-php artisan email:send --id=1 --id=2</code></pre>
-<p><a name="input-descriptions"></a></p>
-<h3 id="input-descriptions">Input Descriptions</h3>
-<p>You may assign descriptions to input arguments and options by separating the parameter from the description using a colon. If you need a little extra room to define your command, feel free to spread the definition across multiple lines:</p>
+email:send {user} {--id=*}</code></pre>
+<h4 id="input-descriptions">Input Descriptions</h4>
+<p>You may assign descriptions to input arguments and options by separating the parameter from the description using a colon:</p>
 <pre><code>/**
  * The name and signature of the console command.
  *
@@ -284,8 +219,6 @@ php artisan email:send --id=1 --id=2</code></pre>
 protected $signature = &#39;email:send
                         {user : The ID of the user}
                         {--queue= : Whether the job should be queued}&#39;;</code></pre>
-<p><a name="command-io"></a></p>
-<h2 id="command-io">Command I/O</h2>
 <p><a name="retrieving-input"></a></p>
 <h3 id="retrieving-input">Retrieving Input</h3>
 <p>While your command is executing, you will obviously need to access the values for the arguments and options accepted by your command. To do so, you may use the <code>argument</code> and <code>option</code> methods:</p>
@@ -300,14 +233,14 @@ public function handle()
 
     //
 }</code></pre>
-<p>If you need to retrieve all of the arguments as an <code>array</code>, call the <code>arguments</code> method:</p>
-<pre><code>$arguments = $this-&gt;arguments();</code></pre>
-<p>Options may be retrieved just as easily as arguments using the <code>option</code> method. To retrieve all of the options as an array, call the <code>options</code> method:</p>
+<p>If you need to retrieve all of the arguments as an <code>array</code>, call <code>argument</code> with no parameters:</p>
+<pre><code>$arguments = $this-&gt;argument();</code></pre>
+<p>Options may be retrieved just as easily as arguments using the <code>option</code> method. Like the <code>argument</code> method, you may call <code>option</code> without any parameters in order to retrieve all of the options as an <code>array</code>:</p>
 <pre><code>// Retrieve a specific option...
 $queueName = $this-&gt;option(&#39;queue&#39;);
 
 // Retrieve all options...
-$options = $this-&gt;options();</code></pre>
+$options = $this-&gt;option();</code></pre>
 <p>If the argument or option does not exist, <code>null</code> will be returned.</p>
 <p><a name="prompting-for-input"></a></p>
 <h3 id="prompting-for-input">Prompting For Input</h3>
@@ -328,15 +261,15 @@ public function handle()
 <pre><code>if ($this-&gt;confirm(&#39;Do you wish to continue? [y|N]&#39;)) {
     //
 }</code></pre>
-<h4 id="auto-completion">Auto-Completion</h4>
-<p>The <code>anticipate</code> method can be used to provide auto-completion for possible choices. The user can still choose any answer, regardless of the auto-completion hints:</p>
+<h4 id="giving-the-user-a-choice">Giving The User A Choice</h4>
+<p>The <code>anticipate</code> method can be used to provide autocompletion for possible choices. The user can still choose any answer, regardless of the auto-completion hints:</p>
 <pre><code>$name = $this-&gt;anticipate(&#39;What is your name?&#39;, [&#39;Taylor&#39;, &#39;Dayle&#39;]);</code></pre>
-<h4 id="multiple-choice-questions">Multiple Choice Questions</h4>
-<p>If you need to give the user a predefined set of choices, you may use the <code>choice</code> method. You may set the default value to be returned if no option is chosen:</p>
+<p>If you need to give the user a predefined set of choices, you may use the <code>choice</code> method. The user chooses the index of the answer, but the value of the answer will be returned to you. You may set the default value to be returned if nothing is chosen:</p>
 <pre><code>$name = $this-&gt;choice(&#39;What is your name?&#39;, [&#39;Taylor&#39;, &#39;Dayle&#39;], $default);</code></pre>
 <p><a name="writing-output"></a></p>
 <h3 id="writing-output">Writing Output</h3>
-<p>To send output to the console, use the <code>line</code>, <code>info</code>, <code>comment</code>, <code>question</code> and <code>error</code> methods. Each of these methods will use appropriate ANSI colors for their purpose. For example, let's display some general information to the user. Typically, the <code>info</code> method will display in the console as green text:</p>
+<p>To send output to the console, use the <code>line</code>, <code>info</code>, <code>comment</code>, <code>question</code> and <code>error</code> methods. Each of these methods will use the appropriate ANSI colors for their purpose.</p>
+<p>To display an information message to the user, use the <code>info</code> method. Typically, this will display in the console as green text:</p>
 <pre><code>/**
  * Execute the console command.
  *
@@ -348,7 +281,7 @@ public function handle()
 }</code></pre>
 <p>To display an error message, use the <code>error</code> method. Error message text is typically displayed in red:</p>
 <pre><code>$this-&gt;error(&#39;Something went wrong!&#39;);</code></pre>
-<p>If you would like to display plain, uncolored console output, use the <code>line</code> method:</p>
+<p>If you want to display plain console output, use the <code>line</code> method. The <code>line</code> method does not receive any unique coloration:</p>
 <pre><code>$this-&gt;line(&#39;Display this on the screen&#39;);</code></pre>
 <h4 id="table-layouts">Table Layouts</h4>
 <p>The <code>table</code> method makes it easy to correctly format multiple rows / columns of data. Just pass in the headers and rows to the method. The width and height will be dynamically calculated based on the given data:</p>
@@ -358,7 +291,7 @@ $users = App\User::all([&#39;name&#39;, &#39;email&#39;])-&gt;toArray();
 
 $this-&gt;table($headers, $users);</code></pre>
 <h4 id="progress-bars">Progress Bars</h4>
-<p>For long running tasks, it could be helpful to show a progress indicator. Using the output object, we can start, advance and stop the Progress Bar. First, define the total number of steps the process will iterate through. Then, advance the Progress Bar after processing each item:</p>
+<p>For long running tasks, it could be helpful to show a progress indicator. Using the output object, we can start, advance and stop the Progress Bar. You have to define the number of steps when you start the progress, then advance the Progress Bar after each step:</p>
 <pre><code>$users = App\User::all();
 
 $bar = $this-&gt;output-&gt;createProgressBar(count($users));
@@ -370,15 +303,16 @@ foreach ($users as $user) {
 }
 
 $bar-&gt;finish();</code></pre>
-<p>For more advanced options, check out the <a href="https://symfony.com/doc/2.7/components/console/helpers/progressbar.html">Symfony Progress Bar component documentation</a>.</p>
+<p>For more advanced options, check out the <a href="http://symfony.com/doc/2.7/components/console/helpers/progressbar.html">Symfony Progress Bar component documentation</a>.</p>
 <p><a name="registering-commands"></a></p>
 <h2 id="registering-commands">Registering Commands</h2>
-<p>Once your command is finished, you need to register it with Artisan. All commands are registered in the <code>app/Console/Kernel.php</code> file. Within this file, you will find a list of commands in the <code>commands</code> property. To register your command, simply add the command's class name to the list. When Artisan boots, all the commands listed in this property will be resolved by the <a href="/docs/%7B%7Bversion%7D%7D/container">service container</a> and registered with Artisan:</p>
+<p>Once your command is finished, you need to register it with Artisan so it will be available for use. This is done within the <code>app/Console/Kernel.php</code> file.</p>
+<p>Within this file, you will find a list of commands in the <code>commands</code> property. To register your command, simply add the class name to the list. When Artisan boots, all the commands listed in this property will be resolved by the <a href="container.html">service container</a> and registered with Artisan:</p>
 <pre><code>protected $commands = [
     Commands\SendEmails::class
 ];</code></pre>
-<p><a name="programatically-executing-commands"></a></p>
-<h2 id="programatically-executing-commands">Programatically Executing Commands</h2>
+<p><a name="calling-commands-via-code"></a></p>
+<h2 id="calling-commands-via-code">Calling Commands Via Code</h2>
 <p>Sometimes you may wish to execute an Artisan command outside of the CLI. For example, you may wish to fire an Artisan command from a route or controller. You may use the <code>call</code> method on the <code>Artisan</code> facade to accomplish this. The <code>call</code> method accepts the name of the command as the first argument, and an array of command parameters as the second argument. The exit code will be returned:</p>
 <pre><code>Route::get(&#39;/foo&#39;, function () {
     $exitCode = Artisan::call(&#39;email:send&#39;, [
@@ -387,7 +321,7 @@ $bar-&gt;finish();</code></pre>
 
     //
 });</code></pre>
-<p>Using the <code>queue</code> method on the <code>Artisan</code> facade, you may even queue Artisan commands so they are processed in the background by your <a href="/docs/%7B%7Bversion%7D%7D/queues">queue workers</a>. Before using this method, make sure you have configured your queue and are running a queue listener:</p>
+<p>Using the <code>queue</code> method on the <code>Artisan</code> facade, you may even queue Artisan commands so they are processed in the background by your <a href="queues.html">queue workers</a>:</p>
 <pre><code>Route::get(&#39;/foo&#39;, function () {
     Artisan::queue(&#39;email:send&#39;, [
         &#39;user&#39; =&gt; 1, &#39;--queue&#39; =&gt; &#39;default&#39;
@@ -395,11 +329,10 @@ $bar-&gt;finish();</code></pre>
 
     //
 });</code></pre>
-<p>If you need to specify the value of an option that does not accept string values, such as the <code>--force</code> flag on the <code>migrate:refresh</code> command, you may pass <code>true</code> or <code>false</code>:</p>
+<p>If you need to specify the value of an option that does not accept string values, such as the <code>--force</code> flag on the <code>migrate:refresh</code> command, you may pass a boolean <code>true</code> or <code>false</code>:</p>
 <pre><code>$exitCode = Artisan::call(&#39;migrate:refresh&#39;, [
     &#39;--force&#39; =&gt; true,
 ]);</code></pre>
-<p><a name="calling-commands-from-other-commands"></a></p>
 <h3 id="calling-commands-from-other-commands">Calling Commands From Other Commands</h3>
 <p>Sometimes you may wish to call other commands from an existing Artisan command. You may do so using the <code>call</code> method. This <code>call</code> method accepts the command name and an array of command parameters:</p>
 <pre><code>/**

@@ -13,14 +13,12 @@
   <script src="../../laravel-docs/site.js"></script>
 </head>
 <body>
-<aside><h1>Laravel 5.3 offline docs</h1><ul id="navigation">
-<li><a href="application-testing.html">Application Testing</a>
-<li><a href="artisan.html">Console Commands</a>
+<aside><h1>Laravel 5.2 offline docs</h1><ul id="navigation">
+<li><a href="artisan.html">Artisan Console</a>
 <li><a href="authentication.html">Authentication</a>
 <li><a href="authorization.html">Authorization</a>
 <li><a href="billing.html">Laravel Cashier</a>
 <li><a href="blade.html">Blade Templates</a>
-<li><a href="broadcasting.html">Event Broadcasting</a>
 <li><a href="cache.html">Cache</a>
 <li><a href="collections.html">Collections</a>
 <li><a href="configuration.html">Configuration</a>
@@ -28,12 +26,10 @@
 <li><a href="contracts.html">Contracts</a>
 <li><a href="contributing.html">Contribution Guidelines</a>
 <li><a href="contributions.html">Contribution Guide</a>
-<li><a href="controllers.html">Controllers</a>
-<li><a href="csrf.html">CSRF Protection</a>
-<li><a href="database-testing.html">Database Testing</a>
+<li><a href="controllers.html">HTTP Controllers</a>
 <li><a href="database.html">Database: Getting Started</a>
 <li><a href="documentation.html">Prologue</a>
-<li><a href="elixir.html">Compiling Assets (Laravel Elixir)</a>
+<li><a href="elixir.html">Laravel Elixir</a>
 <li><a href="eloquent-collections.html">Eloquent: Collections</a>
 <li><a href="eloquent-mutators.html">Eloquent: Mutators</a>
 <li><a href="eloquent-relationships.html">Eloquent: Relationships</a>
@@ -46,7 +42,6 @@
 </a>
 <li><a href="facades.html">Facades</a>
 <li><a href="filesystem.html">Filesystem / Cloud Storage</a>
-<li><a href="frontend.html">JavaScript & CSS</a>
 <li><a href="hashing.html">Hashing</a>
 <li><a href="helpers.html">Helper Functions</a>
 <li><a href="homestead.html">Laravel Homestead</a>
@@ -55,29 +50,25 @@
 <li><a href="localization.html">Localization</a>
 <li><a href="mail.html">Mail
 </a>
-<li><a href="middleware.html">Middleware</a>
+<li><a href="middleware.html">HTTP Middleware</a>
 <li><a href="migrations.html">Database: Migrations</a>
-<li><a href="mocking.html">Mocking</a>
-<li><a href="notifications.html">Notifications</a>
 <li><a href="packages.html">Package Development</a>
 <li><a href="pagination.html">Pagination</a>
-<li><a href="passport.html">API Authentication (Passport)</a>
-<li><a href="passwords.html">Resetting Passwords</a>
 <li><a href="providers.html">Service Providers</a>
 <li><a href="queries.html">Database: Query Builder</a>
 <li><a href="queues.html">Queues</a>
+<li><a href="quickstart-intermediate.html">Intermediate Task List</a>
+<li><a href="quickstart.html">Basic Task List</a>
 <li><a href="readme.html">Laravel Documentation</a>
-<li><a href="redirects.html">HTTP Redirects</a>
 <li><a href="redis.html">Redis</a>
 <li><a href="releases.html">Release Notes</a>
 <li><a href="requests.html">HTTP Requests</a>
 <li><a href="responses.html">HTTP Responses</a>
-<li><a href="routing.html">Routing</a>
+<li><a href="routing.html">HTTP Routing</a>
 <li><a href="scheduling.html">Task Scheduling</a>
-<li><a href="scout.html">Laravel Scout</a>
 <li><a href="seeding.html">Database: Seeding</a>
-<li><a href="session.html">HTTP Session</a>
-<li><a href="structure.html">Directory Structure</a>
+<li><a href="session.html">Session</a>
+<li><a href="structure.html">Application Structure</a>
 <li><a href="testing.html">Testing</a>
 <li><a href="upgrade.html">Upgrade Guide</a>
 <li><a href="valet.html">Laravel Valet</a>
@@ -98,7 +89,7 @@
 <li><a href="#included-authenticating">Authenticating</a></li>
 <li><a href="#retrieving-the-authenticated-user">Retrieving The Authenticated User</a></li>
 <li><a href="#protecting-routes">Protecting Routes</a></li>
-<li><a href="#login-throttling">Login Throttling</a></li>
+<li><a href="#authentication-throttling">Authentication Throttling</a></li>
 </ul></li>
 <li><a href="#authenticating-users">Manually Authenticating Users</a>
 <ul>
@@ -109,76 +100,63 @@
 <ul>
 <li><a href="#stateless-http-basic-authentication">Stateless HTTP Basic Authentication</a></li>
 </ul></li>
+<li><a href="#resetting-passwords">Resetting Passwords</a>
+<ul>
+<li><a href="#resetting-database">Database Considerations</a></li>
+<li><a href="#resetting-routing">Routing</a></li>
+<li><a href="#resetting-views">Views</a></li>
+<li><a href="#after-resetting-passwords">After Resetting Passwords</a></li>
+<li><a href="#password-customization">Customization</a></li>
+</ul></li>
 <li><a href="https://github.com/laravel/socialite">Social Authentication</a></li>
 <li><a href="#adding-custom-guards">Adding Custom Guards</a></li>
-<li><a href="#adding-custom-user-providers">Adding Custom User Providers</a>
-<ul>
-<li><a href="#the-user-provider-contract">The User Provider Contract</a></li>
-<li><a href="#the-authenticatable-contract">The Authenticatable Contract</a></li>
-</ul></li>
+<li><a href="#adding-custom-user-providers">Adding Custom User Providers</a></li>
 <li><a href="#events">Events</a></li>
 </ul>
 <p><a name="introduction"></a></p>
 <h2 id="introduction">Introduction</h2>
-<blockquote>
-<p>{tip} <strong>Want to get started fast?</strong> Just run <code>php artisan make:auth</code> and <code>php artisan migrate</code> in a fresh Laravel application. Then, navigate your browser to <code>http://your-app.dev/register</code> or any other URL that is assigned to your application. These two commands will take care of scaffolding your entire authentication system!</p>
-</blockquote>
 <p>Laravel makes implementing authentication very simple. In fact, almost everything is configured for you out of the box. The authentication configuration file is located at <code>config/auth.php</code>, which contains several well documented options for tweaking the behavior of the authentication services.</p>
-<p>At its core, Laravel's authentication facilities are made up of &quot;guards&quot; and &quot;providers&quot;. Guards define how users are authenticated for each request. For example, Laravel ships with a <code>session</code> guard which maintains state using session storage and cookies.</p>
+<p>At its core, Laravel's authentication facilities are made up of &quot;guards&quot; and &quot;providers&quot;. Guards define how users are authenticated for each request. For example, Laravel ships with a <code>session</code> guard which maintains state using session storage and cookies and a <code>token</code> guard, which authenticates users using a &quot;API token&quot; that is passed with each request.</p>
 <p>Providers define how users are retrieved from your persistent storage. Laravel ships with support for retrieving users using Eloquent and the database query builder. However, you are free to define additional providers as needed for your application.</p>
-<p>Don't worry if this all sounds confusing now! Many applications will never need to modify the default authentication configuration.</p>
+<p>Don't worry if this all sounds confusing now! Most applications will never need to modify the default authentication configuration.</p>
 <p><a name="introduction-database-considerations"></a></p>
 <h3 id="database-considerations">Database Considerations</h3>
-<p>By default, Laravel includes an <code>App\User</code> <a href="/docs/%7B%7Bversion%7D%7D/eloquent">Eloquent model</a> in your <code>app</code> directory. This model may be used with the default Eloquent authentication driver. If your application is not using Eloquent, you may use the <code>database</code> authentication driver which uses the Laravel query builder.</p>
-<p>When building the database schema for the <code>App\User</code> model, make sure the password column is at least 60 characters in length. Maintaining the default string column length of 255 characters would be a good choice.</p>
-<p>Also, you should verify that your <code>users</code> (or equivalent) table contains a nullable, string <code>remember_token</code> column of 100 characters. This column will be used to store a token for users that select the &quot;remember me&quot; option when logging into your application.</p>
+<p>By default, Laravel includes an <code>App\User</code> <a href="eloquent.html">Eloquent model</a> in your <code>app</code> directory. This model may be used with the default Eloquent authentication driver. If your application is not using Eloquent, you may use the <code>database</code> authentication driver which uses the Laravel query builder.</p>
+<p>When building the database schema for the <code>App\User</code> model, make sure the password column is at least 60 characters in length, the default of 255 would be a good choice.</p>
+<p>Also, you should verify that your <code>users</code> (or equivalent) table contains a nullable, string <code>remember_token</code> column of 100 characters. This column will be used to store a token for &quot;remember me&quot; sessions being maintained by your application. This can be done by using <code>$table-&gt;rememberToken();</code> in a migration.</p>
 <p><a name="authentication-quickstart"></a></p>
 <h2 id="authentication-quickstart">Authentication Quickstart</h2>
-<p>Laravel ships with several pre-built authentication controllers, which are located in the <code>App\Http\Controllers\Auth</code> namespace. The <code>RegisterController</code> handles new user registration, the <code>LoginController</code> handles authentication, the <code>ForgotPasswordController</code> handles e-mailing links for resetting passwords, and the <code>ResetPasswordController</code> contains the logic to reset passwords. Each of these controllers uses a trait to include their necessary methods. For many applications, you will not need to modify these controllers at all.</p>
+<p>Laravel ships with two authentication controllers out of the box, which are located in the <code>App\Http\Controllers\Auth</code> namespace. The <code>AuthController</code> handles new user registration and authentication, while the <code>PasswordController</code> contains the logic to help existing users reset their forgotten passwords. Each of these controllers uses a trait to include their necessary methods. For many applications, you will not need to modify these controllers at all.</p>
 <p><a name="included-routing"></a></p>
 <h3 id="routing">Routing</h3>
 <p>Laravel provides a quick way to scaffold all of the routes and views you need for authentication using one simple command:</p>
 <pre><code>php artisan make:auth</code></pre>
-<p>This command should be used on fresh applications and will install a layout view, registration and login views, as well as routes for all authentication end-points. A <code>HomeController</code> will also be generated to handle post-login requests to your application's dashboard.</p>
+<p>This command should be used on fresh applications and will install registration and login views, as well as routes for all authentication end-points. A <code>HomeController</code> will also be generated, which serves post-login requests to your application's dashboard. However, you are free to customize or even remove this controller based on the needs of your application.</p>
 <p><a name="included-views"></a></p>
 <h3 id="views">Views</h3>
 <p>As mentioned in the previous section, the <code>php artisan make:auth</code> command will create all of the views you need for authentication and place them in the <code>resources/views/auth</code> directory.</p>
 <p>The <code>make:auth</code> command will also create a <code>resources/views/layouts</code> directory containing a base layout for your application. All of these views use the Bootstrap CSS framework, but you are free to customize them however you wish.</p>
 <p><a name="included-authenticating"></a></p>
 <h3 id="authenticating">Authenticating</h3>
-<p>Now that you have routes and views setup for the included authentication controllers, you are ready to register and authenticate new users for your application! You may simply access your application in a browser since the authentication controllers already contain the logic (via their traits) to authenticate existing users and store new users in the database.</p>
+<p>Now that you have routes and views setup for the included authentication controllers, you are ready to register and authenticate new users for your application! You may simply access your application in a browser. The authentication controllers already contain the logic (via their traits) to authenticate existing users and store new users in the database.</p>
 <h4 id="path-customization">Path Customization</h4>
-<p>When a user is successfully authenticated, they will be redirected to the <code>/home</code> URI. You can customize the post-authentication redirect location by defining a <code>redirectTo</code> property on the <code>LoginController</code>, <code>RegisterController</code>, and <code>ResetPasswordController</code>:</p>
-<pre><code>protected $redirectTo = &#39;/&#39;;</code></pre>
-<p>When a user is not successfully authenticated, they will be automatically redirected back to the login form.</p>
-<h4 id="username-customization">Username Customization</h4>
-<p>By default, Laravel uses the <code>email</code> field for authentication. If you would like to customize this, you may define a <code>username</code> method on your <code>LoginController</code>:</p>
-<pre><code>public function username()
-{
-    return &#39;username&#39;;
-}</code></pre>
+<p>When a user is successfully authenticated, they will be redirected to the <code>/</code> URI. You can customize the post-authentication redirect location by defining a <code>redirectTo</code> property on the <code>AuthController</code>:</p>
+<pre><code>protected $redirectTo = &#39;/home&#39;;</code></pre>
+<p>When a user is not successfully authenticated, they will be redirected back to the login form location automatically.</p>
+<p>To customize where a user is redirected after logging out of the application, you may define a <code>redirectAfterLogout</code> property on the <code>AuthController</code>:</p>
+<pre><code>protected $redirectAfterLogout = &#39;/login&#39;;</code></pre>
+<p>If this property is not present, the user will be redirected to the <code>/</code> URI.</p>
 <h4 id="guard-customization">Guard Customization</h4>
-<p>You may also customize the &quot;guard&quot; that is used to authenticate and register users. To get started, define a <code>guard</code> method on your <code>LoginController</code>, <code>RegisterController</code>, and <code>ResetPasswordController</code>. The method should return a guard instance:</p>
-<pre><code>use Illuminate\Support\Facades\Auth;
-
-protected function guard()
-{
-    return Auth::guard(&#39;guard-name&#39;);
-}</code></pre>
+<p>You may also customize the &quot;guard&quot; that is used to authenticate users. To get started, define a <code>guard</code> property on your <code>AuthController</code>. The value of this property should correspond with one of the guards configured in your <code>auth.php</code> configuration file:</p>
+<pre><code>protected $guard = &#39;admin&#39;;</code></pre>
 <h4 id="validation-storage-customization">Validation / Storage Customization</h4>
-<p>To modify the form fields that are required when a new user registers with your application, or to customize how new users are stored into your database, you may modify the <code>RegisterController</code> class. This class is responsible for validating and creating new users of your application.</p>
-<p>The <code>validator</code> method of the <code>RegisterController</code> contains the validation rules for new users of the application. You are free to modify this method as you wish.</p>
-<p>The <code>create</code> method of the <code>RegisterController</code> is responsible for creating new <code>App\User</code> records in your database using the <a href="/docs/%7B%7Bversion%7D%7D/eloquent">Eloquent ORM</a>. You are free to modify this method according to the needs of your database.</p>
+<p>To modify the form fields that are required when a new user registers with your application, or to customize how new user records are inserted into your database, you may modify the <code>AuthController</code> class. This class is responsible for validating and creating new users of your application.</p>
+<p>The <code>validator</code> method of the <code>AuthController</code> contains the validation rules for new users of the application. You are free to modify this method as you wish.</p>
+<p>The <code>create</code> method of the <code>AuthController</code> is responsible for creating new <code>App\User</code> records in your database using the <a href="eloquent.html">Eloquent ORM</a>. You are free to modify this method according to the needs of your database.</p>
 <p><a name="retrieving-the-authenticated-user"></a></p>
 <h3 id="retrieving-the-authenticated-user">Retrieving The Authenticated User</h3>
 <p>You may access the authenticated user via the <code>Auth</code> facade:</p>
-<pre><code>use Illuminate\Support\Facades\Auth;
-
-// Get the currently authenticated user...
-$user = Auth::user();
-
-// Get the currently authenticated user&#39;s ID...
-$id = Auth::id();</code></pre>
+<pre><code>$user = Auth::user();</code></pre>
 <p>Alternatively, once a user is authenticated, you may access the authenticated user via an <code>Illuminate\Http\Request</code> instance. Remember, type-hinted classes will automatically be injected into your controller methods:</p>
 <pre><code>&lt;?php
 
@@ -194,52 +172,76 @@ class ProfileController extends Controller
      * @param  Request  $request
      * @return Response
      */
-    public function update(Request $request)
+    public function updateProfile(Request $request)
     {
-        // $request-&gt;user() returns an instance of the authenticated user...
+        if ($request-&gt;user()) {
+            // $request-&gt;user() returns an instance of the authenticated user...
+        }
     }
 }</code></pre>
 <h4 id="determining-if-the-current-user-is-authenticated">Determining If The Current User Is Authenticated</h4>
 <p>To determine if the user is already logged into your application, you may use the <code>check</code> method on the <code>Auth</code> facade, which will return <code>true</code> if the user is authenticated:</p>
-<pre><code>use Illuminate\Support\Facades\Auth;
-
-if (Auth::check()) {
+<pre><code>if (Auth::check()) {
     // The user is logged in...
 }</code></pre>
-<blockquote>
-<p>{tip} Even though it is possible to determine if a user is authenticated using the <code>check</code> method, you will typically use a middleware to verify that the user is authenticated before allowing the user access to certain routes / controllers. To learn more about this, check out the documentation on <a href="/docs/%7B%7Bversion%7D%7D/authentication#protecting-routes">protecting routes</a>.</p>
-</blockquote>
+<p>However, you may use middleware to verify that the user is authenticated before allowing the user access to certain routes / controllers. To learn more about this, check out the documentation on <a href="authentication.html#protecting-routes">protecting routes</a>.</p>
 <p><a name="protecting-routes"></a></p>
 <h3 id="protecting-routes">Protecting Routes</h3>
-<p><a href="/docs/%7B%7Bversion%7D%7D/middleware">Route middleware</a> can be used to only allow authenticated users to access a given route. Laravel ships with an <code>auth</code> middleware, which is defined at <code>Illuminate\Auth\Middleware\Authenticate</code>. Since this middleware is already registered in your HTTP kernel, all you need to do is attach the middleware to a route definition:</p>
-<pre><code>Route::get(&#39;profile&#39;, function () {
+<p><a href="middleware.html">Route middleware</a> can be used to allow only authenticated users to access a given route. Laravel ships with the <code>auth</code> middleware, which is defined in <code>app\Http\Middleware\Authenticate.php</code>. All you need to do is attach the middleware to a route definition:</p>
+<pre><code>// Using A Route Closure...
+
+Route::get(&#39;profile&#39;, [&#39;middleware&#39; =&gt; &#39;auth&#39;, function() {
     // Only authenticated users may enter...
-})-&gt;middleware(&#39;auth&#39;);</code></pre>
-<p>Of course, if you are using <a href="/docs/%7B%7Bversion%7D%7D/controllers">controllers</a>, you may call the <code>middleware</code> method from the controller's constructor instead of attaching it in the route definition directly:</p>
+}]);
+
+// Using A Controller...
+
+Route::get(&#39;profile&#39;, [
+    &#39;middleware&#39; =&gt; &#39;auth&#39;,
+    &#39;uses&#39; =&gt; &#39;ProfileController@show&#39;
+]);</code></pre>
+<p>Of course, if you are using <a href="controllers.html">controller classes</a>, you may call the <code>middleware</code> method from the controller's constructor instead of attaching it in the route definition directly:</p>
 <pre><code>public function __construct()
 {
     $this-&gt;middleware(&#39;auth&#39;);
 }</code></pre>
 <h4 id="specifying-a-guard">Specifying A Guard</h4>
-<p>When attaching the <code>auth</code> middleware to a route, you may also specify which guard should be used to authenticate the user. The guard specified should correspond to one of the keys in the <code>guards</code> array of your <code>auth.php</code> configuration file:</p>
-<pre><code>public function __construct()
+<p>When attaching the <code>auth</code> middleware to a route, you may also specify which guard should be used to perform the authentication:</p>
+<pre><code>Route::get(&#39;profile&#39;, [
+    &#39;middleware&#39; =&gt; &#39;auth:api&#39;,
+    &#39;uses&#39; =&gt; &#39;ProfileController@show&#39;
+]);</code></pre>
+<p>The guard specified should correspond to one of the keys in the <code>guards</code> array of your <code>auth.php</code> configuration file.</p>
+<p><a name="authentication-throttling"></a></p>
+<h3 id="authentication-throttling">Authentication Throttling</h3>
+<p>If you are using Laravel's built-in <code>AuthController</code> class, the <code>Illuminate\Foundation\Auth\ThrottlesLogins</code> trait may be used to throttle login attempts to your application. By default, the user will not be able to login for one minute if they fail to provide the correct credentials after several attempts. The throttling is unique to the user's username / e-mail address and their IP address:</p>
+<pre><code>&lt;?php
+
+namespace App\Http\Controllers\Auth;
+
+use App\User;
+use Validator;
+use App\Http\Controllers\Controller;
+use Illuminate\Foundation\Auth\ThrottlesLogins;
+use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
+
+class AuthController extends Controller
 {
-    $this-&gt;middleware(&#39;auth:api&#39;);
+    use AuthenticatesAndRegistersUsers, ThrottlesLogins;
+
+    // Rest of AuthController class...
 }</code></pre>
-<p><a name="login-throttling"></a></p>
-<h3 id="login-throttling">Login Throttling</h3>
-<p>If you are using Laravel's built-in <code>LoginController</code> class, the <code>Illuminate\Foundation\Auth\ThrottlesLogins</code> trait will already be included in your controller. By default, the user will not be able to login for one minute if they fail to provide the correct credentials after several attempts. The throttling is unique to the user's username / e-mail address and their IP address.</p>
 <p><a name="authenticating-users"></a></p>
 <h2 id="manually-authenticating-users">Manually Authenticating Users</h2>
 <p>Of course, you are not required to use the authentication controllers included with Laravel. If you choose to remove these controllers, you will need to manage user authentication using the Laravel authentication classes directly. Don't worry, it's a cinch!</p>
-<p>We will access Laravel's authentication services via the <code>Auth</code> <a href="/docs/%7B%7Bversion%7D%7D/facades">facade</a>, so we'll need to make sure to import the <code>Auth</code> facade at the top of the class. Next, let's check out the <code>attempt</code> method:</p>
+<p>We will access Laravel's authentication services via the <code>Auth</code> <a href="facades.html">facade</a>, so we'll need to make sure to import the <code>Auth</code> facade at the top of the class. Next, let's check out the <code>attempt</code> method:</p>
 <pre><code>&lt;?php
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Auth;
+use Auth;
 
-class LoginController extends Controller
+class AuthController extends Controller
 {
     /**
      * Handle an authentication attempt.
@@ -256,14 +258,14 @@ class LoginController extends Controller
 }</code></pre>
 <p>The <code>attempt</code> method accepts an array of key / value pairs as its first argument. The values in the array will be used to find the user in your database table. So, in the example above, the user will be retrieved by the value of the <code>email</code> column. If the user is found, the hashed password stored in the database will be compared with the hashed <code>password</code> value passed to the method via the array. If the two hashed passwords match an authenticated session will be started for the user.</p>
 <p>The <code>attempt</code> method will return <code>true</code> if authentication was successful. Otherwise, <code>false</code> will be returned.</p>
-<p>The <code>intended</code> method on the redirector will redirect the user to the URL they were attempting to access before being intercepted by the authentication middleware. A fallback URI may be given to this method in case the intended destination is not available.</p>
+<p>The <code>intended</code> method on the redirector will redirect the user to the URL they were attempting to access before being caught by the authentication filter. A fallback URI may be given to this method in case the intended destination is not available.</p>
 <h4 id="specifying-additional-conditions">Specifying Additional Conditions</h4>
 <p>If you wish, you also may add extra conditions to the authentication query in addition to the user's e-mail and password. For example, we may verify that user is marked as &quot;active&quot;:</p>
 <pre><code>if (Auth::attempt([&#39;email&#39; =&gt; $email, &#39;password&#39; =&gt; $password, &#39;active&#39; =&gt; 1])) {
     // The user is active, not suspended, and exists.
 }</code></pre>
 <blockquote>
-<p>{note} In these examples, <code>email</code> is not a required option, it is merely used as an example. You should use whatever column name corresponds to a &quot;username&quot; in your database.</p>
+<p><strong>Note:</strong> In these examples, <code>email</code> is not a required option, it is merely used as an example. You should use whatever column name corresponds to a &quot;username&quot; in your database.</p>
 </blockquote>
 <h4 id="accessing-specific-guard-instances">Accessing Specific Guard Instances</h4>
 <p>You may specify which guard instance you would like to utilize using the <code>guard</code> method on the <code>Auth</code> facade. This allows you to manage authentication for separate parts of your application using entirely separate authenticatable models or user tables.</p>
@@ -280,9 +282,6 @@ class LoginController extends Controller
 <pre><code>if (Auth::attempt([&#39;email&#39; =&gt; $email, &#39;password&#39; =&gt; $password], $remember)) {
     // The user is being remembered...
 }</code></pre>
-<blockquote>
-<p>{tip} If you are using the built-in <code>LoginController</code> that is shipped with Laravel, the proper logic to &quot;remember&quot; users is already implemented by the traits used by the controller.</p>
-</blockquote>
 <p>If you are &quot;remembering&quot; users, you may use the <code>viaRemember</code> method to determine if the user was authenticated using the &quot;remember me&quot; cookie:</p>
 <pre><code>if (Auth::viaRemember()) {
     //
@@ -290,7 +289,7 @@ class LoginController extends Controller
 <p><a name="other-authentication-methods"></a></p>
 <h3 id="other-authentication-methods">Other Authentication Methods</h3>
 <h4 id="authenticate-a-user-instance">Authenticate A User Instance</h4>
-<p>If you need to log an existing user instance into your application, you may call the <code>login</code> method with the user instance. The given object must be an implementation of the <code>Illuminate\Contracts\Auth\Authenticatable</code> <a href="/docs/%7B%7Bversion%7D%7D/contracts">contract</a>. Of course, the <code>App\User</code> model included with Laravel already implements this interface:</p>
+<p>If you need to log an existing user instance into your application, you may call the <code>login</code> method with the user instance. The given object must be an implementation of the <code>Illuminate\Contracts\Auth\Authenticatable</code> <a href="contracts.html">contract</a>. Of course, the <code>App\User</code> model included with Laravel already implements this interface:</p>
 <pre><code>Auth::login($user);
 
 // Login and &quot;remember&quot; the given user...
@@ -304,16 +303,16 @@ Auth::login($user, true);</code></pre>
 // Login and &quot;remember&quot; the given user...
 Auth::loginUsingId(1, true);</code></pre>
 <h4 id="authenticate-a-user-once">Authenticate A User Once</h4>
-<p>You may use the <code>once</code> method to log a user into the application for a single request. No sessions or cookies will be utilized, which means this method may be helpful when building a stateless API:</p>
+<p>You may use the <code>once</code> method to log a user into the application for a single request. No sessions or cookies will be utilized, which may be helpful when building a stateless API. The <code>once</code> method has the same signature as the <code>attempt</code> method:</p>
 <pre><code>if (Auth::once($credentials)) {
     //
 }</code></pre>
 <p><a name="http-basic-authentication"></a></p>
 <h2 id="http-basic-authentication">HTTP Basic Authentication</h2>
-<p><a href="https://en.wikipedia.org/wiki/Basic_access_authentication">HTTP Basic Authentication</a> provides a quick way to authenticate users of your application without setting up a dedicated &quot;login&quot; page. To get started, attach the <code>auth.basic</code> <a href="/docs/%7B%7Bversion%7D%7D/middleware">middleware</a> to your route. The <code>auth.basic</code> middleware is included with the Laravel framework, so you do not need to define it:</p>
-<pre><code>Route::get(&#39;profile&#39;, function () {
+<p><a href="http://en.wikipedia.org/wiki/Basic_access_authentication">HTTP Basic Authentication</a> provides a quick way to authenticate users of your application without setting up a dedicated &quot;login&quot; page. To get started, attach the <code>auth.basic</code> <a href="middleware.html">middleware</a> to your route. The <code>auth.basic</code> middleware is included with the Laravel framework, so you do not need to define it:</p>
+<pre><code>Route::get(&#39;profile&#39;, [&#39;middleware&#39; =&gt; &#39;auth.basic&#39;, function() {
     // Only authenticated users may enter...
-})-&gt;middleware(&#39;auth.basic&#39;);</code></pre>
+}]);</code></pre>
 <p>Once the middleware has been attached to the route, you will automatically be prompted for credentials when accessing the route in your browser. By default, the <code>auth.basic</code> middleware will use the <code>email</code> column on the user record as the &quot;username&quot;.</p>
 <h4 id="a-note-on-fastcgi">A Note On FastCGI</h4>
 <p>If you are using PHP FastCGI, HTTP Basic authentication may not work correctly out of the box. The following lines should be added to your <code>.htaccess</code> file:</p>
@@ -321,12 +320,13 @@ Auth::loginUsingId(1, true);</code></pre>
 RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]</code></pre>
 <p><a name="stateless-http-basic-authentication"></a></p>
 <h3 id="stateless-http-basic-authentication">Stateless HTTP Basic Authentication</h3>
-<p>You may also use HTTP Basic Authentication without setting a user identifier cookie in the session, which is particularly useful for API authentication. To do so, <a href="/docs/%7B%7Bversion%7D%7D/middleware">define a middleware</a> that calls the <code>onceBasic</code> method. If no response is returned by the <code>onceBasic</code> method, the request may be passed further into the application:</p>
+<p>You may also use HTTP Basic Authentication without setting a user identifier cookie in the session, which is particularly useful for API authentication. To do so, <a href="middleware.html">define a middleware</a> that calls the <code>onceBasic</code> method. If no response is returned by the <code>onceBasic</code> method, the request may be passed further into the application:</p>
 <pre><code>&lt;?php
 
 namespace Illuminate\Auth\Middleware;
 
-use Illuminate\Support\Facades\Auth;
+use Auth;
+use Closure;
 
 class AuthenticateOnceWithBasicAuth
 {
@@ -337,46 +337,97 @@ class AuthenticateOnceWithBasicAuth
      * @param  \Closure  $next
      * @return mixed
      */
-    public function handle($request, $next)
+    public function handle($request, Closure $next)
     {
         return Auth::onceBasic() ?: $next($request);
     }
 
 }</code></pre>
-<p>Next, <a href="/docs/%7B%7Bversion%7D%7D/middleware#registering-middleware">register the route middleware</a> and attach it to a route:</p>
-<pre><code>Route::get(&#39;api/user&#39;, function () {
+<p>Next, <a href="middleware.html#registering-middleware">register the route middleware</a> and attach it to a route:</p>
+<pre><code>Route::get(&#39;api/user&#39;, [&#39;middleware&#39; =&gt; &#39;auth.basic.once&#39;, function() {
     // Only authenticated users may enter...
-})-&gt;middleware(&#39;auth.basic.once&#39;);</code></pre>
+}]);</code></pre>
+<p><a name="resetting-passwords"></a></p>
+<h2 id="resetting-passwords">Resetting Passwords</h2>
+<p><a name="resetting-database"></a></p>
+<h3 id="database-considerations-1">Database Considerations</h3>
+<p>Most web applications provide a way for users to reset their forgotten passwords. Rather than forcing you to re-implement this on each application, Laravel provides convenient methods for sending password reminders and performing password resets.</p>
+<p>To get started, verify that your <code>App\User</code> model implements the <code>Illuminate\Contracts\Auth\CanResetPassword</code> contract. Of course, the <code>App\User</code> model included with the framework already implements this interface, and uses the <code>Illuminate\Auth\Passwords\CanResetPassword</code> trait to include the methods needed to implement the interface.</p>
+<h4 id="generating-the-reset-token-table-migration">Generating The Reset Token Table Migration</h4>
+<p>Next, a table must be created to store the password reset tokens. The migration for this table is included with Laravel out of the box, and resides in the <code>database/migrations</code> directory. So, all you need to do is migrate:</p>
+<pre><code>php artisan migrate</code></pre>
+<p><a name="resetting-routing"></a></p>
+<h3 id="routing-1">Routing</h3>
+<p>Laravel includes an <code>Auth\PasswordController</code> that contains the logic necessary to reset user passwords. All of the routes needed to perform password resets may be generated using the <code>make:auth</code> Artisan command:</p>
+<pre><code>php artisan make:auth</code></pre>
+<p><a name="resetting-views"></a></p>
+<h3 id="views-1">Views</h3>
+<p>Again, Laravel will generate all of the necessary views for password reset when the <code>make:auth</code> command is executed. These views are placed in <code>resources/views/auth/passwords</code>. You are free to customize them as needed for your application.</p>
+<p><a name="after-resetting-passwords"></a></p>
+<h3 id="after-resetting-passwords">After Resetting Passwords</h3>
+<p>Once you have defined the routes and views to reset your user's passwords, you may simply access the route in your browser at <code>/password/reset</code>. The <code>PasswordController</code> included with the framework already includes the logic to send the password reset link e-mails as well as update passwords in the database.</p>
+<p>After the password is reset, the user will automatically be logged into the application and redirected to <code>/home</code>. You can customize the post password reset redirect location by defining a <code>redirectTo</code> property on the <code>PasswordController</code>:</p>
+<pre><code>protected $redirectTo = &#39;/dashboard&#39;;</code></pre>
+<blockquote>
+<p><strong>Note:</strong> By default, password reset tokens expire after one hour. You may change this via the password reset <code>expire</code> option in your <code>config/auth.php</code> file.</p>
+</blockquote>
+<p><a name="password-customization"></a></p>
+<h3 id="customization">Customization</h3>
+<h4 id="authentication-guard-customization">Authentication Guard Customization</h4>
+<p>In your <code>auth.php</code> configuration file, you may configure multiple &quot;guards&quot;, which may be used to define authentication behavior for multiple user tables. You can customize the included <code>PasswordController</code> to use the guard of your choice by adding a <code>$guard</code> property to the controller:</p>
+<pre><code>/**
+ * The authentication guard that should be used.
+ *
+ * @var string
+ */
+protected $guard = &#39;admins&#39;;</code></pre>
+<h4 id="password-broker-customization">Password Broker Customization</h4>
+<p>In your <code>auth.php</code> configuration file, you may configure multiple password &quot;brokers&quot;, which may be used to reset passwords on multiple user tables. You can customize the included <code>PasswordController</code> to use the broker of your choice by adding a <code>$broker</code> property to the controller:</p>
+<pre><code>/**
+ * The password broker that should be used.
+ *
+ * @var string
+ */
+protected $broker = &#39;admins&#39;;</code></pre>
 <p><a name="adding-custom-guards"></a></p>
 <h2 id="adding-custom-guards">Adding Custom Guards</h2>
-<p>You may define your own authentication guards using the <code>extend</code> method on the <code>Auth</code> facade. You should place this call to <code>provider</code> within a <a href="/docs/%7B%7Bversion%7D%7D/providers">service provider</a>. Since Laravel already ships with an <code>AuthServiceProvider</code>, we can place the code in that provider:</p>
+<p>You may define your own authentication guards using the <code>extend</code> method on the <code>Auth</code> facade. You should place this call to <code>provider</code> within a <a href="providers.html">service provider</a>:</p>
 <pre><code>&lt;?php
 
 namespace App\Providers;
 
+use Auth;
 use App\Services\Auth\JwtGuard;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+use Illuminate\Support\ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
 {
     /**
-     * Register any application authentication / authorization services.
+     * Perform post-registration booting of services.
      *
      * @return void
      */
     public function boot()
     {
-        $this-&gt;registerPolicies();
-
-        Auth::extend(&#39;jwt&#39;, function ($app, $name, array $config) {
+        Auth::extend(&#39;jwt&#39;, function($app, $name, array $config) {
             // Return an instance of Illuminate\Contracts\Auth\Guard...
 
             return new JwtGuard(Auth::createUserProvider($config[&#39;provider&#39;]));
         });
     }
+
+    /**
+     * Register bindings in the container.
+     *
+     * @return void
+     */
+    public function register()
+    {
+        //
+    }
 }</code></pre>
-<p>As you can see in the example above, the callback passed to the <code>extend</code> method should return an implementation of <code>Illuminate\Contracts\Auth\Guard</code>. This interface contains a few methods you will need to implement to define a custom guard. Once your custom guard has been defined, you may use the guard in the <code>guards</code> configuration of your <code>auth.php</code> configuration file:</p>
+<p>As you can see in the example above, the callback passed to the <code>extend</code> method should return an implementation of <code>Illuminate\Contracts\Auth\Guard</code>. This interface contains a few methods you will need to implement to define a custom guard.</p>
+<p>Once your custom guard has been defined, you may use the guard in your <code>guards</code> configuration:</p>
 <pre><code>&#39;guards&#39; =&gt; [
     &#39;api&#39; =&gt; [
         &#39;driver&#39; =&gt; &#39;jwt&#39;,
@@ -385,47 +436,53 @@ class AuthServiceProvider extends ServiceProvider
 ],</code></pre>
 <p><a name="adding-custom-user-providers"></a></p>
 <h2 id="adding-custom-user-providers">Adding Custom User Providers</h2>
-<p>If you are not using a traditional relational database to store your users, you will need to extend Laravel with your own authentication user provider. We will use the <code>provider</code> method on the <code>Auth</code> facade to define a custom user provider:</p>
+<p>If you are not using a traditional relational database to store your users, you will need to extend Laravel with your own authentication user provider. We will use the <code>provider</code> method on the <code>Auth</code> facade to define a custom user provider. You should place this call to <code>provider</code> within a <a href="providers.html">service provider</a>:</p>
 <pre><code>&lt;?php
 
 namespace App\Providers;
 
-use Illuminate\Support\Facades\Auth;
+use Auth;
 use App\Extensions\RiakUserProvider;
 use Illuminate\Support\ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
 {
     /**
-     * Register any application authentication / authorization services.
+     * Perform post-registration booting of services.
      *
      * @return void
      */
     public function boot()
     {
-        $this-&gt;registerPolicies();
-
-        Auth::provider(&#39;riak&#39;, function ($app, array $config) {
+        Auth::provider(&#39;riak&#39;, function($app, array $config) {
             // Return an instance of Illuminate\Contracts\Auth\UserProvider...
-
-            return new RiakUserProvider($app-&gt;make(&#39;riak.connection&#39;));
+            return new RiakUserProvider($app[&#39;riak.connection&#39;]);
         });
     }
+
+    /**
+     * Register bindings in the container.
+     *
+     * @return void
+     */
+    public function register()
+    {
+        //
+    }
 }</code></pre>
-<p>After you have registered the provider using the <code>provider</code> method, you may switch to the new user provider in your <code>auth.php</code> configuration file. First, define a <code>provider</code> that uses your new driver:</p>
+<p>After you have registered the provider with the <code>provider</code> method, you may switch to the new user provider in your <code>config/auth.php</code> configuration file. First, define a <code>provider</code> that uses your new driver:</p>
 <pre><code>&#39;providers&#39; =&gt; [
     &#39;users&#39; =&gt; [
         &#39;driver&#39; =&gt; &#39;riak&#39;,
     ],
 ],</code></pre>
-<p>Finally, you may use this provider in your <code>guards</code> configuration:</p>
+<p>Then, you may use this provider in your <code>guards</code> configuration:</p>
 <pre><code>&#39;guards&#39; =&gt; [
     &#39;web&#39; =&gt; [
         &#39;driver&#39; =&gt; &#39;session&#39;,
         &#39;provider&#39; =&gt; &#39;users&#39;,
     ],
 ],</code></pre>
-<p><a name="the-user-provider-contract"></a></p>
 <h3 id="the-user-provider-contract">The User Provider Contract</h3>
 <p>The <code>Illuminate\Contracts\Auth\UserProvider</code> implementations are only responsible for fetching a <code>Illuminate\Contracts\Auth\Authenticatable</code> implementation out of a persistent storage system, such as MySQL, Riak, etc. These two interfaces allow the Laravel authentication mechanisms to continue functioning regardless of how the user data is stored or what type of class is used to represent it.</p>
 <p>Let's take a look at the <code>Illuminate\Contracts\Auth\UserProvider</code> contract:</p>
@@ -444,10 +501,9 @@ interface UserProvider {
 }</code></pre>
 <p>The <code>retrieveById</code> function typically receives a key representing the user, such as an auto-incrementing ID from a MySQL database. The <code>Authenticatable</code> implementation matching the ID should be retrieved and returned by the method.</p>
 <p>The <code>retrieveByToken</code> function retrieves a user by their unique <code>$identifier</code> and &quot;remember me&quot; <code>$token</code>, stored in a field <code>remember_token</code>. As with the previous method, the <code>Authenticatable</code> implementation should be returned.</p>
-<p>The <code>updateRememberToken</code> method updates the <code>$user</code> field <code>remember_token</code> with the new <code>$token</code>. The new token can be either a fresh token, assigned on a successful &quot;remember me&quot; login attempt, or <code>null</code> when the user is logging out.</p>
-<p>The <code>retrieveByCredentials</code> method receives the array of credentials passed to the <code>Auth::attempt</code> method when attempting to sign into an application. The method should then &quot;query&quot; the underlying persistent storage for the user matching those credentials. Typically, this method will run a query with a &quot;where&quot; condition on <code>$credentials['username']</code>. The method should then return an implementation of <code>Authenticatable</code>. <strong>This method should not attempt to do any password validation or authentication.</strong></p>
-<p>The <code>validateCredentials</code> method should compare the given <code>$user</code> with the <code>$credentials</code> to authenticate the user. For example, this method should probably use <code>Hash::check</code> to compare the value of <code>$user-&gt;getAuthPassword()</code> to the value of <code>$credentials['password']</code>. This method should return <code>true</code> or <code>false</code> indicating on whether the password is valid.</p>
-<p><a name="the-authenticatable-contract"></a></p>
+<p>The <code>updateRememberToken</code> method updates the <code>$user</code> field <code>remember_token</code> with the new <code>$token</code>. The new token can be either a fresh token, assigned on a successful &quot;remember me&quot; login attempt, or a null when the user is logged out.</p>
+<p>The <code>retrieveByCredentials</code> method receives the array of credentials passed to the <code>Auth::attempt</code> method when attempting to sign into an application. The method should then &quot;query&quot; the underlying persistent storage for the user matching those credentials. Typically, this method will run a query with a &quot;where&quot; condition on <code>$credentials['username']</code>. The method should then return an implementation of <code>UserInterface</code>. <strong>This method should not attempt to do any password validation or authentication.</strong></p>
+<p>The <code>validateCredentials</code> method should compare the given <code>$user</code> with the <code>$credentials</code> to authenticate the user. For example, this method might compare the <code>$user-&gt;getAuthPassword()</code> string to a <code>Hash::make</code> of <code>$credentials['password']</code>. This method should only validate the user's credentials and return a boolean.</p>
 <h3 id="the-authenticatable-contract">The Authenticatable Contract</h3>
 <p>Now that we have explored each of the methods on the <code>UserProvider</code>, let's take a look at the <code>Authenticatable</code> contract. Remember, the provider should return implementations of this interface from the <code>retrieveById</code> and <code>retrieveByCredentials</code> methods:</p>
 <pre><code>&lt;?php
@@ -467,23 +523,15 @@ interface Authenticatable {
 <p>This interface is simple. The <code>getAuthIdentifierName</code> method should return the name of the &quot;primary key&quot; field of the user and the <code>getAuthIdentifier</code> method should return the &quot;primary key&quot; of the user. In a MySQL back-end, again, this would be the auto-incrementing primary key. The <code>getAuthPassword</code> should return the user's hashed password. This interface allows the authentication system to work with any User class, regardless of what ORM or storage abstraction layer you are using. By default, Laravel includes a <code>User</code> class in the <code>app</code> directory which implements this interface, so you may consult this class for an implementation example.</p>
 <p><a name="events"></a></p>
 <h2 id="events">Events</h2>
-<p>Laravel raises a variety of <a href="/docs/%7B%7Bversion%7D%7D/events">events</a> during the authentication process. You may attach listeners to these events in your <code>EventServiceProvider</code>:</p>
+<p>Laravel raises a variety of <a href="events.html">events</a> during the authentication process. You may attach listeners to these events in your <code>EventServiceProvider</code>:</p>
 <pre><code>/**
  * The event listener mappings for the application.
  *
  * @var array
  */
 protected $listen = [
-    &#39;Illuminate\Auth\Events\Registered&#39; =&gt; [
-        &#39;App\Listeners\LogRegisteredUser&#39;,
-    ],
-
     &#39;Illuminate\Auth\Events\Attempting&#39; =&gt; [
         &#39;App\Listeners\LogAuthenticationAttempt&#39;,
-    ],
-
-    &#39;Illuminate\Auth\Events\Authenticated&#39; =&gt; [
-        &#39;App\Listeners\LogAuthenticated&#39;,
     ],
 
     &#39;Illuminate\Auth\Events\Login&#39; =&gt; [
